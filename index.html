@@ -8,51 +8,52 @@
 
 <style>
 :root {
-  --bg: #0f172a;
-  --card: #1e293b;
-  --accent: #6366f1;
-  --accent2: #22d3ee;
-  --text: #f1f5f9;
-  --muted: #94a3b8;
+  --bg:#0f172a;
+  --card:#1e293b;
+  --accent:#6366f1;
+  --accent2:#22d3ee;
+  --text:#f1f5f9;
+  --muted:#94a3b8;
 }
 
-* { margin:0; padding:0; box-sizing:border-box; font-family:Poppins, sans-serif; }
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
 
-body {
-  background: linear-gradient(135deg, #0f172a, #1e293b);
-  color: var(--text);
+body{
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  color:var(--text);
   overflow-x:hidden;
 }
 
-header {
+header{
   padding:20px 8%;
   display:flex;
   justify-content:space-between;
   align-items:center;
   position:fixed;
   width:100%;
-  backdrop-filter: blur(10px);
-  background: rgba(15,23,42,0.6);
+  backdrop-filter:blur(10px);
+  background:rgba(15,23,42,0.65);
   z-index:1000;
 }
 
-.logo {
+.logo{
   font-size:24px;
   font-weight:700;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
 }
 
-nav a {
+nav a{
   color:var(--muted);
-  margin-left:25px;
+  margin-left:22px;
   text-decoration:none;
   transition:0.3s;
+  font-size:14px;
 }
-nav a:hover { color:white; }
+nav a:hover{color:white;}
 
-.hero {
+.hero{
   min-height:100vh;
   display:flex;
   align-items:center;
@@ -62,26 +63,24 @@ nav a:hover { color:white; }
   padding:120px 20px 40px;
 }
 
-.hero h1 {
+.hero h1{
   font-size:52px;
   max-width:800px;
-  background:linear-gradient(90deg, #fff, var(--accent2));
+  background:linear-gradient(90deg,#fff,var(--accent2));
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
-  animation:fadeIn 1.5s ease;
+  animation:fadeIn 1.4s ease;
 }
 
-.hero p {
+.hero p{
   margin-top:20px;
   color:var(--muted);
   max-width:600px;
 }
 
-.cta {
-  margin-top:35px;
-}
+.cta{margin-top:35px;}
 
-.btn {
+.btn{
   padding:14px 28px;
   border-radius:30px;
   border:none;
@@ -91,87 +90,71 @@ nav a:hover { color:white; }
   transition:0.3s;
 }
 
-.btn-primary {
-  background:linear-gradient(90deg, var(--accent), var(--accent2));
+.btn-primary{
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
   color:white;
 }
-.btn-primary:hover { transform:scale(1.05); }
+.btn-primary:hover{transform:scale(1.05);}
 
-.btn-secondary {
+.btn-secondary{
   background:transparent;
   border:2px solid var(--accent2);
   color:white;
 }
-.btn-secondary:hover {
+.btn-secondary:hover{
   background:var(--accent2);
   color:#000;
 }
 
-.section {
-  padding:100px 8%;
-}
+.section{padding:100px 8%;}
 
-.section h2 {
+.section h2{
   text-align:center;
   margin-bottom:60px;
   font-size:36px;
 }
 
-.features {
+.grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:30px;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:25px;
 }
 
-.card {
+.card{
   background:var(--card);
-  padding:30px;
+  padding:25px;
   border-radius:15px;
-  transition:0.4s;
   border:1px solid #334155;
-}
-.card:hover {
-  transform:translateY(-8px);
-  box-shadow:0 10px 40px rgba(0,0,0,0.4);
-  border-color:var(--accent);
-}
-
-.card h3 { margin-bottom:12px; }
-.card p { color:var(--muted); font-size:14px; }
-
-.how {
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:space-around;
-  gap:30px;
-}
-
-.step {
+  transition:0.3s;
   text-align:center;
-  max-width:260px;
 }
 
-.step span {
-  display:inline-block;
-  width:60px;
-  height:60px;
-  line-height:60px;
-  border-radius:50%;
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  margin-bottom:15px;
-  font-weight:700;
+.card:hover{
+  transform:translateY(-6px);
+  border-color:var(--accent);
+  box-shadow:0 10px 40px rgba(0,0,0,0.4);
 }
 
-footer {
+.card h3{margin-bottom:10px;}
+.card p{font-size:14px;color:var(--muted);margin-bottom:15px;}
+
+.card a{
+  text-decoration:none;
+  color:var(--accent2);
+  font-weight:600;
+  font-size:14px;
+}
+
+footer{
   padding:40px;
   text-align:center;
   color:var(--muted);
   border-top:1px solid #334155;
 }
 
-@keyframes fadeIn {
-  from { opacity:0; transform:translateY(20px); }
-  to { opacity:1; transform:translateY(0); }
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(20px);}
+  to{opacity:1;transform:translateY(0);}
 }
 </style>
 </head>
@@ -181,61 +164,64 @@ footer {
 <header>
   <div class="logo">SkillBridge</div>
   <nav>
-    <a href="#">Explore</a>
-    <a href="#">Become Seller</a>
-    <a href="#">Login</a>
+    <a href="explore.html">Explore</a>
+    <a href="request.html">Post Project</a>
+    <a href="seller.html">Seller Profile</a>
+    <a href="messages.html">Messages</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="auth.html">Login</a>
   </nav>
 </header>
 
 <section class="hero">
   <h1>Elite Freelancers. Zero Noise. Direct Results.</h1>
-  <p>Find trusted professionals, launch projects faster, and work with verified experts across design, tech, and content.</p>
+  <p>Curated professionals. Smarter matching. Structured projects.</p>
   <div class="cta">
-    <button class="btn btn-primary">Hire Talent</button>
-    <button class="btn btn-secondary">Join as Freelancer</button>
+    <a href="explore.html"><button class="btn btn-primary">Hire Talent</button></a>
+    <a href="auth.html"><button class="btn btn-secondary">Join as Freelancer</button></a>
   </div>
 </section>
 
 <section class="section">
-  <h2>Why This Is Better</h2>
-  <div class="features">
-    <div class="card">
-      <h3>Curated Experts</h3>
-      <p>No spam freelancers. Every seller is reviewed before joining.</p>
-    </div>
-    <div class="card">
-      <h3>Smart Matching</h3>
-      <p>AI-style matching connects buyers with the best-fit freelancers instantly.</p>
-    </div>
-    <div class="card">
-      <h3>Clear Scope</h3>
-      <p>Structured service cards prevent vague requests and pricing confusion.</p>
-    </div>
-    <div class="card">
-      <h3>Fast Delivery</h3>
-      <p>Optimized workflows reduce delays and communication gaps.</p>
-    </div>
-  </div>
-</section>
+  <h2>Platform Access</h2>
+  <div class="grid">
 
-<section class="section">
-  <h2>How It Works</h2>
-  <div class="how">
-    <div class="step">
-      <span>1</span>
-      <h3>Post Request</h3>
-      <p>Describe your project needs.</p>
+    <div class="card">
+      <h3>Browse Freelancers</h3>
+      <p>Search and filter curated experts.</p>
+      <a href="explore.html">Go to Marketplace →</a>
     </div>
-    <div class="step">
-      <span>2</span>
-      <h3>Get Matched</h3>
-      <p>Top freelancers are suggested instantly.</p>
+
+    <div class="card">
+      <h3>Post a Project</h3>
+      <p>Submit a job and get matched.</p>
+      <a href="request.html">Create Request →</a>
     </div>
-    <div class="step">
-      <span>3</span>
-      <h3>Collaborate</h3>
-      <p>Work together and deliver results.</p>
+
+    <div class="card">
+      <h3>Freelancer Profile</h3>
+      <p>View services and expertise.</p>
+      <a href="seller.html">View Example →</a>
     </div>
+
+    <div class="card">
+      <h3>Messages</h3>
+      <p>Communicate on project threads.</p>
+      <a href="messages.html">Open Inbox →</a>
+    </div>
+
+    <div class="card">
+      <h3>User Dashboard</h3>
+      <p>Manage projects and earnings.</p>
+      <a href="dashboard.html">Open Dashboard →</a>
+    </div>
+
+    <div class="card">
+      <h3>Account Access</h3>
+      <p>Login or create an account.</p>
+      <a href="auth.html">Authenticate →</a>
+    </div>
+
   </div>
 </section>
 
@@ -251,4 +237,4 @@ document.querySelectorAll('.btn').forEach(btn=>{
 </script>
 
 </body>
-  </html>
+</html>

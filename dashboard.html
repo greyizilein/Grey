@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Dashboard — SkillBridge</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0f172a;
+  --panel:#1e293b;
+  --accent:#6366f1;
+  --accent2:#22d3ee;
+  --text:#f1f5f9;
+  --muted:#94a3b8;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
+
+body{
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  color:var(--text);
+  display:flex;
+  height:100vh;
+}
+
+/* Sidebar */
+.sidebar{
+  width:240px;
+  background:var(--panel);
+  border-right:1px solid #334155;
+  padding:25px 15px;
+  display:flex;
+  flex-direction:column;
+}
+
+.logo{
+  font-weight:700;
+  font-size:20px;
+  margin-bottom:30px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.menu a{
+  text-decoration:none;
+  color:var(--muted);
+  padding:10px 12px;
+  border-radius:8px;
+  display:block;
+  margin-bottom:8px;
+  transition:0.2s;
+}
+
+.menu a:hover{
+  background:#0f172a;
+  color:white;
+}
+
+/* Main Content */
+.main{
+  flex:1;
+  padding:35px 45px;
+  overflow-y:auto;
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:30px;
+}
+
+.card-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;
+  margin-bottom:35px;
+}
+
+.card{
+  background:var(--panel);
+  padding:20px;
+  border-radius:12px;
+  border:1px solid #334155;
+}
+
+.card h3{font-size:16px;margin-bottom:8px;}
+.card p{color:var(--muted);font-size:14px;}
+
+.table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.table th, .table td{
+  padding:12px;
+  border-bottom:1px solid #334155;
+  text-align:left;
+}
+
+.status{
+  padding:4px 10px;
+  border-radius:12px;
+  font-size:12px;
+}
+
+.active{background:#134e4a;}
+.pending{background:#78350f;}
+.complete{background:#1e3a8a;}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+  <div class="logo">SkillBridge</div>
+  <div class="menu">
+    <a href="#">Dashboard</a>
+    <a href="#">My Projects</a>
+    <a href="#">Messages</a>
+    <a href="#">My Services</a>
+    <a href="#">Earnings</a>
+    <a href="#">Settings</a>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="top">
+    <h1>Dashboard Overview</h1>
+    <div>Welcome back</div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>Active Projects</h3>
+      <p>3 ongoing jobs</p>
+    </div>
+    <div class="card">
+      <h3>Pending Requests</h3>
+      <p>2 awaiting approval</p>
+    </div>
+    <div class="card">
+      <h3>Completed</h3>
+      <p>18 finished projects</p>
+    </div>
+    <div class="card">
+      <h3>Total Earnings</h3>
+      <p>$4,250</p>
+    </div>
+  </div>
+
+  <h2 style="margin-bottom:15px;">Recent Projects</h2>
+
+  <table class="table">
+    <tr>
+      <th>Project</th>
+      <th>Client</th>
+      <th>Status</th>
+      <th>Budget</th>
+    </tr>
+    <tr>
+      <td>Landing Page Build</td>
+      <td>Startup Co.</td>
+      <td><span class="status active">Active</span></td>
+      <td>$350</td>
+    </tr>
+    <tr>
+      <td>SEO Articles</td>
+      <td>Blog Media</td>
+      <td><span class="status pending">Pending</span></td>
+      <td>$120</td>
+    </tr>
+    <tr>
+      <td>Web App Dashboard</td>
+      <td>Fintech App</td>
+      <td><span class="status complete">Complete</span></td>
+      <td>$900</td>
+    </tr>
+  </table>
+
+</div>
+
+</body>
+</html>

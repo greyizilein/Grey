@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GREY | Life as an Experience</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0d0d0d;
+      --white: #ffffff;
+      --light-blue: #dce8f5;
+      --yellow: #d4f000;
+      --navy: #1a1f3a;
+      --text-mono: 'Space Mono', monospace;
+      --text-display: 'Playfair Display', serif;
+      --text-body: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--text-body);
+      background: var(--white);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--black);
+    }
+
+    .nav-logo-img {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: #f5c842;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      overflow: hidden;
+    }
+
+    /* Replace with: <img src="logo-avatar.png" alt="Grey logo"> inside .nav-logo-img */
+
+    .nav-logo-text {
+      font-family: var(--text-body);
+      font-weight: 700;
+      font-size: 22px;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .nav-menu-btn {
+      border: 2px solid var(--black);
+      background: var(--white);
+      padding: 12px 28px;
+      font-family: var(--text-body);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-menu-btn:hover { background: var(--black); color: var(--white); }
+
+    /* Mobile menu overlay */
+    .menu-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--white);
+      z-index: 200;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+    }
+    .menu-overlay.open { display: flex; }
+    .menu-overlay a {
+      font-family: var(--text-display);
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--black);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .menu-overlay a:hover { opacity: 0.5; }
+    .menu-close {
+      position: absolute;
+      top: 28px;
+      right: 24px;
+      background: none;
+      border: none;
+      font-size: 32px;
+      cursor: pointer;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 48px 24px 0;
+    }
+    .hero h1 {
+      font-family: var(--text-body);
+      font-weight: 900;
+      font-size: clamp(38px, 9vw, 60px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .hero-sub {
+      margin-top: 16px;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 1.5;
+      max-width: 340px;
+    }
+
+    /* ── VIDEO SECTION ── */
+    .video-section {
+      margin-top: 32px;
+      position: relative;
+      width: 100%;
+      min-height: 520px;
+      background: #111;
+      overflow: hidden;
+    }
+    .video-section video,
+    .video-section .video-placeholder {
+      width: 100%;
+      height: 100%;
+      min-height: 520px;
+      object-fit: cover;
+      display: block;
+    }
+    .video-placeholder {
+      background: #222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-family: var(--text-mono);
+      font-size: 13px;
+      text-align: center;
+      padding: 20px;
+    }
+    .schedule-btn {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      padding: 16px 24px;
+      font-family: var(--text-mono);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .schedule-btn:hover { background: #333; }
+    .schedule-btn .arrow { font-size: 16px; }
+
+    /* ── TAGLINE STRIP ── */
+    .tagline-strip {
+      background: var(--light-blue);
+      padding: 40px 24px 24px;
+    }
+    .tagline-strip .dreamers {
+      font-family: var(--text-body);
+      font-size: 15px;
+      color: #444;
+      margin-bottom: 16px;
+    }
+    .tagline-strip .italic-line {
+      font-family: var(--text-display);
+      font-style: italic;
+      font-size: clamp(18px, 5vw, 24px);
+      color: var(--black);
+      margin-bottom: 16px;
+    }
+    .tagline-strip h2 {
+      font-family: var(--text-body);
+      font-weight: 700;
+      font-size: clamp(36px, 10vw, 52px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 28px;
+    }
+
+    .book-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--navy);
+      color: var(--white);
+      padding: 18px 28px;
+      font-family: var(--text-body);
+      font-size: 16px;
+      font-weight: 600;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .book-btn:hover { background: #2a3255; }
+    .book-btn .ext-icon { font-size: 18px; }
+
+    .service-img {
+      margin-top: 32px;
+      width: 100%;
+      border-radius: 12px;
+      height: 280px;
+      object-fit: cover;
+      background: #c5c5c5;
+      display: block;
+    }
+    .service-img-placeholder {
+      margin-top: 32px;
+      width: 100%;
+      border-radius: 12px;
+      height: 280px;
+      background: #c5c5c5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #777;
+      font-size: 13px;
+      font-family: var(--text-mono);
+    }
+
+    /* ── FEATURE CARDS ── */
+    .feature-cards {
+      background: var(--light-blue);
+      padding: 32px 24px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.75);
+      border-radius: 12px;
+      padding: 24px 20px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+    }
+    .feature-card-icon {
+      font-size: 40px;
+      flex-shrink: 0;
+      width: 52px;
+      text-align: center;
+    }
+    /* Replace emoji icons with actual images:
+       <img src="icon-discover.png" alt="" style="width:52px;height:52px;object-fit:contain"> */
+    .feature-card-text h3 {
+      font-family: var(--text-body);
+      font-weight: 700;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .feature-card-text p {
+      font-size: 15px;
+      line-height: 1.55;
+      color: #333;
+    }
+
+    /* ── ABOUT SECTION ── */
+    .about-section {
+      position: relative;
+      min-height: 500px;
+      background: #222;
+      overflow: hidden;
+    }
+    .about-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.55;
+      /* Replace with: <img src="about-bg.jpg" alt=""> */
+    }
+    .about-bg-placeholder {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, #3a3020, #1a1010);
+    }
+    .about-content {
+      position: relative;
+      z-index: 2;
+      padding: 48px 24px;
+      color: var(--white);
+    }
+    .about-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--text-mono);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      margin-bottom: 20px;
+    }
+    .about-label .play-icon {
+      width: 20px;
+      height: 20px;
+      border-left: 14px solid var(--white);
+      border-top: 9px solid transparent;
+      border-bottom: 9px solid transparent;
+      display: inline-block;
+    }
+    .about-content h2 {
+      font-family: var(--text-body);
+      font-weight: 900;
+      font-size: clamp(32px, 9vw, 50px);
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .about-content p {
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 32px;
+      max-width: 520px;
+    }
+    .about-content p em {
+      font-style: italic;
+      font-weight: 700;
+    }
+    .learn-more-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      text-decoration: none;
+    }
+    .learn-more-btn .arrow-box {
+      width: 52px;
+      height: 52px;
+      background: var(--yellow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      color: var(--black);
+    }
+    .learn-more-btn .label {
+      font-family: var(--text-mono);
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      color: var(--white);
+      margin-left: 16px;
+    }
+
+    /* ── QUOTE ── */
+    .quote-section {
+      padding: 48px 24px;
+      background: var(--white);
+    }
+    .quote-section blockquote {
+      font-family: var(--text-mono);
+      font-size: 14px;
+      line-height: 1.9;
+      color: var(--black);
+      margin-bottom: 24px;
+    }
+    .quote-attribution {
+      text-align: right;
+      font-family: var(--text-mono);
+      font-size: 13px;
+      letter-spacing: 0.05em;
+    }
+    .quote-attribution .name { font-style: italic; font-weight: 700; }
+    .quote-attribution .title { font-weight: 700; display: block; margin-top: 4px; }
+
+    /* ── YOUR DAILY LIFE ── */
+    .daily-life {
+      padding: 48px 24px 32px;
+      background: var(--white);
+    }
+    .daily-life h2 {
+      font-family: var(--text-body);
+      font-weight: 900;
+      font-size: clamp(28px, 8vw, 42px);
+      line-height: 1.15;
+      margin-bottom: 28px;
+    }
+    .step-img {
+      width: 100%;
+      border-radius: 8px;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+      background: #ccc;
+      margin-bottom: 24px;
+    }
+    .step-img-placeholder {
+      width: 100%;
+      border-radius: 8px;
+      height: 280px;
+      background: #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888;
+      font-size: 13px;
+      font-family: var(--text-mono);
+      margin-bottom: 24px;
+    }
+    .step-number {
+      font-family: var(--text-body);
+      font-weight: 900;
+      font-size: 72px;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+    .step-text {
+      font-size: 16px;
+      line-height: 1.65;
+      color: #333;
+      margin-bottom: 48px;
+    }
+
+    /* ── SERVICES ── */
+    .services-section {
+      padding: 0 24px 48px;
+      background: var(--white);
+    }
+    .service-block {
+      margin-bottom: 56px;
+    }
+    .service-block-img {
+      width: 100%;
+      border-radius: 8px;
+      height: 300px;
+      object-fit: cover;
+      display: block;
+      background: #d0d0d0;
+      margin-bottom: 20px;
+    }
+    .service-block-img-placeholder {
+      width: 100%;
+      border-radius: 8px;
+      height: 300px;
+      background: #d5d5d5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888;
+      font-size: 13px;
+      font-family: var(--text-mono);
+      margin-bottom: 20px;
+    }
+    .service-block h3 {
+      font-family: var(--text-body);
+      font-weight: 700;
+      font-size: 24px;
+      margin-bottom: 14px;
+    }
+    .service-block p {
+      font-size: 16px;
+      line-height: 1.65;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .book-now-btn {
+      display: inline-block;
+      background: var(--black);
+      color: var(--white);
+      padding: 14px 28px;
+      border-radius: 40px;
+      font-family: var(--text-body);
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .book-now-btn:hover { background: #333; }
+
+    /* ── SECOND QUOTE ── */
+    .quote2-section {
+      padding: 48px 24px;
+      background: var(--white);
+    }
+    .quote2-section p {
+      font-family: var(--text-mono);
+      font-size: 14px;
+      line-height: 1.9;
+    }
+    .quote2-section strong { font-weight: 700; }
+    .quote2-section a { color: #00b8a9; text-decoration: underline; text-underline-offset: 3px; }
+    .quote2-attr {
+      margin-top: 20px;
+      font-family: var(--text-mono);
+      font-size: 13px;
+      text-align: right;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── FOOD GALLERY ── */
+    .gallery-section {
+      padding: 0 24px 40px;
+    }
+    .gallery-section h2 {
+      font-family: var(--text-body);
+      font-weight: 900;
+      font-size: clamp(28px, 8vw, 40px);
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .gallery-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .gallery-img {
+      width: 100%;
+      border-radius: 8px;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+      background: #bbb;
+    }
+    .gallery-img-placeholder {
+      width: 100%;
+      border-radius: 8px;
+      height: 220px;
+      background: #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #999;
+      font-size: 13px;
+      font-family: var(--text-mono);
+    }
+
+    /* ── PRICING SECTION ── */
+    .pricing-section {
+      position: relative;
+      min-height: 440px;
+      background: #222;
+      overflow: hidden;
+      padding: 56px 24px;
+    }
+    .pricing-bg-placeholder {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #2a2015, #0d0d0d);
+    }
+    .pricing-content {
+      position: relative;
+      z-index: 2;
+      color: var(--white);
+    }
+    .pricing-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--text-mono);
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      margin-bottom: 18px;
+    }
+    .pricing-label .play-icon {
+      width: 18px;
+      height: 18px;
+      border-left: 12px solid var(--white);
+      border-top: 8px solid transparent;
+      border-bottom: 8px solid transparent;
+      display: inline-block;
+    }
+    .pricing-content h3 {
+      font-family: var(--text-body);
+      font-weight: 700;
+      font-size: 26px;
+      margin-bottom: 18px;
+    }
+    .pricing-content p {
+      font-size: 15px;
+      line-height: 1.7;
+      margin-bottom: 32px;
+      max-width: 480px;
+    }
+    .sub-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      text-decoration: none;
+    }
+    .sub-btn .arrow-box {
+      width: 52px;
+      height: 52px;
+      background: var(--yellow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      color: var(--black);
+    }
+    .sub-btn .label {
+      font-family: var(--text-mono);
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      color: var(--white);
+      margin-left: 16px;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 64px 24px 48px;
+      background: var(--white);
+    }
+    .cta-section h2 {
+      font-family: var(--text-body);
+      font-weight: 900;
+      font-size: clamp(30px, 9vw, 46px);
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .cta-section p {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 28px;
+    }
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--black);
+      color: var(--white);
+      padding: 18px 28px;
+      font-family: var(--text-mono);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .cta-btn:hover { background: #333; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--white);
+      padding: 48px 24px 32px;
+      border-top: 1px solid #e5e5e5;
+    }
+    .footer-logo {
+      font-family: var(--text-body);
+      font-weight: 700;
+      font-size: 22px;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      margin-bottom: 32px;
+      display: inline-block;
+    }
+    .footer-section {
+      margin-bottom: 28px;
+    }
+    .footer-section h4 {
+      font-family: var(--text-body);
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .footer-section p {
+      font-size: 14px;
+      color: #555;
+    }
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .footer-links a {
+      font-size: 14px;
+      color: var(--black);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .social-icons {
+      display: flex;
+      gap: 18px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .social-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--black);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .social-icon:hover { background: #444; }
+    .footer-copy {
+      margin-top: 32px;
+      font-size: 13px;
+      color: #555;
+      font-family: var(--text-mono);
+    }
+    .footer-copy span { text-decoration: underline; }
+
+    /* ── FLOATING CHAT BTN ── */
+    .chat-fab {
+      position: fixed;
+      bottom: 28px;
+      right: 20px;
+      z-index: 99;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #e8461c;
+      color: var(--white);
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      transition: background 0.2s, transform 0.2s;
+    }
+    .chat-fab:hover { background: #c73a16; transform: scale(1.07); }
+
+    /* Fade-in animation */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (min-width: 640px) {
+      .feature-cards { flex-direction: row; flex-wrap: wrap; }
+      .feature-card { flex: 1 1 calc(50% - 8px); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-img">
+      <!-- Replace with: <img src="assets/logo-avatar.png" alt="Grey logo" style="width:100%;height:100%;object-fit:cover;border-radius:50%"> -->
+      🧑
+    </div>
+    <span class="nav-logo-text">Grey.</span>
+  </a>
+  <button class="nav-menu-btn" onclick="document.querySelector('.menu-overlay').classList.add('open')">MENU</button>
+</nav>
+
+<!-- MOBILE MENU OVERLAY -->
+<div class="menu-overlay">
+  <button class="menu-close" onclick="document.querySelector('.menu-overlay').classList.remove('open')">✕</button>
+  <a href="index.html" onclick="document.querySelector('.menu-overlay').classList.remove('open')">Home</a>
+  <a href="#services" onclick="document.querySelector('.menu-overlay').classList.remove('open')">Services</a>
+  <a href="#about" onclick="document.querySelector('.menu-overlay').classList.remove('open')">About</a>
+  <a href="#pricing" onclick="document.querySelector('.menu-overlay').classList.remove('open')">Pricing</a>
+  <a href="#contact" onclick="document.querySelector('.menu-overlay').classList.remove('open')">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero fade-in">
+  <h1>All Your Needs,<br>Right on Time.</h1>
+  <p class="hero-sub">Smart service choices built around your daily routine.</p>
+</section>
+
+<!-- VIDEO HERO -->
+<section class="video-section">
+  <!-- Replace with your video: <video src="assets/hero-video.mp4" autoplay muted loop playsinline></video> -->
+  <div class="video-placeholder">
+    📹 Replace with hero video<br><small>assets/hero-video.mp4</small>
+  </div>
+  <a href="#contact" class="schedule-btn">SCHEDULE NOW <span class="arrow">▶</span></a>
+</section>
+
+<!-- TAGLINE + BOOK A SERVICE -->
+<section class="tagline-strip fade-in" id="services">
+  <p class="dreamers">Dreamers | Builders | Seekers</p>
+  <p class="italic-line">Buy The Product. Live The Experience.</p>
+  <h2>Life As An Experience Service</h2>
+  <a href="#contact" class="book-btn">Book a Service <span class="ext-icon">↗</span></a>
+
+  <!-- Replace with: <img src="assets/service-team.jpg" alt="Team" class="service-img"> -->
+  <div class="service-img-placeholder">📷 Replace with service/team image<br><small>assets/service-team.jpg</small></div>
+</section>
+
+<!-- FEATURE CARDS: Discover / Connect / Experience -->
+<section class="feature-cards fade-in">
+  <div class="feature-card">
+    <div class="feature-card-icon">🔍</div>
+    <!-- Replace icon: <img src="assets/icon-discover.png" alt="" class="feature-card-icon"> -->
+    <div class="feature-card-text">
+      <h3>Discover</h3>
+      <p>Find the service, story, or solution that speaks to your need.</p>
+    </div>
+  </div>
+  <div class="feature-card">
+    <div class="feature-card-icon">💬</div>
+    <!-- Replace icon: <img src="assets/icon-connect.png" alt="" class="feature-card-icon"> -->
+    <div class="feature-card-text">
+      <h3>Connect</h3>
+      <p>We pair you with the right creative, consultant, or vendor.</p>
+    </div>
+  </div>
+  <div class="feature-card">
+    <div class="feature-card-icon">📚</div>
+    <!-- Replace icon: <img src="assets/icon-experience.png" alt="" class="feature-card-icon"> -->
+    <div class="feature-card-text">
+      <h3>Experience</h3>
+      <p>Feel the difference of human-first service, built around you.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT YOU SECTION -->
+<section class="about-section fade-in" id="about">
+  <div class="about-bg-placeholder"></div>
+  <!-- Replace bg: <img src="assets/about-bg.jpg" alt="" class="about-bg"> -->
+  <div class="about-content">
+    <div class="about-label">
+      <span class="play-icon"></span>
+      ABOUT &nbsp; YOU
+    </div>
+    <h2>This Isn't Business.<br>It's Personal.</h2>
+    <p>Grey is for those chasing a future but unsure where to begin. For those who've already begun and want less stress, more time; deeper meaning. We offer what you need, when you need it. Plus some extras that make the overall experience… <em>1% BETTER</em> every time.</p>
+    <a href="#about" class="learn-more-btn">
+      <span class="arrow-box">→</span>
+      <span class="label">LEARN MORE</span>
+    </a>
+  </div>
+</section>
+
+<!-- FOUNDER QUOTE -->
+<section class="quote-section fade-in">
+  <blockquote>
+    "We are a diverse community of seasoned professionals and aspiring talents, united by the common goal of pushing beyond our boundaries to redefine excellence. We intend to maintain a track record of exceptionally great deliveries. It's not enough to sell our services, we want to sell you the reliability of a lifelong partnership."
+  </blockquote>
+  <div class="quote-attribution">
+    — <span class="name">GREY IZILEIN</span>
+    <span class="title">FOUNDER</span>
+  </div>
+</section>
+
+<!-- YOUR DAILY LIFE SECTION -->
+<section class="daily-life fade-in">
+  <h2>Your Daily Life.<br>Made Effortlessly Better.</h2>
+
+  <!-- Step 01 -->
+  <!-- Replace: <img src="assets/step-01.jpg" alt="Onboarding meeting" class="step-img"> -->
+  <div class="step-img-placeholder">📷 Replace with step 01 image<br><small>assets/step-01.jpg</small></div>
+  <div class="step-number">01</div>
+  <p class="step-text">Every journey begins with a brief onboarding. Once you sign up, we take time to understand who you are, what you need, and how you prefer to engage.</p>
+
+  <!-- Step 02 -->
+  <!-- Replace: <img src="assets/step-02.jpg" alt="Consultant session" class="step-img"> -->
+  <div class="step-img-placeholder">📷 Replace with step 02 image<br><small>assets/step-02.jpg</small></div>
+  <div class="step-number">02</div>
+  <p class="step-text">Whether you're seeking a service provider, a product, or an everyday lifestyle experience, we pair you with the right expert, vendor, or in-house professional, based on fit.</p>
+
+  <!-- Step 03 -->
+  <!-- Replace: <img src="assets/step-03.jpg" alt="Payment / card" class="step-img"> -->
+  <div class="step-img-placeholder">📷 Replace with step 03 image<br><small>assets/step-03.jpg</small></div>
+  <div class="step-number">03</div>
+  <p class="step-text">For most services, we offer scope-based payments. For everyday services, you can subscribe through our Life as an Experience service option or ask for a custom plan.</p>
+</section>
+
+<!-- FREELANCE SERVICES BLOCK -->
+<section class="services-section fade-in">
+  <div class="service-block">
+    <!-- Replace: <img src="assets/freelance.jpg" alt="Freelance services" class="service-block-img"> -->
+    <div class="service-block-img-placeholder">📷 Replace with freelance image<br><small>assets/freelance.jpg</small></div>
+    <h3>Freelance Services</h3>
+    <p>Need a writer, graphic designer, web developer, social media manager, voice-over artist, anyone? Our freelance network is full of skilled professionals ready to deliver quality work on time. Perfect for individuals, small businesses, or anyone needing creative or digital support.</p>
+    <a href="#contact" class="book-now-btn">Book Now</a>
+  </div>
+
+  <!-- SECOND QUOTE BETWEEN SERVICES -->
+  <div class="quote2-section">
+    <p>"We may not be the most popular kid on the block, but we have <strong>TRACTION</strong>. We <strong>WORK</strong>. We do <strong>ALL WE CAN</strong>. We are <strong>DEDICATED</strong>. We are <strong>INTENTIONAL</strong> about <a href="#">RESULTS</a> and being <strong>BETTER</strong>. And <a href="#">OUR CLIENTS LOVE US FOR IT</a>."</p>
+    <div class="quote2-attr">— GREY IZILEIN</div>
+  </div>
+
+  <div class="service-block">
+    <h3>Food and Grocery Shopping</h3>
+    <!-- Replace: <img src="assets/food-1.jpg" alt="Food" class="service-block-img"> -->
+    <div class="gallery-grid" style="margin-bottom:20px;">
+      <div class="gallery-img-placeholder">📷 Replace with food image 1<br><small>assets/food-1.jpg</small></div>
+      <div class="gallery-img-placeholder">📷 Replace with food image 2<br><small>assets/food-2.jpg</small></div>
+      <div class="gallery-img-placeholder">📷 Replace with food image 3<br><small>assets/food-3.jpg</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section fade-in" id="pricing">
+  <div class="pricing-bg-placeholder"></div>
+  <!-- Replace bg: <img src="assets/pricing-bg.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.45"> -->
+  <div class="pricing-content">
+    <div class="pricing-label">
+      <span class="play-icon"></span>
+      SERVICE &nbsp; RATES
+    </div>
+    <h3>Pricing Options</h3>
+    <p>At Grey, we offer pricing options designed to meet your unique service needs. Whether you're coming as an individual, a family, a small business, or a major enterprise, we provide a range of packages designed to deliver exceptional value and results. Explore our pricing options to find your perfect fit.</p>
+    <a href="#contact" class="sub-btn">
+      <span class="arrow-box">→</span>
+      <span class="label">SUBSCRIPTION DETAILS</span>
+    </a>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section fade-in" id="contact">
+  <h2>Ready to Simplify Your Daily Tasks?</h2>
+  <p>Get started with a personalised service plan.</p>
+  <a href="#contact" class="cta-btn">I'LL GO FOR IT <span>▶</span></a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">Grey.</span>
+
+  <div class="footer-section">
+    <h4>Contact</h4>
+    <p>No emails. Text us directly.</p>
+  </div>
+
+  <div class="footer-section">
+    <h4>Just Some More</h4>
+    <div class="footer-links">
+      <a href="about.html">ABOUT US</a>
+      <a href="privacy.html">PRIVACY POLICY</a>
+    </div>
+  </div>
+
+  <div class="footer-section">
+    <h4>We're Here</h4>
+    <div class="social-icons">
+      <!-- WhatsApp -->
+      <a href="#" class="social-icon" title="WhatsApp">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.978-1.355A9.945 9.945 0 0012 22c5.523 0 10-4.477 10-10S17.522 2 11.999 2zm.001 18a7.946 7.946 0 01-4.086-1.127l-.293-.174-3.044.829.832-3.074-.19-.314A7.951 7.951 0 014 12c0-4.411 3.588-8 8-8s8 3.589 8 8-3.588 8-8 8z"/></svg>
+      </a>
+      <!-- Instagram -->
+      <a href="#" class="social-icon" title="Instagram">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </a>
+      <!-- Facebook -->
+      <a href="#" class="social-icon" title="Facebook">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </a>
+      <!-- LinkedIn -->
+      <a href="#" class="social-icon" title="LinkedIn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <!-- Slack / other icon -->
+      <a href="#" class="social-icon" title="Community">⊞</a>
+      <!-- Odnoklassniki / other -->
+      <a href="#" class="social-icon" title="Other">○</a>
+    </div>
+  </div>
+
+  <div class="footer-copy">
+    © 2023 THE HOUSE OF ASHER INT. HOLDINGS<span>™</span>
+  </div>
+</footer>
+
+<!-- FLOATING CHAT -->
+<button class="chat-fab" title="Chat with us">💬</button>
+
+<script>
+  // Intersection Observer for fade-in animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

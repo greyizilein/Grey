@@ -996,10 +996,10 @@
     </a>
     <ul class="nav-links">
       <li><a href="#" class="active">Company</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#investments">Investments</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="services.html">Investments</a></li>
       <li><a href="#faq">FAQ</a></li>
-      <li><a href="#schedule" class="btn nav-cta">Schedule</a></li>
+      <li><a href="https://calendly.com/grey-izilein/30min" class="btn nav-cta">Schedule</a></li>
     </ul>
   </nav>
 
@@ -1016,8 +1016,8 @@
         To redefine how people work, live, and grow by creating services that put people first. We exist to make excellent service required, normal, and expected.
       </p>
       <div class="hero-buttons">
-        <a href="#services" class="btn btn-primary">Our Services →</a>
-        <a href="#schedule" class="btn btn-outline">Book a Session</a>
+        <a href="services.html" class="btn btn-primary">Our Services →</a>
+        <a href="https://calendly.com/grey-izilein/30min" class="btn btn-outline">Book a Session</a>
       </div>
     </div>
 
@@ -1144,7 +1144,7 @@
         <div class="service-card fade-up" style="background: var(--near-black); display:flex; flex-direction:column; justify-content:center; align-items:flex-start;">
           <p style="font-family:var(--font-display); font-size:20px; font-weight:500; text-transform:uppercase; letter-spacing:0.04em; color:var(--off-white); margin-bottom:16px;">Need something else?</p>
           <p style="font-size:13px; color:var(--grey-mid); line-height:1.6; margin-bottom:24px;">We handle bespoke requests. Tell us what you need.</p>
-          <a href="#schedule" class="btn btn-outline" style="font-size:12px;">Request a Service →</a>
+          <a href="https://calendly.com/grey-izilein/30min" class="btn btn-outline" style="font-size:12px;">Request a Service →</a>
         </div>
       </div>
     </div>
@@ -1167,21 +1167,21 @@
           <div class="inv-badge">Low Risk · High Return</div>
           <h3 class="inv-title">Agricultural Investments</h3>
           <p class="inv-body">Interested in steadily growing your finances? Agricultural investments are safe, secure, and low-risk. If you're looking for how to safely grow wealth, this is it.</p>
-          <a href="#" class="inv-link">Learn More →</a>
+          <a href="https://calendly.com/grey-izilein/30min" class="inv-link">Book a Session →</a>
         </div>
         <div class="inv-card fade-up">
           <div class="inv-card-bg"></div>
           <div class="inv-badge">Expert Guidance</div>
           <h3 class="inv-title">Consultation</h3>
           <p class="inv-body">Grey offers expert consultation to help you develop effective strategies, optimize operations, and achieve sustainable growth in your business.</p>
-          <a href="#" class="inv-link">Book a Session →</a>
+          <a href="https://calendly.com/grey-izilein/30min" class="inv-link">Book a Session →</a>
         </div>
         <div class="inv-card fade-up">
           <div class="inv-card-bg"></div>
           <div class="inv-badge">Fealthy Hallmark Partner</div>
           <h3 class="inv-title">Real Estate</h3>
           <p class="inv-body">In collaboration with Fealthy Hallmark Consults, Grey provides you with credible real estate services for various wealth classes — from first-time buyers to seasoned investors.</p>
-          <a href="#" class="inv-link">Explore Properties →</a>
+          <a href="https://calendly.com/grey-izilein/30min" class="inv-link">Book a Session →</a>
         </div>
       </div>
     </div>
@@ -1201,59 +1201,76 @@
           </div>
         </div>
 
-        <div class="fade-up">
-          <div class="form-row">
-            <div class="form-field">
-              <label class="form-label">First Name</label>
-              <input type="text" class="form-input" placeholder="Jane" />
-            </div>
-            <div class="form-field">
-              <label class="form-label">Last Name</label>
-              <input type="text" class="form-input" placeholder="Doe" />
-            </div>
-          </div>
-          <div class="form-field">
-            <label class="form-label">Email Address</label>
-            <input type="email" class="form-input" placeholder="jane@example.com" />
-          </div>
-          <div class="form-row">
-            <div class="form-field">
-              <label class="form-label">Service Category</label>
-              <select class="form-select">
-                <option value="">Select Category</option>
-                <option>Freelance Services</option>
-                <option>Meals & Catering</option>
-                <option>Cleaning</option>
-                <option>Home Care</option>
-                <option>Errand & Shopping</option>
-                <option>Investments</option>
-                <option>Consultation</option>
-              </select>
-            </div>
-            <div class="form-field">
-              <label class="form-label">Preferred Date</label>
-              <input type="date" class="form-input" />
-            </div>
-          </div>
-          <div class="form-field">
-            <label class="form-label">Service Details & Preferences</label>
-            <textarea class="form-textarea" placeholder="Describe what you need..."></textarea>
-          </div>
-          <div class="form-field">
-            <label class="form-label" style="margin-bottom:14px;">Availability</label>
-            <div class="form-checkboxes">
-              <label class="checkbox-label"><input type="checkbox" />Part-time service</label>
-              <label class="checkbox-label"><input type="checkbox" />Full-time service</label>
-              <label class="checkbox-label"><input type="checkbox" />Weekend availability</label>
-              <label class="checkbox-label"><input type="checkbox" />Public holidays</label>
-            </div>
-          </div>
-          <button class="form-submit">Submit Request →</button>
-        </div>
-      </div>
-    </div>
-  </section>
+        <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="fade-up">
 
+  <div class="form-row">
+    <div class="form-field">
+      <label class="form-label">First Name</label>
+      <input type="text" name="first_name" class="form-input" placeholder="Jane" required />
+    </div>
+    <div class="form-field">
+      <label class="form-label">Last Name</label>
+      <input type="text" name="last_name" class="form-input" placeholder="Doe" required />
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label class="form-label">Email Address</label>
+    <input type="email" name="email" class="form-input" placeholder="jane@example.com" required />
+  </div>
+
+  <div class="form-row">
+    <div class="form-field">
+      <label class="form-label">Service Category</label>
+      <select name="service_category" class="form-select" required>
+        <option value="">Select Category</option>
+        <option>Freelance Services</option>
+        <option>Meals & Catering</option>
+        <option>Cleaning</option>
+        <option>Home Care</option>
+        <option>Errand & Shopping</option>
+        <option>Investments</option>
+        <option>Consultation</option>
+      </select>
+    </div>
+
+    <div class="form-field">
+      <label class="form-label">Preferred Date</label>
+      <input type="date" name="preferred_date" class="form-input" />
+    </div>
+  </div>
+
+  <div class="form-field">
+    <label class="form-label">Service Details & Preferences</label>
+    <textarea name="details" class="form-textarea" placeholder="Describe what you need..."></textarea>
+  </div>
+
+  <div class="form-field">
+    <label class="form-label" style="margin-bottom:14px;">Availability</label>
+    <div class="form-checkboxes">
+      <label class="checkbox-label">
+        <input type="checkbox" name="availability[]" value="Part-time service" />
+        Part-time service
+      </label>
+      <label class="checkbox-label">
+        <input type="checkbox" name="availability[]" value="Full-time service" />
+        Full-time service
+      </label>
+      <label class="checkbox-label">
+        <input type="checkbox" name="availability[]" value="Weekend availability" />
+        Weekend availability
+      </label>
+      <label class="checkbox-label">
+        <input type="checkbox" name="availability[]" value="Public holidays" />
+        Public holidays
+      </label>
+    </div>
+  </div>
+
+  <button type="submit" class="form-submit">Submit Request →</button>
+
+</form>
+        
   <!-- FAQ -->
   <section class="faq-section" id="faq">
     <div class="section-inner">

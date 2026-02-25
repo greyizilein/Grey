@@ -1201,28 +1201,27 @@
           </div>
         </div>
 
-        <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="fade-up">
-
+ <div class="fade-up">
   <div class="form-row">
     <div class="form-field">
       <label class="form-label">First Name</label>
-      <input type="text" name="first_name" class="form-input" placeholder="Jane" required />
+      <input type="text" class="form-input" placeholder="Jane" />
     </div>
     <div class="form-field">
       <label class="form-label">Last Name</label>
-      <input type="text" name="last_name" class="form-input" placeholder="Doe" required />
+      <input type="text" class="form-input" placeholder="Doe" />
     </div>
   </div>
 
   <div class="form-field">
     <label class="form-label">Email Address</label>
-    <input type="email" name="email" class="form-input" placeholder="jane@example.com" required />
+    <input type="email" class="form-input" placeholder="jane@example.com" />
   </div>
 
   <div class="form-row">
     <div class="form-field">
       <label class="form-label">Service Category</label>
-      <select name="service_category" class="form-select" required>
+      <select class="form-select">
         <option value="">Select Category</option>
         <option>Freelance Services</option>
         <option>Meals & Catering</option>
@@ -1236,40 +1235,27 @@
 
     <div class="form-field">
       <label class="form-label">Preferred Date</label>
-      <input type="date" name="preferred_date" class="form-input" />
+      <input type="date" class="form-input" />
     </div>
   </div>
 
   <div class="form-field">
     <label class="form-label">Service Details & Preferences</label>
-    <textarea name="details" class="form-textarea" placeholder="Describe what you need..."></textarea>
+    <textarea class="form-textarea" placeholder="Describe what you need..."></textarea>
   </div>
 
   <div class="form-field">
     <label class="form-label" style="margin-bottom:14px;">Availability</label>
     <div class="form-checkboxes">
-      <label class="checkbox-label">
-        <input type="checkbox" name="availability[]" value="Part-time service" />
-        Part-time service
-      </label>
-      <label class="checkbox-label">
-        <input type="checkbox" name="availability[]" value="Full-time service" />
-        Full-time service
-      </label>
-      <label class="checkbox-label">
-        <input type="checkbox" name="availability[]" value="Weekend availability" />
-        Weekend availability
-      </label>
-      <label class="checkbox-label">
-        <input type="checkbox" name="availability[]" value="Public holidays" />
-        Public holidays
-      </label>
+      <label class="checkbox-label"><input type="checkbox" />Part-time service</label>
+      <label class="checkbox-label"><input type="checkbox" />Full-time service</label>
+      <label class="checkbox-label"><input type="checkbox" />Weekend availability</label>
+      <label class="checkbox-label"><input type="checkbox" />Public holidays</label>
     </div>
   </div>
 
-  <button type="submit" class="form-submit">Submit Request →</button>
-
-</form>
+  <button class="form-submit">Submit Request →</button>
+</div>
         
   <!-- FAQ -->
   <section class="faq-section" id="faq">

@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy & Terms | Grey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:       #CE4703;
+      --orange-light: #FB4F0F;
+      --near-black:   #0F0F0F;
+      --off-white:    #F4F1EE;
+      --grey-mid:     #575757;
+      --grey-light:   #878787;
+      --cream:        #FAF8F5;
+      --font-display: 'Oswald', sans-serif;
+      --font-body:    'DM Sans', sans-serif;
+      --font-mono:    'Space Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--near-black);
+      color: var(--off-white);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── Cursor ── */
+    .cursor {
+      position: fixed; width: 10px; height: 10px;
+      background: var(--orange); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: width .2s, height .2s, background .2s;
+    }
+    .cursor-ring {
+      position: fixed; width: 36px; height: 36px;
+      border: 1.5px solid rgba(206,71,3,.5); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+    }
+    .cursor.expand    { width: 18px; height: 18px; background: var(--orange-light); }
+    .cursor-ring.expand { width: 52px; height: 52px; border-color: rgba(206,71,3,.2); }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 48px;
+      background: rgba(15,15,15,.88); backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,.04);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo-icon {
+      width: 36px; height: 36px; background: var(--orange); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .nav-logo-icon svg { width: 20px; height: 20px; }
+    .nav-wordmark {
+      font-family: var(--font-display); font-size: 22px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase; color: var(--off-white);
+    }
+    .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-size: 13px; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--grey-light); text-decoration: none; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--off-white); }
+    .nav-cta {
+      background: var(--orange); color: white !important; padding: 10px 22px;
+      font-weight: 500 !important; transition: background .2s !important;
+    }
+    .nav-cta:hover { background: var(--orange-light) !important; }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 52vh; padding: 160px 80px 80px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #160a04 0%, #0F0F0F 65%);
+    }
+    .hero-bg::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 80% 30%, rgba(206,71,3,.14) 0%, transparent 55%),
+        radial-gradient(circle at 20% 80%, rgba(76,168,163,.06) 0%, transparent 45%);
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    /* Big ghost watermark */
+    .hero-watermark {
+      position: absolute; bottom: -40px; right: -20px;
+      font-family: var(--font-display); font-size: 240px; font-weight: 700;
+      color: rgba(255,255,255,.025); line-height: 1; text-transform: uppercase;
+      letter-spacing: -.04em; user-select: none; pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 2; }
+    .hero-eyebrow {
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 24px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .hero-eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: var(--orange); }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 7vw, 96px); font-weight: 600;
+      line-height: .96; text-transform: uppercase; letter-spacing: -.01em;
+      margin-bottom: 28px;
+    }
+    .hero h1 em { font-style: normal; color: var(--orange); }
+    .hero-meta {
+      display: flex; align-items: center; gap: 32px; flex-wrap: wrap;
+    }
+    .hero-meta-item {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--grey-mid);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .hero-meta-item::before { content: ''; display: block; width: 6px; height: 6px; background: var(--orange); border-radius: 50%; }
+
+    /* ── Tab bar ── */
+    .tab-bar {
+      background: var(--near-black);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      position: sticky; top: 81px; z-index: 50;
+    }
+    .tab-bar-inner {
+      max-width: 1240px; margin: 0 auto; padding: 0 48px;
+      display: flex; gap: 2px;
+    }
+    .tab-btn {
+      font-family: var(--font-display); font-size: 13px; font-weight: 500;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: 18px 32px; background: none; border: none; color: var(--grey-light);
+      cursor: none; transition: color .2s; position: relative;
+    }
+    .tab-btn::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: var(--orange); transform: scaleX(0); transition: transform .25s;
+    }
+    .tab-btn:hover { color: var(--off-white); }
+    .tab-btn.active { color: var(--off-white); }
+    .tab-btn.active::after { transform: scaleX(1); }
+
+    /* ── Main layout ── */
+    .doc-wrap {
+      max-width: 1240px; margin: 0 auto;
+      display: grid; grid-template-columns: 260px 1fr;
+      gap: 0; align-items: start;
+      padding: 0 48px;
+    }
+
+    /* ── Sidebar TOC ── */
+    .sidebar {
+      position: sticky; top: 140px;
+      padding: 72px 0 72px;
+      border-right: 1px solid rgba(255,255,255,.06);
+      padding-right: 40px;
+    }
+    .sidebar-label {
+      font-family: var(--font-mono); font-size: 9px; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .sidebar-label::before { content: ''; display: block; width: 16px; height: 1px; background: var(--orange); }
+    .toc-list { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .toc-link {
+      display: block; font-size: 12px; letter-spacing: .06em; line-height: 1.4;
+      color: var(--grey-mid); text-decoration: none; padding: 8px 12px;
+      border-left: 2px solid transparent; transition: color .2s, border-color .2s;
+    }
+    .toc-link:hover { color: var(--off-white); border-left-color: rgba(206,71,3,.4); }
+    .toc-link.active { color: var(--off-white); border-left-color: var(--orange); }
+
+    /* ── Document content ── */
+    .doc-content {
+      padding: 72px 0 72px 72px;
+    }
+
+    /* Tab panels */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Disclaimer box */
+    .disclaimer-box {
+      border: 1px solid rgba(206,71,3,.25); padding: 28px 32px;
+      margin-bottom: 64px; position: relative; overflow: hidden;
+    }
+    .disclaimer-box::before {
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+      width: 3px; background: var(--orange);
+    }
+    .disclaimer-label {
+      font-family: var(--font-mono); font-size: 9px; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .disclaimer-label::before { content: '⚠'; font-size: 11px; }
+    .disclaimer-text {
+      font-size: 13px; line-height: 1.75; color: var(--grey-light);
+    }
+
+    /* Section blocks */
+    .doc-section { margin-bottom: 64px; }
+    .doc-section-num {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .doc-section-num::before { content: ''; display: block; width: 20px; height: 1px; background: var(--orange); }
+    .doc-section h2 {
+      font-family: var(--font-display); font-size: clamp(22px, 2.5vw, 32px);
+      font-weight: 500; text-transform: uppercase; letter-spacing: .04em;
+      color: var(--off-white); margin-bottom: 24px; line-height: 1.1;
+    }
+    .doc-section p {
+      font-size: 14px; line-height: 1.85; color: var(--grey-light); margin-bottom: 16px;
+    }
+    .doc-section p:last-child { margin-bottom: 0; }
+    .doc-section strong { color: var(--off-white); font-weight: 500; }
+
+    /* Divider between sections */
+    .doc-divider {
+      width: 100%; height: 1px;
+      background: rgba(255,255,255,.06); margin-bottom: 64px;
+    }
+
+    /* Bullet list in doc */
+    .doc-list {
+      list-style: none; display: flex; flex-direction: column;
+      gap: 10px; margin: 16px 0;
+    }
+    .doc-list li {
+      font-size: 14px; line-height: 1.75; color: var(--grey-light);
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .doc-list li::before { content: '→'; color: var(--orange); flex-shrink: 0; margin-top: 2px; font-size: 12px; }
+
+    /* Last updated / version stamp */
+    .doc-stamp {
+      display: flex; align-items: center; gap: 24px; margin-bottom: 56px; flex-wrap: wrap;
+    }
+    .doc-stamp-item {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--grey-mid);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .doc-stamp-item span { color: var(--off-white); }
+
+    /* ── Animations ── */
+    .fade-up {
+      opacity: 0; transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up.d1 { transition-delay: .1s; }
+    .fade-up.d2 { transition-delay: .2s; }
+
+    /* ── Contact band ── */
+    .contact-band {
+      background: var(--near-black);
+      border-top: 1px solid rgba(255,255,255,.05);
+      padding: 80px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 40px; flex-wrap: wrap;
+    }
+    .contact-label {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .contact-label::before { content: ''; display: block; width: 20px; height: 1px; background: var(--orange); }
+    .contact-title {
+      font-family: var(--font-display); font-size: clamp(28px, 3.5vw, 46px);
+      font-weight: 500; text-transform: uppercase; letter-spacing: .02em; line-height: 1.0;
+    }
+    .contact-title em { font-style: normal; color: var(--orange); }
+    .contact-sub { font-size: 14px; color: var(--grey-mid); margin-top: 10px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--font-body); font-size: 13px; letter-spacing: .1em;
+      text-transform: uppercase; font-weight: 500; padding: 14px 30px;
+      text-decoration: none; transition: all .22s; cursor: none; border: none;
+    }
+    .btn-primary { background: var(--orange); color: white; border: 1px solid var(--orange); }
+    .btn-primary:hover { background: var(--orange-light); border-color: var(--orange-light); transform: translateY(-2px); }
+    .btn-outline { border: 1px solid rgba(255,255,255,.2); color: var(--off-white); }
+    .btn-outline:hover { border-color: var(--off-white); background: rgba(255,255,255,.05); }
+
+    /* ── Footer ── */
+    footer {
+      background: #060606; border-top: 1px solid rgba(255,255,255,.05);
+      padding: 72px 80px 40px;
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 64px;
+    }
+    .footer-brand-name {
+      font-family: var(--font-display); font-size: 32px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase; color: var(--off-white); margin-bottom: 16px;
+    }
+    .footer-brand-tag { font-size: 13px; color: var(--grey-mid); line-height: 1.6; max-width: 280px; margin-bottom: 28px; }
+    .footer-socials { display: flex; gap: 12px; }
+    .social-icon {
+      width: 36px; height: 36px; border: 1px solid rgba(255,255,255,.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: var(--grey-light); transition: border-color .2s, color .2s;
+      text-decoration: none; cursor: none;
+    }
+    .social-icon:hover { border-color: var(--orange); color: var(--orange); }
+    .footer-col-title {
+      font-family: var(--font-display); font-size: 12px; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase; color: var(--grey-light); margin-bottom: 24px;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-links a { font-size: 13px; color: var(--grey-mid); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--off-white); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.05); padding-top: 32px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-copy { font-size: 11px; color: var(--grey-mid); letter-spacing: .05em; }
+    .footer-bottom-links { display: flex; gap: 24px; }
+    .footer-bottom-links a {
+      font-size: 11px; color: var(--grey-mid); text-decoration: none;
+      letter-spacing: .08em; text-transform: uppercase; transition: color .2s;
+    }
+    .footer-bottom-links a:hover { color: var(--off-white); }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      nav { padding: 18px 32px; }
+      .nav-links { display: none; }
+      .hero { padding: 140px 32px 64px; }
+      .tab-bar-inner { padding: 0 24px; }
+      .doc-wrap { grid-template-columns: 1fr; padding: 0 32px; }
+      .sidebar { display: none; }
+      .doc-content { padding: 48px 0 72px; }
+      .contact-band { padding: 60px 32px; }
+      footer { padding: 48px 32px 32px; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+    @media (max-width: 600px) {
+      .footer-top { grid-template-columns: 1fr; gap: 28px; }
+      .hero-watermark { font-size: 140px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ── Nav ── -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.5"/>
+          <path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20" stroke="white" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <span class="nav-wordmark">Grey</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="company.html">Company</a></li>
+      <li><a href="company.html#investments">Investments</a></li>
+      <li><a href="index.html#s-cta" class="btn nav-cta">Schedule Now</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-watermark">Legal</div>
+    <div class="hero-content fade-up">
+      <p class="hero-eyebrow">Legal Documents</p>
+      <h1>Privacy &<br/><em>Terms.</em></h1>
+      <div class="hero-meta">
+        <span class="hero-meta-item">Effective: January 1, 2024</span>
+        <span class="hero-meta-item">Grey LLC · The House of Asher Int. Holdings™</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Tab bar ── -->
+  <div class="tab-bar">
+    <div class="tab-bar-inner">
+      <button class="tab-btn active" onclick="switchTab('privacy', this)">Privacy Policy</button>
+      <button class="tab-btn" onclick="switchTab('terms', this)">Terms of Service</button>
+    </div>
+  </div>
+
+  <!-- ── Document Body ── -->
+  <div class="doc-wrap">
+
+    <!-- Sidebar TOC (Privacy) -->
+    <aside class="sidebar" id="sidebar-privacy">
+      <p class="sidebar-label">Contents</p>
+      <ul class="toc-list">
+        <li><a href="#pp-overview"   class="toc-link active">Overview</a></li>
+        <li><a href="#pp-data"        class="toc-link">How We Handle Your Data</a></li>
+        <li><a href="#pp-cookies"     class="toc-link">Cookies & Tracking</a></li>
+        <li><a href="#pp-sharing"     class="toc-link">Sharing & Disclosure</a></li>
+        <li><a href="#pp-security"    class="toc-link">Data Security</a></li>
+        <li><a href="#pp-rights"      class="toc-link">Your Rights</a></li>
+        <li><a href="#pp-changes"     class="toc-link">Policy Changes</a></li>
+        <li><a href="#pp-contact"     class="toc-link">Contact</a></li>
+      </ul>
+    </aside>
+
+    <!-- Sidebar TOC (Terms) -->
+    <aside class="sidebar" id="sidebar-terms" style="display:none;">
+      <p class="sidebar-label">Contents</p>
+      <ul class="toc-list">
+        <li><a href="#ts-agreement"   class="toc-link active">Agreement</a></li>
+        <li><a href="#ts-services"    class="toc-link">Use of Services</a></li>
+        <li><a href="#ts-accounts"    class="toc-link">Accounts</a></li>
+        <li><a href="#ts-payments"    class="toc-link">Payments & Refunds</a></li>
+        <li><a href="#ts-conduct"     class="toc-link">Conduct</a></li>
+        <li><a href="#ts-ip"          class="toc-link">Intellectual Property</a></li>
+        <li><a href="#ts-liability"   class="toc-link">Liability</a></li>
+        <li><a href="#ts-termination" class="toc-link">Termination</a></li>
+        <li><a href="#ts-contact"     class="toc-link">Contact</a></li>
+      </ul>
+    </aside>
+
+    <!-- ── PRIVACY POLICY PANEL ── -->
+    <div class="doc-content">
+      <div class="tab-panel active" id="panel-privacy">
+
+        <div class="doc-stamp fade-up">
+          <div class="doc-stamp-item">Version <span>1.0</span></div>
+          <div class="doc-stamp-item">Last updated <span>January 2024</span></div>
+          <div class="doc-stamp-item">Jurisdiction <span>Nigeria & International</span></div>
+        </div>
+
+        <div class="disclaimer-box fade-up">
+          <p class="disclaimer-label">Legal Disclaimer</p>
+          <p class="disclaimer-text">The information provided below is intended for general understanding and clarity about how we manage user data on this platform. It is not legal advice and should not replace consultation with a legal professional. Privacy expectations may differ by location, and we recommend seeking legal counsel to ensure compliance with your region's laws.</p>
+        </div>
+
+        <div class="doc-section fade-up" id="pp-overview">
+          <p class="doc-section-num">01 / Overview</p>
+          <h2>Privacy Policy</h2>
+          <p>At Grey, we value your trust and are committed to protecting your personal information. This Privacy Policy outlines how we collect, use, store, and share your data when you use our services, whether as a customer or service provider.</p>
+          <p>We collect data such as names, contact information, location, service preferences, and usage patterns to connect users and improve platform functionality. Our aim is to maintain transparency while ensuring your privacy and security across all transactions.</p>
+          <p>Depending on your location, additional legal requirements may apply. <strong>You are responsible for ensuring you understand and comply with the applicable privacy regulations in your area.</strong></p>
+        </div>
+
+        <div class="doc-divider"></div>
+
+        <div class="doc-section fade-up" id="pp-data">
+          <p class="doc-section-num">02 / Data Handling</p>
+          <h2>How We Handle Your Data</h2>
+          <p>We collect only the information necessary to connect you with the right services or clients — such as your name, contact details, and service preferences. This data is used solely to improve your experience on our platform and to ensure smooth service delivery.</p>
+          <p><strong>We do not sell your data.</strong> Limited details may be shared with trusted service providers, but only when required to complete a booking or improve support. Your information is stored securely, and we regularly update our systems to protect against unauthorised access or misuse.</p>
+          <p>The types of data we may collect include:</p>
+          <ul class="doc-list">
+            <li>Name and contact details (phone number, email address)</li>
+            <li>Location information for service matching and delivery</li>
+            <li>Service preferences and booking history</li>
+            <li>Usage patterns and platform interaction data</li>
+            <li>Payment-related information (processed securely through third-party providers)</li>
+          </ul>
+        </div>
+
+        <div class="doc-divider"></div>
+
+        <div class="doc-section fade-up" id="pp-cookies">
+          <p class="doc-section-num">03 / Cookies & Tracking</p>
+          <h2>Cookies & Tracking Tools</h2>
+          <p>We use basic tracking tools like cookies to help us understand how visitors interact with our site. Cookies allow us to remember your preferences, improve site performance, and deliver a more personalised experience.</p>
+          <p>You can control cookie settings in your browser at any time. Disabling cookies may affect some features of the platform, but will not prevent you from using our core services.</p>
+          <ul class="doc-list">
+            <li>Session cookies — keep you logged in during a visit</li>
+            <li>Preference cookies — remember your settings and choices</li>
+            <li>Analytics cookies — help us understand usage patterns (anonymised)</li>
+          </ul>
+        </div>
+
+        <div class="doc-divider"></div>
+
+        <div class="doc-section fade-up" id="pp-sharing">
+          <p class="doc-section-num">04 / Sharing & Disclosure</p>
+          <h2>Sharing & Disclosure</h2>
+          <p>Grey does not sell, rent, or trade your personal information to third parties for marketing purposes. Data may be shared in the following limited circumstances:</p>
+          <ul class="doc-list">
+            <li>With verified service providers, strictly to fulfil a booked service</li>
+            <li>With payment processors, to complete secure transactions</li>
+            <li>With legal authorities, if required by applicable law or court order</li>
+            <li>With our own internal systems and trusted infrastructure partners, for platform operation</li>
+          </ul>
+          <p>Any third party that receives your data is contractually obligated to handle it in accordance with this policy and applicable data protection laws.</p>
+        </div>
+
+        <div class="doc-divider"></div>
+
+        <div class="doc-section fade-up" id="pp-security">
+          <p class="doc-section-num">05 / Security</p>
+          <h2>Data Security</h2>
+          <p>Your information is stored on secure servers and protected by industry-standard encryption and access controls. We regularly review and update our security practices to protect against unauthorised access, disclosure, alteration, or destruction of your data.</p>
+          <p>While we take every reasonable measure to protect your data, no method of electronic storage is 100% secure. If you believe your account has been compromised, please contact us immediately.</p>
+        </div>
+
+        <div class="doc-divider"></div>
+
+        <div class="doc-section fade-up" id="pp-rights">
+          <p class="doc-section-num">06 / Your Rights</p>
+          <h2>Your Rights</h2>
+          <p>Depending on your location, you may have the following rights regarding your personal data:</p>
+          <ul class="doc-list">
+            <li><strong>Access</strong> — request a copy of the data we hold about you</li>
+            <li><strong>Correction</strong> — request that inaccurate data be corrected</li>
+            <li><strong>Deletion</strong> — request that your data be deleted from our systems</li>
+            <li><strong>Portability</strong> — request your data in a machine-readable format</li>
+            <li><strong>Withdrawal of consent</strong> — withdraw permission for data processing at any time</li>
+          </ul>
+          <p>To exercise any of these rights, please reach out to us directly. We will respond within a reasonable timeframe in accordance with applicable law.</p>
+        </div>
+
+        <div class="doc-divider"></div>
+
+        <div class="doc-section fade-up" id="pp-changes">
+          <p class="doc-section-num">07 / Policy Changes</p>
+          <h2>Changes to This Policy</h2>
+          <p>We may update this Privacy Policy from time to time to reflect changes in our practices, technology, or legal requirements. When we do, we will revise the "last updated" date at the top of this document.</p>
+          <p>Continued use of our platform after changes are made constitutes your acceptance of the updated policy. We encourage you to review this page periodically.</p>
+        </div>
+
+        <div class="doc-divider"></div>
+
+        <div class="doc-section fade-up" id="pp-contact">
+          <p class="doc-section-num">08 / Contact</p>
+          <h2>Questions?</h2>
+          <p>If you have any questions or concerns about this Privacy Policy or how your data is handled, please reach out to us directly. <strong>No emails — text us directly.</strong></p>
+        </div>
+
+      </div><!-- /panel-privacy -->
+
+      <!-- ── TERMS OF SERVICE PANEL ── -->
+      <div class="tab-panel" id="panel-terms">
+
+        <div class="doc-stamp fade-up">
+          <div class="doc-stamp-item">Version <span>1.0</span></div>
+          <div class="doc-stamp-item">Last updated <span>January 2024</span></div>
+          <div class="doc-stamp-item">Governing law <span>Federal Republic of Nigeria</span></div>
+        </div>
+
+        <div class="disclaimer-box fade-up">
+          <p class="disclaimer-label">Legal Disclaimer</p>
+          <p class="disclaimer-text">These Terms of Service govern your use of the Grey platform and all related services. By accessing or using our services, you agree to be bound by these terms. If you do not agree, you may not use our platform. These terms are not a substitute for professional legal advice.</p>
+        </div>
+
+        <div class="doc-section fade-up" id="ts-agreement">
+          <p class="doc-section-num">01 / Agreement</p>
+          <h2>Agreement to Terms</h2>
+          <p>By accessing or using the Grey platform — including any website, mobile interface, or related service — you confirm that you are at least 18 years of age and agree to be bound by these Terms of Service and our Privacy Policy.</p>
+          <p>Grey is operated by The House of Asher International Holdings™. These terms apply to all users of the platform, including customers, service providers, and visitors.</p>
+        </div>
+
+        <div class="doc-divider"></div>
+
+        <div class="doc-section fade-up" id="ts-services">
+          <p class="doc-section-num">02 / Services</p>
+          <h2>Use of Services</h2>
+          <p>Grey provides a platform connecting users with verified service providers across categories including but not limited to home care, cleaning, catering, freelance services, errands, agricultural investments, real estate, and consultation.</p>
+          <p>We reserve the right to modify, suspend, or discontinue any service at any time without prior notice. We are not liable to you or any third party for any modification, suspension, or discontinuation of services.</p>
+          <ul class="doc-list">
+            <li>Services are available subject to provider availability and your location</li>
+            <li>Grey acts as a facilitator — we are not directly responsible for the actions of third-party providers</li>
+            <li>Service quality is maintained through our vetting process, but ultimate responsibility lies with the provider</li>
+          </ul>
+        </div>
+
+        <div class="doc-divider"></div>
+
+        <div class="doc-section fade-up" id="ts-accounts">
+          <p class="doc-section-num">03 / Accounts</p>
+          <h2>Accounts & Registration</h2>
+          <p>To access most features of the platform, you will be required to create an account. You are responsible for maintaining the confidentiality of your account credentials and for all activity that occurs under your account.</p>
+          <p>You agree to provide accurate, current, and complete information during registration and to update this information as necessary. Grey reserves the right to suspend or terminate accounts that contain false information or are used in violation of these terms.</p>
+        </div>
+
+        <div class="doc-divider"></div>
+
+        <div class="doc-section fade-up" id="ts-payments">
+          <p class="doc-section-num">04 / Payments & Refunds</p>
+          <h2>Payments & Refunds</h2>
+          <p>Payments are collected securely at the time of booking through our approved payment partners. Grey does not store full card details. All transactions are subject to the payment processor's terms and conditions.</p>
+          <ul class="doc-list">
+            <li>Cancellations with more than 24 hours' notice are eligible for a full refund</li>
+            <li>Cancellations within 24 hours may incur a processing fee</li>
+            <li>Subscription plans are billed on a recurring cycle and may be cancelled at any time</li>
+            <li>Refunds for investment-related services are governed by the specific investment agreement</li>
+          </ul>
+          <p>In the event of a dispute, please contact us directly. We are committed to resolving all payment issues fairly and promptly.</p>
+        </div>
+
+        <div class="doc-divider"></div>
+
+        <div class="doc-section fade-up" id="ts-conduct">
+          <p class="doc-section-num">05 / Conduct</p>
+          <h2>Acceptable Use & Conduct</h2>
+          <p>You agree to use the platform only for lawful purposes and in a manner that does not infringe on the rights of others. The following are strictly prohibited:</p>
+          <ul class="doc-list">
+            <li>Using the platform for fraudulent, abusive, or illegal activity</li>
+            <li>Harassing, threatening, or intimidating other users or providers</li>
+            <li>Attempting to gain unauthorised access to any part of the platform</li>
+            <li>Submitting false, misleading, or defamatory content or reviews</li>
+            <li>Circumventing Grey to engage providers outside the platform after initial introduction</li>
+          </ul>
+          <p>Violations may result in immediate account suspension and, where applicable, legal action.</p>
+        </div>
+
+        <div class="doc-divider"></div>
+
+        <div class="doc-section fade-up" id="ts-ip">
+          <p class="doc-section-num">06 / Intellectual Property</p>
+          <h2>Intellectual Property</h2>
+          <p>All content on the Grey platform — including but not limited to the name, logo, design, copy, images, and software — is the property of The House of Asher International Holdings™ and is protected by applicable intellectual property laws.</p>
+          <p>You may not reproduce, distribute, modify, or create derivative works from any Grey content without our express written permission.</p>
+        </div>
+
+        <div class="doc-divider"></div>
+
+        <div class="doc-section fade-up" id="ts-liability">
+          <p class="doc-section-num">07 / Liability</p>
+          <h2>Limitation of Liability</h2>
+          <p>To the fullest extent permitted by applicable law, Grey and The House of Asher International Holdings™ shall not be liable for any indirect, incidental, special, or consequential damages arising out of or in connection with your use of the platform.</p>
+          <p>Grey's total liability to you for any claim arising from these terms or your use of our services shall not exceed the amount paid by you for the specific service giving rise to the claim in the 30 days prior to the event.</p>
+        </div>
+
+        <div class="doc-divider"></div>
+
+        <div class="doc-section fade-up" id="ts-termination">
+          <p class="doc-section-num">08 / Termination</p>
+          <h2>Termination</h2>
+          <p>Grey reserves the right to terminate or suspend your access to the platform at any time, for any reason, including but not limited to violation of these Terms of Service.</p>
+          <p>Upon termination, your right to use the platform will immediately cease. Provisions of these terms that by their nature should survive termination — including intellectual property, limitation of liability, and dispute resolution — shall survive.</p>
+        </div>
+
+        <div class="doc-divider"></div>
+
+        <div class="doc-section fade-up" id="ts-contact">
+          <p class="doc-section-num">09 / Contact</p>
+          <h2>Questions?</h2>
+          <p>If you have questions about these Terms of Service or wish to report a violation, please reach out to us directly. <strong>No emails — text us directly.</strong></p>
+          <p>These terms were last updated in January 2024 and are effective for all users of the Grey platform from that date.</p>
+        </div>
+
+      </div><!-- /panel-terms -->
+    </div><!-- /doc-content -->
+  </div><!-- /doc-wrap -->
+
+  <!-- ── Contact Band ── -->
+  <div class="contact-band fade-up">
+    <div>
+      <div class="contact-label">We're Here</div>
+      <h2 class="contact-title">Questions?<br/><em>Text Us.</em></h2>
+      <p class="contact-sub">No emails. We respond faster than you'd expect.</p>
+    </div>
+    <div style="display:flex; gap:16px; flex-wrap:wrap;">
+      <a href="index.html#s-cta" class="btn btn-primary">Schedule a Service →</a>
+      <a href="about.html" class="btn btn-outline">About Grey</a>
+    </div>
+  </div>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-name">Grey</div>
+        <p class="footer-brand-tag">Redefining how people work, live, and grow — one service at a time.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-icon">f</a>
+          <a href="#" class="social-icon">𝕏</a>
+          <a href="#" class="social-icon">in</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-links">
+          <li><a href="#">Freelance</a></li>
+          <li><a href="#">Meals & Catering</a></li>
+          <li><a href="#">Cleaning</a></li>
+          <li><a href="#">Home Care</a></li>
+          <li><a href="#">Errands</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Investments</div>
+        <ul class="footer-links">
+          <li><a href="#">Agriculture</a></li>
+          <li><a href="#">Real Estate</a></li>
+          <li><a href="#">Consultation</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="company.html">Company</a></li>
+          <li><a href="#" class="active">Privacy & Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 Grey LLC · The House of Asher Int. Holdings™. All rights reserved.</span>
+      <div class="footer-bottom-links">
+        <a href="#" onclick="switchTab('privacy', document.querySelectorAll('.tab-btn')[0]); return false;">Privacy Policy</a>
+        <a href="#" onclick="switchTab('terms', document.querySelectorAll('.tab-btn')[1]); return false;">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── Cursor ──
+    const cursor = document.getElementById('cursor');
+    const ring   = document.getElementById('cursorRing');
+    let rx = 0, ry = 0, mx = 0, my = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top  = my + 'px';
+    });
+
+    (function animateRing() {
+      rx += (mx - rx) * 0.15;
+      ry += (my - ry) * 0.15;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(animateRing);
+    })();
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => { cursor.classList.add('expand'); ring.classList.add('expand'); });
+      el.addEventListener('mouseleave', () => { cursor.classList.remove('expand'); ring.classList.remove('expand'); });
+    });
+
+    // ── Tab switching ──
+    function switchTab(id, btn) {
+      // Panels
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('panel-' + id).classList.add('active');
+      // Tab buttons
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      // Sidebars
+      document.getElementById('sidebar-privacy').style.display = id === 'privacy' ? 'block' : 'none';
+      document.getElementById('sidebar-terms').style.display   = id === 'terms'   ? 'block' : 'none';
+      // Scroll to top of doc
+      window.scrollTo({ top: document.querySelector('.tab-bar').offsetTop - 90, behavior: 'smooth' });
+      // Re-trigger fade-ups in new panel
+      document.querySelectorAll('#panel-' + id + ' .fade-up').forEach(el => {
+        el.classList.remove('visible');
+        setTimeout(() => observer.observe(el), 50);
+      });
+    }
+
+    // ── Scroll reveals ──
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // ── TOC active link tracking ──
+    const tocLinks = document.querySelectorAll('.toc-link');
+    const sections = document.querySelectorAll('.doc-section[id]');
+
+    const tocObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          tocLinks.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+
+    sections.forEach(s => tocObserver.observe(s));
+  </script>
+</body>
+</html>

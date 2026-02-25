@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grey | Life as an Experience Service</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:       #CE4703;
+      --orange-light: #FB4F0F;
+      --near-black:   #0F0F0F;
+      --off-white:    #F4F1EE;
+      --grey-mid:     #575757;
+      --grey-light:   #878787;
+      --cream:        #FAF8F5;
+      --font-display: 'Oswald', sans-serif;
+      --font-body:    'DM Sans', sans-serif;
+      --font-mono:    'Space Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--near-black);
+      color: var(--off-white);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── Cursor ─────────────────────────── */
+    .cursor {
+      position: fixed; width: 10px; height: 10px;
+      background: var(--orange); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: width .2s, height .2s, background .2s;
+    }
+    .cursor-ring {
+      position: fixed; width: 36px; height: 36px;
+      border: 1.5px solid rgba(206,71,3,.5); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+    }
+    .cursor.expand   { width: 18px; height: 18px; background: var(--orange-light); }
+    .cursor-ring.expand { width: 52px; height: 52px; border-color: rgba(206,71,3,.2); }
+
+    /* ── Nav ────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 48px;
+      background: rgba(15,15,15,.88); backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      transition: padding .3s;
+    }
+    nav.scrolled { padding: 14px 48px; }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo-icon {
+      width: 36px; height: 36px; background: var(--orange); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .nav-logo-icon svg { width: 20px; height: 20px; }
+    .nav-wordmark {
+      font-family: var(--font-display); font-size: 22px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase; color: var(--off-white);
+    }
+    .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-size: 13px; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--grey-light); text-decoration: none; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--off-white); }
+    .nav-cta {
+      background: var(--orange); color: white !important; padding: 10px 22px;
+      font-weight: 500 !important; transition: background .2s !important;
+    }
+    .nav-cta:hover { background: var(--orange-light) !important; }
+
+    /* ── Shared ─────────────────────────── */
+    .section-label {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 24px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-label::before {
+      content: ''; display: block; width: 24px; height: 1px; background: var(--orange);
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4.5vw, 60px); font-weight: 500;
+      line-height: 1.0; letter-spacing: .01em; text-transform: uppercase;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--font-body); font-size: 13px; letter-spacing: .1em;
+      text-transform: uppercase; font-weight: 500; padding: 14px 30px;
+      text-decoration: none; transition: all .22s; cursor: none;
+    }
+    .btn-primary { background: var(--orange); color: white; border: 1px solid var(--orange); }
+    .btn-primary:hover { background: var(--orange-light); border-color: var(--orange-light); transform: translateY(-2px); }
+    .btn-outline { border: 1px solid rgba(255,255,255,.2); color: var(--off-white); }
+    .btn-outline:hover { border-color: var(--off-white); background: rgba(255,255,255,.05); }
+    .btn-dark { background: var(--near-black); color: white; border: 1px solid var(--near-black); }
+    .btn-dark:hover { background: var(--orange); border-color: var(--orange); }
+
+    .fade-up {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up.d1 { transition-delay: .1s; }
+    .fade-up.d2 { transition-delay: .2s; }
+    .fade-up.d3 { transition-delay: .3s; }
+    .fade-up.d4 { transition-delay: .4s; }
+
+    /* ── 1. HERO ── video background ───── */
+    #s-hero {
+      position: relative; height: 100vh; min-height: 600px;
+      overflow: hidden; display: flex; align-items: flex-end;
+    }
+    #s-hero video {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(10,10,10,.92) 0%,
+        rgba(10,10,10,.55) 45%,
+        rgba(10,10,10,.25) 100%
+      );
+    }
+    /* grid texture */
+    .hero-overlay::after {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      width: 100%; padding: 0 80px 100px;
+      display: flex; flex-direction: column; align-items: flex-start;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 24px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .hero-eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: var(--orange); }
+    #s-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 8.5vw, 110px); font-weight: 600;
+      line-height: .96; text-transform: uppercase; letter-spacing: -.01em;
+      margin-bottom: 28px; max-width: 820px;
+    }
+    #s-hero h1 em { font-style: normal; color: var(--orange); }
+    .hero-sub {
+      font-size: 16px; color: rgba(244,241,238,.65); line-height: 1.6;
+      max-width: 420px; margin-bottom: 48px;
+    }
+    .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    /* scroll indicator */
+    .scroll-hint {
+      position: absolute; bottom: 36px; right: 80px; z-index: 2;
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em;
+      text-transform: uppercase; color: rgba(255,255,255,.35);
+    }
+    .scroll-hint-line {
+      width: 40px; height: 1px; background: rgba(255,255,255,.2);
+      position: relative; overflow: hidden;
+    }
+    .scroll-hint-line::after {
+      content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+      background: var(--orange);
+      animation: scanline 2s ease-in-out infinite;
+    }
+    @keyframes scanline { 0%,100%{left:-100%} 50%{left:100%} }
+
+    /* ── Marquee ─────────────────────────── */
+    .marquee-strip {
+      background: var(--orange); padding: 14px 0; overflow: hidden; display: flex;
+    }
+    .marquee-track {
+      display: flex; animation: marquee 22s linear infinite; white-space: nowrap;
+    }
+    .marquee-item {
+      font-family: var(--font-display); font-size: 13px; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase; color: white;
+      padding: 0 48px; display: flex; align-items: center; gap: 16px;
+    }
+    .marquee-item::after { content: '◆'; font-size: 8px; opacity: .5; }
+    @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+    /* ── 2. TAGLINE / 3-STEP ─────────────── */
+    #s-tagline { background: var(--cream); color: var(--near-black); }
+    .tagline-inner {
+      max-width: 1240px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    }
+    .tagline-left {
+      padding: 100px 80px 100px 48px;
+      border-right: 1px solid rgba(15,15,15,.08);
+    }
+    .tagline-dreamers {
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 28px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .tagline-dreamers::before { content: ''; display: block; width: 24px; height: 1px; background: var(--orange); }
+    .tagline-headline {
+      font-family: var(--font-display); font-size: clamp(34px, 4vw, 54px);
+      font-weight: 500; line-height: 1.0; text-transform: uppercase;
+      letter-spacing: .02em; color: var(--near-black); margin-bottom: 16px;
+    }
+    .tagline-sub-head {
+      font-family: var(--font-display); font-size: clamp(20px, 2.5vw, 30px);
+      font-weight: 400; text-transform: uppercase; letter-spacing: .05em;
+      color: var(--grey-mid); margin-bottom: 40px;
+    }
+    .tagline-right { padding: 100px 48px 100px 64px; }
+
+    /* video embed in tagline */
+    .tagline-video-wrap {
+      position: relative; width: 100%; padding-bottom: 58%; margin-bottom: 48px;
+      overflow: hidden;
+    }
+    .tagline-video-wrap video {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    }
+    .tagline-video-wrap::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(15,15,15,.3) 0%, transparent 50%);
+    }
+
+    .feat-row {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 2px;
+    }
+    .feat-item {
+      background: white; padding: 24px 20px; position: relative; overflow: hidden;
+      transition: background .25s;
+    }
+    .feat-item:hover { background: #fff8f5; }
+    .feat-item::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: var(--orange); transform: scaleX(0); transition: transform .3s; transform-origin: left;
+    }
+    .feat-item:hover::after { transform: scaleX(1); }
+    .feat-icon {
+      font-family: var(--font-display); font-size: 36px; font-weight: 700;
+      color: var(--orange); line-height: 1; margin-bottom: 10px;
+    }
+    .feat-name {
+      font-family: var(--font-display); font-size: 14px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: .06em; color: var(--near-black); margin-bottom: 6px;
+    }
+    .feat-desc { font-size: 12px; line-height: 1.6; color: var(--grey-mid); }
+
+    /* ── 3. ABOUT ────────────────────────── */
+    #s-about {
+      background: var(--near-black);
+      display: grid; grid-template-columns: 1fr 1fr;
+    }
+    .about-left {
+      padding: 100px 80px 100px 80px;
+      border-right: 1px solid rgba(255,255,255,.05);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .about-kicker {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 24px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .about-kicker::before { content: ''; display: block; width: 24px; height: 1px; background: var(--orange); }
+    .about-h2 {
+      font-family: var(--font-display);
+      font-size: clamp(38px, 5vw, 68px); font-weight: 600;
+      line-height: .96; text-transform: uppercase; letter-spacing: -.01em;
+      margin-bottom: 32px;
+    }
+    .about-h2 em { font-style: normal; color: var(--orange); }
+    .about-body {
+      font-size: 15px; line-height: 1.85; color: var(--grey-light); margin-bottom: 16px;
+    }
+    .about-body strong { color: var(--off-white); font-weight: 500; }
+    .about-right {
+      position: relative; overflow: hidden; min-height: 540px;
+    }
+    .about-right video {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    }
+    .about-right-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, rgba(15,15,15,.7) 0%, transparent 60%);
+    }
+
+    /* ── 4. FOUNDER QUOTE ───────────────── */
+    #s-quote {
+      background: var(--cream); color: var(--near-black);
+      padding: 100px 80px;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .quote-mark {
+      font-family: var(--font-display); font-size: 120px; line-height: .6;
+      color: var(--orange); margin-bottom: 32px; opacity: .5; user-select: none;
+    }
+    #s-quote blockquote {
+      font-family: var(--font-display); font-size: clamp(18px, 2.5vw, 28px);
+      font-weight: 400; line-height: 1.4; text-transform: uppercase;
+      letter-spacing: .03em; color: var(--near-black);
+      max-width: 840px; text-align: center; margin-bottom: 40px;
+    }
+    .quote-divider {
+      width: 60px; height: 2px; background: var(--orange); margin-bottom: 24px;
+    }
+    .quote-attr {
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: .18em;
+      text-transform: uppercase; text-align: center;
+    }
+    .q-name { color: var(--near-black); font-weight: 700; }
+    .q-title { display: block; color: var(--grey-mid); margin-top: 4px; }
+
+    /* ── 5. HOW IT WORKS ────────────────── */
+    #s-daily { background: var(--near-black); }
+    .daily-inner {
+      max-width: 1240px; margin: 0 auto; padding: 100px 48px;
+    }
+    .daily-header {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+      align-items: end; margin-bottom: 72px;
+    }
+    .daily-h2 {
+      font-family: var(--font-display); font-size: clamp(36px, 5vw, 64px);
+      font-weight: 500; line-height: .96; text-transform: uppercase; letter-spacing: .01em;
+    }
+    .daily-h2 em { font-style: normal; color: var(--orange); }
+    .daily-sub {
+      font-size: 15px; line-height: 1.75; color: var(--grey-light); align-self: end;
+    }
+    .steps-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; }
+    .step {
+      background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07);
+      padding: 44px 36px; position: relative; overflow: hidden;
+      transition: border-color .3s, background .3s;
+    }
+    .step:hover { border-color: rgba(206,71,3,.3); background: rgba(206,71,3,.03); }
+    .step-num {
+      font-family: var(--font-display); font-size: 80px; font-weight: 700;
+      line-height: 1; letter-spacing: -.04em; color: rgba(255,255,255,.06);
+      margin-bottom: 24px; transition: color .3s;
+    }
+    .step:hover .step-num { color: rgba(206,71,3,.12); }
+    .step-bar {
+      width: 36px; height: 3px; background: var(--orange); margin-bottom: 20px;
+    }
+    .step-desc {
+      font-size: 14px; line-height: 1.75; color: var(--grey-light);
+    }
+
+    /* ── 6. AGRICULTURE ─── video bg ──── */
+    #s-agri {
+      position: relative; min-height: 600px; overflow: hidden;
+      display: flex; align-items: center;
+    }
+    #s-agri video {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    }
+    .agri-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(10,10,10,.92) 0%, rgba(10,10,10,.5) 55%, rgba(10,10,10,.2) 100%);
+    }
+    .agri-content {
+      position: relative; z-index: 2;
+      padding: 100px 80px; max-width: 680px;
+    }
+    .agri-badge {
+      display: inline-block; font-family: var(--font-mono); font-size: 9px;
+      letter-spacing: .2em; text-transform: uppercase; color: var(--orange);
+      border: 1px solid rgba(206,71,3,.4); padding: 5px 12px; margin-bottom: 28px;
+    }
+    .agri-h2 {
+      font-family: var(--font-display); font-size: clamp(36px, 5vw, 64px);
+      font-weight: 600; line-height: .96; text-transform: uppercase; letter-spacing: -.01em;
+      margin-bottom: 28px;
+    }
+    .agri-h2 em { font-style: normal; color: var(--orange); }
+    .agri-body {
+      font-size: 15px; line-height: 1.8; color: rgba(244,241,238,.7);
+      max-width: 520px; margin-bottom: 44px;
+    }
+
+    /* ── 7. SECOND QUOTE ────────────────── */
+    #s-quote2 { background: var(--near-black); padding: 100px 80px; }
+    .quote2-inner {
+      max-width: 900px; margin: 0 auto;
+      border-left: 3px solid var(--orange); padding-left: 48px;
+    }
+    .quote2-text {
+      font-family: var(--font-display); font-size: clamp(20px, 3vw, 36px);
+      font-weight: 400; line-height: 1.3; text-transform: uppercase;
+      letter-spacing: .02em; color: var(--off-white); margin-bottom: 32px;
+    }
+    .quote2-text .accent { color: var(--orange); }
+    .quote2-attr {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--grey-mid);
+    }
+
+    /* ── 8. FOOD / VIDEO ─────────────────── */
+    #s-food {
+      position: relative; height: 60vh; min-height: 400px; overflow: hidden;
+      display: flex; align-items: flex-end;
+    }
+    #s-food video {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    }
+    .food-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,10,10,.88) 0%, rgba(10,10,10,.3) 60%, transparent 100%);
+    }
+    .food-content {
+      position: relative; z-index: 2; padding: 0 80px 64px;
+      display: flex; align-items: flex-end; justify-content: space-between;
+      width: 100%; gap: 40px; flex-wrap: wrap;
+    }
+    .food-label {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .food-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--orange); }
+    .food-title {
+      font-family: var(--font-display); font-size: clamp(30px, 4vw, 52px);
+      font-weight: 600; text-transform: uppercase; letter-spacing: .01em; line-height: .96;
+    }
+
+    /* ── 9. PRICING ─────────────────────── */
+    #s-pricing { background: var(--cream); color: var(--near-black); }
+    .pricing-inner {
+      max-width: 1240px; margin: 0 auto; padding: 100px 48px;
+    }
+    .pricing-top {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+      align-items: end; margin-bottom: 72px;
+    }
+    .pricing-h2 {
+      font-family: var(--font-display); font-size: clamp(36px, 5vw, 64px);
+      font-weight: 500; line-height: .96; text-transform: uppercase;
+      letter-spacing: .01em; color: var(--near-black);
+    }
+    .pricing-intro {
+      font-size: 15px; line-height: 1.75; color: var(--grey-mid); align-self: end;
+    }
+    .pricing-cards {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 2px;
+    }
+    .pricing-card {
+      background: white; padding: 44px 36px; position: relative; overflow: hidden;
+      border: 1px solid rgba(15,15,15,.06); transition: box-shadow .3s, transform .3s;
+    }
+    .pricing-card:hover { box-shadow: 0 12px 48px rgba(206,71,3,.1); transform: translateY(-4px); }
+    .pricing-card.featured {
+      background: var(--near-black); color: var(--off-white);
+    }
+    .pricing-card.featured .pricing-tier,
+    .pricing-card.featured .pricing-amount { color: var(--off-white); }
+    .pricing-card.featured .pricing-desc { color: var(--grey-light); }
+    .pricing-card-top { margin-bottom: 32px; }
+    .pricing-badge {
+      display: inline-block; font-family: var(--font-mono); font-size: 9px;
+      letter-spacing: .2em; text-transform: uppercase; padding: 4px 10px;
+      margin-bottom: 20px;
+    }
+    .pricing-badge-default { color: var(--orange); border: 1px solid rgba(206,71,3,.3); }
+    .pricing-badge-featured { color: var(--orange); border: 1px solid rgba(206,71,3,.4); }
+    .pricing-tier {
+      font-family: var(--font-display); font-size: 22px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: .05em; color: var(--near-black);
+      margin-bottom: 8px;
+    }
+    .pricing-amount {
+      font-family: var(--font-display); font-size: 42px; font-weight: 600;
+      line-height: 1; color: var(--near-black); margin-bottom: 6px;
+    }
+    .pricing-amount span { font-size: 18px; font-weight: 400; color: var(--grey-mid); }
+    .pricing-desc { font-size: 13px; line-height: 1.65; color: var(--grey-mid); }
+    .pricing-divider {
+      width: 100%; height: 1px; background: rgba(15,15,15,.08);
+      margin: 24px 0;
+    }
+    .pricing-card.featured .pricing-divider { background: rgba(255,255,255,.08); }
+    .pricing-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+    .pricing-list li {
+      font-size: 13px; color: var(--grey-mid); display: flex; align-items: flex-start; gap: 8px; line-height: 1.5;
+    }
+    .pricing-card.featured .pricing-list li { color: var(--grey-light); }
+    .pricing-list li::before { content: '→'; color: var(--orange); flex-shrink: 0; font-size: 12px; margin-top: 1px; }
+    .pricing-cta {
+      width: 100%; padding: 14px; font-family: var(--font-display); font-size: 14px;
+      font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+      border: none; cursor: none; transition: background .25s, color .25s;
+    }
+    .pricing-cta-default { background: var(--near-black); color: white; }
+    .pricing-cta-default:hover { background: var(--orange); }
+    .pricing-cta-featured { background: var(--orange); color: white; }
+    .pricing-cta-featured:hover { background: var(--orange-light); }
+
+    /* ── 10. FINAL CTA ──────────────────── */
+    #s-cta {
+      background: var(--near-black);
+      display: grid; grid-template-columns: 1fr 1fr;
+      border-top: 1px solid rgba(255,255,255,.04);
+    }
+    .cta-left { padding: 100px 80px; }
+    .cta-label {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 24px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .cta-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--orange); }
+    .cta-h2 {
+      font-family: var(--font-display); font-size: clamp(34px, 4.5vw, 58px);
+      font-weight: 500; line-height: .96; text-transform: uppercase; letter-spacing: .01em;
+      margin-bottom: 20px;
+    }
+    .cta-h2 em { font-style: normal; color: var(--orange); }
+    .cta-sub { font-size: 15px; color: var(--grey-light); line-height: 1.7; max-width: 420px; margin-bottom: 44px; }
+    .cta-note {
+      margin-top: 24px; font-size: 12px; color: var(--grey-mid);
+      letter-spacing: .05em; font-family: var(--font-mono);
+    }
+    .cta-right {
+      background: var(--orange); padding: 100px 80px;
+      display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+    }
+    .cta-right-title {
+      font-family: var(--font-display); font-size: clamp(26px, 3.5vw, 46px);
+      font-weight: 600; text-transform: uppercase; letter-spacing: .02em;
+      color: white; line-height: 1.0; margin-bottom: 20px;
+    }
+    .cta-right-body {
+      font-size: 14px; color: rgba(255,255,255,.75); line-height: 1.7;
+      max-width: 340px; margin-bottom: 36px;
+    }
+    .btn-white { background: white; color: var(--orange); border: 1px solid white; }
+    .btn-white:hover { background: var(--off-white); }
+
+    /* ── FOOTER ─────────────────────────── */
+    footer {
+      background: #060606;
+      border-top: 1px solid rgba(255,255,255,.05);
+      padding: 72px 80px 40px;
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 64px;
+    }
+    .footer-brand-name {
+      font-family: var(--font-display); font-size: 32px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase; color: var(--off-white); margin-bottom: 16px;
+    }
+    .footer-brand-tag {
+      font-size: 13px; color: var(--grey-mid); line-height: 1.6; max-width: 280px; margin-bottom: 28px;
+    }
+    .footer-socials { display: flex; gap: 12px; }
+    .social-icon {
+      width: 36px; height: 36px; border: 1px solid rgba(255,255,255,.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: var(--grey-light); transition: border-color .2s, color .2s;
+      text-decoration: none; cursor: none;
+    }
+    .social-icon:hover { border-color: var(--orange); color: var(--orange); }
+    .footer-col-title {
+      font-family: var(--font-display); font-size: 12px; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase; color: var(--grey-light); margin-bottom: 24px;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-links a { font-size: 13px; color: var(--grey-mid); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--off-white); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.05); padding-top: 32px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-copy { font-size: 11px; color: var(--grey-mid); letter-spacing: .05em; }
+    .footer-bottom-links { display: flex; gap: 24px; }
+    .footer-bottom-links a {
+      font-size: 11px; color: var(--grey-mid); text-decoration: none;
+      letter-spacing: .08em; text-transform: uppercase; transition: color .2s;
+    }
+    .footer-bottom-links a:hover { color: var(--off-white); }
+
+    /* ── RESPONSIVE ─────────────────────── */
+    @media (max-width: 1024px) {
+      nav { padding: 18px 32px; }
+      .nav-links { display: none; }
+      .hero-content { padding: 0 32px 80px; }
+      .scroll-hint { right: 32px; }
+      .tagline-inner { grid-template-columns: 1fr; }
+      .tagline-left { padding: 72px 32px; border-right: none; border-bottom: 1px solid rgba(15,15,15,.08); }
+      .tagline-right { padding: 64px 32px; }
+      #s-about { grid-template-columns: 1fr; }
+      .about-left { padding: 72px 32px; }
+      .about-right { min-height: 320px; }
+      .daily-inner { padding: 72px 32px; }
+      .daily-header { grid-template-columns: 1fr; gap: 24px; }
+      .steps-grid { grid-template-columns: 1fr; gap: 2px; }
+      .agri-content { padding: 72px 32px; }
+      #s-quote { padding: 72px 32px; }
+      #s-quote2 { padding: 72px 32px; }
+      .quote2-inner { padding-left: 28px; }
+      .food-content { padding: 0 32px 48px; }
+      .pricing-inner { padding: 72px 32px; }
+      .pricing-top { grid-template-columns: 1fr; gap: 20px; }
+      .pricing-cards { grid-template-columns: 1fr; }
+      #s-cta { grid-template-columns: 1fr; }
+      .cta-left { padding: 72px 32px; }
+      .cta-right { padding: 64px 32px; }
+      footer { padding: 48px 32px 32px; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+    @media (max-width: 640px) {
+      .feat-row { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; gap: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ── Nav ── -->
+  <nav id="nav">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.5"/>
+          <path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20" stroke="white" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <span class="nav-wordmark">Grey</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="company.html">Company</a></li>
+      <li><a href="#s-pricing">Service Rates</a></li>
+      <li><a href="company.html#investments">Investments</a></li>
+      <li><a href="#s-cta" class="btn nav-cta">Schedule Now</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── 1. HERO ── VIDEO 1 ── -->
+  <section id="s-hero">
+    <video autoplay muted loop playsinline preload="auto"
+      src="https://video.wixstatic.com/video/11062b_8d15045cdc8f450fab58e3c6bbaafe35/720p/mp4/file.mp4">
+    </video>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content fade-up">
+      <p class="hero-eyebrow">Life as an Experience Service</p>
+      <h1>All Your Needs,<br/><em>Right on Time.</em></h1>
+      <p class="hero-sub">Smart service choices built around your daily routine.</p>
+      <div class="hero-btns">
+        <a href="#s-cta" class="btn btn-primary">Schedule Now →</a>
+        <a href="company.html" class="btn btn-outline">Explore Services</a>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-hint-line"></div>
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span class="marquee-item">Dreamers</span>
+      <span class="marquee-item">Builders</span>
+      <span class="marquee-item">Seekers</span>
+      <span class="marquee-item">Buy the Product</span>
+      <span class="marquee-item">Live the Experience</span>
+      <span class="marquee-item">People First</span>
+      <span class="marquee-item">Dreamers</span>
+      <span class="marquee-item">Builders</span>
+      <span class="marquee-item">Seekers</span>
+      <span class="marquee-item">Buy the Product</span>
+      <span class="marquee-item">Live the Experience</span>
+      <span class="marquee-item">People First</span>
+    </div>
+  </div>
+
+  <!-- ── 2. TAGLINE / DISCOVER ── VIDEO 2 ── -->
+  <section id="s-tagline">
+    <div class="tagline-inner">
+      <div class="tagline-left fade-up">
+        <p class="tagline-dreamers">Dreamers · Builders · Seekers</p>
+        <h2 class="tagline-headline">Buy The Product.<br/>Live The Experience.</h2>
+        <p class="tagline-sub-head">Life As An<br/>Experience Service</p>
+        <a href="#s-cta" class="btn btn-dark">Book a Service ↗</a>
+      </div>
+
+      <div class="tagline-right fade-up d2">
+        <div class="tagline-video-wrap">
+          <video autoplay muted loop playsinline preload="auto"
+            src="https://video.wixstatic.com/video/11062b_d6f19bae866c4a20aa7b087601084a93/480p/mp4/file.mp4">
+          </video>
+        </div>
+        <div class="feat-row">
+          <div class="feat-item">
+            <div class="feat-icon">01</div>
+            <div class="feat-name">Discover</div>
+            <div class="feat-desc">Find the service, story, or solution that speaks to your need.</div>
+          </div>
+          <div class="feat-item">
+            <div class="feat-icon">02</div>
+            <div class="feat-name">Connect</div>
+            <div class="feat-desc">We pair you with the right creative, consultant, or vendor.</div>
+          </div>
+          <div class="feat-item">
+            <div class="feat-icon">03</div>
+            <div class="feat-name">Experience</div>
+            <div class="feat-desc">Feel the difference of human-first service, built around you.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 3. ABOUT ── VIDEO 3 ── -->
+  <section id="s-about">
+    <div class="about-left fade-up">
+      <p class="about-kicker">About You</p>
+      <h2 class="about-h2">This Isn't<br/>Business.<br/><em>It's Personal.</em></h2>
+      <p class="about-body">
+        Grey is for those chasing a future but unsure where to begin. For those who've already begun and want less stress, more time; deeper meaning.
+      </p>
+      <p class="about-body">
+        We offer what you need, when you need it. Plus some extras that make the overall experience… <strong>1% BETTER</strong> every time.
+      </p>
+      <a href="about.html" class="btn btn-outline" style="margin-top:20px;">Learn More →</a>
+    </div>
+    <div class="about-right fade-up d2">
+      <video autoplay muted loop playsinline preload="auto"
+        src="https://video.wixstatic.com/video/11062b_e9ebdb68438941c0bc12547348ebb051/720p/mp4/file.mp4">
+      </video>
+      <div class="about-right-overlay"></div>
+    </div>
+  </section>
+
+  <!-- ── 4. FOUNDER QUOTE ── -->
+  <section id="s-quote" class="fade-up">
+    <div class="quote-mark">"</div>
+    <blockquote>
+      We are a diverse community of seasoned professionals and aspiring talents, united by the common goal of pushing beyond our boundaries to redefine excellence. We intend to maintain a track record of exceptionally great deliveries. It's not enough to sell our services, we want to sell you the reliability of a lifelong partnership.
+    </blockquote>
+    <div class="quote-divider"></div>
+    <div class="quote-attr">
+      <span>— </span><span class="q-name">Grey Izilein</span>
+      <span class="q-title">Founder</span>
+    </div>
+  </section>
+
+  <!-- ── 5. HOW IT WORKS ── -->
+  <section id="s-daily">
+    <div class="daily-inner">
+      <div class="daily-header fade-up">
+        <h2 class="daily-h2">Your Daily Life.<br/><em>Made Effortlessly</em><br/>Better.</h2>
+        <p class="daily-sub">Every great experience begins with understanding who you are and what you actually need. Here's how Grey works.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step fade-up d1">
+          <div class="step-num">01</div>
+          <div class="step-bar"></div>
+          <p class="step-desc">Every journey begins with a brief onboarding. Once you sign up, we take time to understand who you are, what you need, and how you prefer to engage.</p>
+        </div>
+        <div class="step fade-up d2">
+          <div class="step-num">02</div>
+          <div class="step-bar"></div>
+          <p class="step-desc">Whether you're seeking a service provider, a product, or an everyday lifestyle experience, we pair you with the right expert, vendor, or in-house professional, based on fit.</p>
+        </div>
+        <div class="step fade-up d3">
+          <div class="step-num">03</div>
+          <div class="step-bar"></div>
+          <p class="step-desc">For most services, we offer scope-based payments. For everyday services, you can subscribe through our Life as an Experience option or ask for a custom plan.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 6. AGRICULTURE ── VIDEO 4 ── -->
+  <section id="s-agri">
+    <video autoplay muted loop playsinline preload="auto"
+      src="https://video.wixstatic.com/video/edc32d_cd6af99a8227447aaab476325a6ca56a/360p/mp4/file.mp4">
+    </video>
+    <div class="agri-overlay"></div>
+    <div class="agri-content fade-up">
+      <div class="agri-badge">Agricultural Investments</div>
+      <h2 class="agri-h2">Grow Your Money<br/>Through <em>Agriculture.</em></h2>
+      <p class="agri-body">
+        Join investment opportunities in grains, poultry, and other farm-based ventures. We handle the operations; you track your returns. Transparent, secure, and built for individuals who want to earn while supporting local agribusiness.
+      </p>
+      <a href="company.html#investments" class="btn btn-primary">Book Now →</a>
+    </div>
+  </section>
+
+  <!-- ── 7. SECOND QUOTE ── -->
+  <section id="s-quote2" class="fade-up">
+    <div class="quote2-inner">
+      <p class="quote2-text">
+        "We may not be the most popular kid on the block, but we have
+        <span class="accent">TRACTION.</span>
+        We <span class="accent">WORK.</span>
+        We do <span class="accent">ALL WE CAN.</span>
+        We are <span class="accent">DEDICATED.</span>
+        We are <span class="accent">INTENTIONAL</span> about <span class="accent">RESULTS</span> and being <span class="accent">BETTER.</span>
+        And our <span class="accent">CLIENTS LOVE US FOR IT.</span>"
+      </p>
+      <p class="quote2-attr">— Grey Izilein, Founder</p>
+    </div>
+  </section>
+
+  <!-- ── 8. FOOD / EXPERIENCE VIDEO BREAK ── -->
+  <section id="s-food">
+    <video autoplay muted loop playsinline preload="auto"
+      src="https://video.wixstatic.com/video/11062b_8d15045cdc8f450fab58e3c6bbaafe35/720p/mp4/file.mp4">
+    </video>
+    <div class="food-overlay"></div>
+    <div class="food-content">
+      <div>
+        <p class="food-label">Featured Service</p>
+        <h2 class="food-title">Food &amp;<br/>Grocery Shopping</h2>
+      </div>
+      <a href="#s-cta" class="btn btn-primary">Order Now →</a>
+    </div>
+  </section>
+
+  <!-- ── 9. PRICING ── -->
+  <section id="s-pricing">
+    <div class="pricing-inner">
+      <div class="pricing-top fade-up">
+        <div>
+          <p class="section-label" style="color:var(--orange);">Service Rates</p>
+          <h2 class="pricing-h2">Pricing<br/>Options</h2>
+        </div>
+        <p class="pricing-intro">At Grey, we offer pricing options designed to meet your unique service needs. Whether you're coming as an individual, a family, a small business, or a major enterprise — we have a plan for you.</p>
+      </div>
+
+      <div class="pricing-cards">
+        <div class="pricing-card fade-up d1">
+          <div class="pricing-card-top">
+            <div class="pricing-badge pricing-badge-default">Individual</div>
+            <div class="pricing-tier">Personal</div>
+            <div class="pricing-amount">Custom<span>&nbsp;/ scope</span></div>
+            <p class="pricing-desc">Tailored for individuals who need specific one-off services or occasional support.</p>
+          </div>
+          <div class="pricing-divider"></div>
+          <ul class="pricing-list">
+            <li>One-off service bookings</li>
+            <li>Scope-based pricing</li>
+            <li>Verified provider matching</li>
+            <li>Flexible scheduling</li>
+          </ul>
+          <button class="pricing-cta pricing-cta-default">Get Started</button>
+        </div>
+
+        <div class="pricing-card featured fade-up d2">
+          <div class="pricing-card-top">
+            <div class="pricing-badge pricing-badge-featured">Most Popular</div>
+            <div class="pricing-tier">Life as an Experience</div>
+            <div class="pricing-amount">Subscribe<span>&nbsp;/ month</span></div>
+            <p class="pricing-desc">Our flagship model — recurring services, priority matching, and a personalised experience.</p>
+          </div>
+          <div class="pricing-divider"></div>
+          <ul class="pricing-list">
+            <li>Recurring service subscriptions</li>
+            <li>Priority provider access</li>
+            <li>Personalised onboarding</li>
+            <li>Dedicated support line</li>
+            <li>Custom plan available</li>
+          </ul>
+          <button class="pricing-cta pricing-cta-featured">View Subscription Details</button>
+        </div>
+
+        <div class="pricing-card fade-up d3">
+          <div class="pricing-card-top">
+            <div class="pricing-badge pricing-badge-default">Business</div>
+            <div class="pricing-tier">Enterprise</div>
+            <div class="pricing-amount">Custom<span>&nbsp;/ plan</span></div>
+            <p class="pricing-desc">For small businesses and major enterprises who need ongoing, multi-team service support.</p>
+          </div>
+          <div class="pricing-divider"></div>
+          <ul class="pricing-list">
+            <li>Multi-team service coverage</li>
+            <li>Dedicated account manager</li>
+            <li>SLA-backed delivery</li>
+            <li>Volume pricing</li>
+          </ul>
+          <button class="pricing-cta pricing-cta-default">Contact Us</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 10. FINAL CTA ── -->
+  <section id="s-cta">
+    <div class="cta-left fade-up">
+      <p class="cta-label">Get Started</p>
+      <h2 class="cta-h2">Ready to <em>Simplify</em><br/>Your Daily Tasks?</h2>
+      <p class="cta-sub">Get started with a personalised service plan — built around your life, your schedule, your needs.</p>
+      <a href="company.html#schedule" class="btn btn-primary">I'll Go For It →</a>
+      <p class="cta-note">No emails. Text us directly.</p>
+    </div>
+    <div class="cta-right fade-up d2">
+      <h3 class="cta-right-title">We're<br/>Here.</h3>
+      <p class="cta-right-body">Whether you need a helping hand today or a long-term partner for life, Grey is ready. Reach out and we'll handle the rest.</p>
+      <a href="about.html" class="btn btn-white">Meet the Team →</a>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-name">Grey</div>
+        <p class="footer-brand-tag">Redefining how people work, live, and grow — one service at a time.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-icon">f</a>
+          <a href="#" class="social-icon">𝕏</a>
+          <a href="#" class="social-icon">in</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-links">
+          <li><a href="#">Freelance</a></li>
+          <li><a href="#">Meals & Catering</a></li>
+          <li><a href="#">Cleaning</a></li>
+          <li><a href="#">Home Care</a></li>
+          <li><a href="#">Errands</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Investments</div>
+        <ul class="footer-links">
+          <li><a href="#">Agriculture</a></li>
+          <li><a href="#">Real Estate</a></li>
+          <li><a href="#">Consultation</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="company.html">Company</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="#s-pricing">Service Rates</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 Grey LLC. All rights reserved.</span>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── Cursor ──
+    const cursor = document.getElementById('cursor');
+    const ring   = document.getElementById('cursorRing');
+    let rx = 0, ry = 0, mx = 0, my = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top  = my + 'px';
+    });
+
+    (function animateRing() {
+      rx += (mx - rx) * 0.15;
+      ry += (my - ry) * 0.15;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(animateRing);
+    })();
+
+    document.querySelectorAll('a, button, .step, .pricing-card, .feat-item').forEach(el => {
+      el.addEventListener('mouseenter', () => { cursor.classList.add('expand'); ring.classList.add('expand'); });
+      el.addEventListener('mouseleave', () => { cursor.classList.remove('expand'); ring.classList.remove('expand'); });
+    });
+
+    // ── Nav shrink on scroll ──
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // ── Scroll reveals ──
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

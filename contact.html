@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us | Grey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:       #CE4703;
+      --orange-light: #FB4F0F;
+      --near-black:   #0F0F0F;
+      --off-white:    #F4F1EE;
+      --grey-mid:     #575757;
+      --grey-light:   #878787;
+      --cream:        #FAF8F5;
+      --font-display: 'Oswald', sans-serif;
+      --font-body:    'DM Sans', sans-serif;
+      --font-mono:    'Space Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--near-black);
+      color: var(--off-white);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── Cursor ── */
+    .cursor {
+      position: fixed; width: 10px; height: 10px;
+      background: var(--orange); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: width .2s, height .2s, background .2s;
+    }
+    .cursor-ring {
+      position: fixed; width: 36px; height: 36px;
+      border: 1.5px solid rgba(206,71,3,.5); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+    }
+    .cursor.expand    { width: 18px; height: 18px; background: var(--orange-light); }
+    .cursor-ring.expand { width: 52px; height: 52px; border-color: rgba(206,71,3,.2); }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 48px;
+      background: rgba(15,15,15,.9); backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,.04);
+    }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo-icon {
+      width: 36px; height: 36px; background: var(--orange); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .nav-logo-icon svg { width: 20px; height: 20px; }
+    .nav-wordmark {
+      font-family: var(--font-display); font-size: 22px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase; color: var(--off-white);
+    }
+    .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-size: 13px; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--grey-light); text-decoration: none; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--off-white); }
+    .nav-links a.active { color: var(--off-white); }
+    .nav-cta {
+      background: var(--orange); color: white !important; padding: 10px 22px;
+      font-weight: 500 !important; transition: background .2s !important;
+    }
+    .nav-cta:hover { background: var(--orange-light) !important; }
+
+    /* ── Shared ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--font-body); font-size: 13px; letter-spacing: .1em;
+      text-transform: uppercase; font-weight: 500; padding: 14px 30px;
+      text-decoration: none; transition: all .22s; cursor: none; border: none;
+    }
+    .btn-primary { background: var(--orange); color: white; border: 1px solid var(--orange); }
+    .btn-primary:hover { background: var(--orange-light); border-color: var(--orange-light); transform: translateY(-2px); }
+    .btn-outline { border: 1px solid rgba(255,255,255,.18); color: var(--off-white); }
+    .btn-outline:hover { border-color: var(--off-white); background: rgba(255,255,255,.05); }
+
+    .fade-up { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up.d1 { transition-delay: .1s; }
+    .fade-up.d2 { transition-delay: .2s; }
+    .fade-up.d3 { transition-delay: .3s; }
+    .fade-up.d4 { transition-delay: .4s; }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      position: relative; overflow: hidden;
+    }
+    .hero-left {
+      padding: 160px 60px 80px 80px;
+      display: flex; flex-direction: column; justify-content: center;
+      position: relative; z-index: 2;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 28px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .hero-eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: var(--orange); }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 7.5vw, 100px); font-weight: 600;
+      line-height: .96; text-transform: uppercase; letter-spacing: -.01em;
+      margin-bottom: 32px;
+    }
+    .hero h1 em { font-style: normal; color: var(--orange); }
+    .hero-sub {
+      font-size: 16px; color: var(--grey-light); line-height: 1.75;
+      max-width: 400px; margin-bottom: 52px;
+    }
+
+    /* Three quick-contact pills */
+    .hero-channels { display: flex; flex-direction: column; gap: 12px; }
+    .channel-pill {
+      display: flex; align-items: center; gap: 18px;
+      padding: 18px 24px;
+      border: 1px solid rgba(255,255,255,.08);
+      text-decoration: none;
+      transition: border-color .25s, background .25s, transform .25s;
+      cursor: none;
+    }
+    .channel-pill:hover {
+      border-color: rgba(206,71,3,.5);
+      background: rgba(206,71,3,.06);
+      transform: translateX(6px);
+    }
+    .channel-pill-icon {
+      width: 42px; height: 42px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .channel-pill-label {
+      font-family: var(--font-mono); font-size: 9px; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 3px;
+    }
+    .channel-pill-value {
+      font-family: var(--font-display); font-size: 18px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: .04em; color: var(--off-white);
+    }
+    .channel-pill-arr {
+      margin-left: auto; font-size: 20px; color: var(--grey-mid);
+      transition: color .25s, transform .25s;
+    }
+    .channel-pill:hover .channel-pill-arr { color: var(--orange); transform: rotate(0deg) translateX(4px); }
+
+    /* Hero right panel */
+    .hero-right { position: relative; overflow: hidden; }
+    .hero-right-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #1a0d07 0%, #0F0F0F 65%);
+    }
+    .hero-right-bg::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 65% 40%, rgba(206,71,3,.18) 0%, transparent 60%),
+        radial-gradient(circle at 30% 75%, rgba(76,168,163,.07) 0%, transparent 50%);
+    }
+    .hero-grid-lines {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 56px 56px;
+    }
+    .hero-watermark {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      font-family: var(--font-display); font-size: 180px; font-weight: 700;
+      color: rgba(255,255,255,.025); white-space: nowrap; letter-spacing: -.04em;
+      text-transform: uppercase; user-select: none; pointer-events: none;
+    }
+    /* Floating info cards on the right */
+    .hero-info-stack {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 60px 52px; gap: 2px;
+    }
+    .info-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 0;
+      border-top: 1px solid rgba(255,255,255,.07);
+    }
+    .info-row:last-child { border-bottom: 1px solid rgba(255,255,255,.07); }
+    .info-row-left { display: flex; flex-direction: column; gap: 4px; }
+    .info-key {
+      font-family: var(--font-mono); font-size: 9px; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--grey-mid);
+    }
+    .info-val {
+      font-family: var(--font-display); font-size: 20px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: .04em; color: var(--off-white);
+    }
+    .info-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--orange); flex-shrink: 0;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .info-dot.slow { animation-delay: .6s; }
+    .info-dot.slower { animation-delay: 1.2s; }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: .4; transform: scale(.7); }
+    }
+
+    /* ── Marquee ── */
+    .marquee-strip { background: var(--orange); padding: 14px 0; overflow: hidden; display: flex; }
+    .marquee-track { display: flex; animation: marquee 22s linear infinite; white-space: nowrap; }
+    .marquee-item {
+      font-family: var(--font-display); font-size: 13px; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase; color: white;
+      padding: 0 48px; display: flex; align-items: center; gap: 16px;
+    }
+    .marquee-item::after { content: '◆'; font-size: 8px; opacity: .5; }
+    @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+    /* ── Contact Methods ── */
+    .methods-section { background: var(--cream); }
+    .methods-inner {
+      max-width: 1240px; margin: 0 auto; padding: 100px 48px;
+    }
+    .methods-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 64px; gap: 40px; flex-wrap: wrap;
+    }
+    .section-label {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--orange); }
+    .section-title {
+      font-family: var(--font-display); font-size: clamp(36px, 4.5vw, 58px);
+      font-weight: 600; line-height: .96; text-transform: uppercase; letter-spacing: -.01em;
+      color: var(--near-black);
+    }
+    .section-title em { font-style: normal; color: var(--orange); }
+    .methods-sub { font-size: 15px; color: var(--grey-mid); line-height: 1.75; max-width: 380px; align-self: flex-end; }
+
+    /* Big method cards */
+    .method-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+    .method-card {
+      background: white; padding: 48px 40px 44px;
+      position: relative; overflow: hidden;
+      transition: transform .3s;
+      display: flex; flex-direction: column;
+    }
+    .method-card:hover { transform: translateY(-5px); }
+    .method-card::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 4px; background: var(--orange);
+      transform: scaleX(0); transform-origin: left; transition: transform .35s;
+    }
+    .method-card:hover::after { transform: scaleX(1); }
+    .method-card-bg-num {
+      position: absolute; bottom: -16px; right: -8px;
+      font-family: var(--font-display); font-size: 140px; font-weight: 700;
+      color: rgba(15,15,15,.04); line-height: 1; letter-spacing: -.04em;
+      pointer-events: none; user-select: none;
+      transition: color .3s;
+    }
+    .method-card:hover .method-card-bg-num { color: rgba(206,71,3,.06); }
+    .method-icon-wrap {
+      width: 56px; height: 56px;
+      background: rgba(206,71,3,.08); border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; margin-bottom: 28px;
+      transition: background .3s;
+    }
+    .method-card:hover .method-icon-wrap { background: rgba(206,71,3,.15); }
+    .method-label {
+      font-family: var(--font-mono); font-size: 9px; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .method-label::before { content: ''; display: block; width: 14px; height: 1px; background: var(--orange); }
+    .method-name {
+      font-family: var(--font-display); font-size: 26px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .04em; color: var(--near-black);
+      margin-bottom: 10px;
+    }
+    .method-value {
+      font-family: var(--font-display); font-size: 20px; font-weight: 400;
+      color: var(--grey-mid); letter-spacing: .02em; margin-bottom: 16px;
+      line-height: 1.3;
+    }
+    .method-desc { font-size: 13px; line-height: 1.7; color: var(--grey-mid); margin-bottom: 32px; flex: 1; }
+    .method-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--font-body); font-size: 12px; letter-spacing: .1em;
+      text-transform: uppercase; font-weight: 500; padding: 13px 24px;
+      background: var(--near-black); color: white; text-decoration: none;
+      transition: background .25s; cursor: none; border: none; align-self: flex-start;
+    }
+    .method-cta:hover { background: var(--orange); }
+
+    /* Whatsapp card accent */
+    .method-card.whatsapp .method-icon-wrap { background: rgba(37,211,102,.1); }
+    .method-card.whatsapp:hover .method-icon-wrap { background: rgba(37,211,102,.2); }
+    .method-card.whatsapp::after { background: #25D366; }
+
+    /* ── Response Times ── */
+    .response-strip {
+      background: var(--near-black);
+      border-top: 1px solid rgba(255,255,255,.04);
+    }
+    .response-inner {
+      max-width: 1240px; margin: 0 auto; padding: 64px 48px;
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 2px;
+    }
+    .resp-item {
+      padding: 36px 32px;
+      border: 1px solid rgba(255,255,255,.06);
+      transition: border-color .3s;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .resp-item:hover { border-color: rgba(206,71,3,.25); }
+    .resp-channel {
+      font-family: var(--font-mono); font-size: 9px; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--orange);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .resp-channel::before { content: ''; display: block; width: 14px; height: 1px; background: var(--orange); }
+    .resp-time {
+      font-family: var(--font-display); font-size: 38px; font-weight: 600;
+      color: var(--off-white); line-height: 1; letter-spacing: -.01em;
+    }
+    .resp-time span { font-size: 16px; font-weight: 400; color: var(--grey-mid); }
+    .resp-note { font-size: 12px; color: var(--grey-mid); line-height: 1.6; }
+
+    /* ── Contact Form ── */
+    .form-section { background: var(--cream); }
+    .form-inner {
+      max-width: 1240px; margin: 0 auto; padding: 100px 48px;
+      display: grid; grid-template-columns: 1fr 1.1fr; gap: 100px; align-items: start;
+    }
+    .form-intro {}
+    .form-intro .section-title { margin-bottom: 20px; }
+    .form-intro-body { font-size: 15px; line-height: 1.8; color: var(--grey-mid); margin-bottom: 36px; }
+
+    /* Side detail cards */
+    .form-details { display: flex; flex-direction: column; gap: 1px; margin-top: 36px; }
+    .detail-row {
+      display: flex; align-items: center; gap: 18px;
+      padding: 18px 20px; background: white;
+      border-left: 3px solid transparent;
+      transition: border-color .25s;
+    }
+    .detail-row:hover { border-left-color: var(--orange); }
+    .detail-icon { font-size: 18px; flex-shrink: 0; width: 28px; text-align: center; }
+    .detail-key {
+      font-family: var(--font-mono); font-size: 9px; letter-spacing: .16em;
+      text-transform: uppercase; color: var(--grey-mid); margin-bottom: 2px;
+    }
+    .detail-val { font-size: 14px; color: var(--near-black); font-weight: 500; }
+
+    /* The form */
+    .contact-form { display: flex; flex-direction: column; gap: 20px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-field { display: flex; flex-direction: column; gap: 8px; }
+    .form-label {
+      font-family: var(--font-body); font-size: 11px; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--grey-mid);
+    }
+    .form-input, .form-select, .form-textarea {
+      background: white; border: 1px solid rgba(15,15,15,.1);
+      padding: 14px 18px; font-family: var(--font-body); font-size: 14px;
+      color: var(--near-black); outline: none; transition: border-color .2s;
+      appearance: none; width: 100%; cursor: none;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--orange); }
+    .form-textarea { resize: vertical; min-height: 120px; }
+    .form-submit {
+      background: var(--near-black); color: white; padding: 16px 32px;
+      font-family: var(--font-display); font-size: 15px; font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase;
+      border: none; cursor: none; transition: background .25s; align-self: flex-start;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .form-submit:hover { background: var(--orange); }
+    .form-submit svg { width: 16px; height: 16px; transition: transform .25s; }
+    .form-submit:hover svg { transform: translateX(4px); }
+
+    /* ── Office ── */
+    .office-section { background: var(--near-black); }
+    .office-inner {
+      max-width: 1240px; margin: 0 auto; padding: 100px 48px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .office-label {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .office-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--orange); }
+    .office-title {
+      font-family: var(--font-display); font-size: clamp(34px, 4vw, 54px);
+      font-weight: 500; line-height: .96; text-transform: uppercase; letter-spacing: .01em;
+      margin-bottom: 32px;
+    }
+    .office-title em { font-style: normal; color: var(--orange); }
+    .office-address {
+      font-size: 15px; line-height: 1.85; color: var(--grey-light); margin-bottom: 32px;
+    }
+    .office-address strong { color: var(--off-white); font-weight: 500; display: block; margin-bottom: 4px; }
+    .office-socials { display: flex; flex-direction: column; gap: 1px; }
+    .office-social {
+      display: flex; align-items: center; gap: 16px;
+      padding: 16px 20px; border: 1px solid rgba(255,255,255,.06);
+      text-decoration: none; color: var(--grey-light);
+      transition: border-color .25s, color .25s, background .25s; cursor: none;
+    }
+    .office-social:hover { border-color: rgba(206,71,3,.35); color: var(--off-white); background: rgba(206,71,3,.04); }
+    .office-social-icon { font-size: 18px; width: 24px; text-align: center; flex-shrink: 0; }
+    .office-social-name {
+      font-family: var(--font-display); font-size: 14px; font-weight: 400;
+      text-transform: uppercase; letter-spacing: .06em; flex: 1;
+    }
+    .office-social-handle { font-family: var(--font-mono); font-size: 10px; color: var(--grey-mid); }
+    .office-social-arr { font-size: 18px; color: var(--grey-mid); transition: color .25s, transform .25s; }
+    .office-social:hover .office-social-arr { color: var(--orange); transform: translateX(4px); }
+
+    /* Map placeholder */
+    .office-map {
+      position: relative; overflow: hidden;
+      background: rgba(255,255,255,.02);
+      border: 1px solid rgba(255,255,255,.06);
+      height: 400px; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 20px;
+    }
+    .office-map-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 36px 36px;
+    }
+    .office-map-pin {
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+    }
+    .pin-dot {
+      width: 16px; height: 16px; background: var(--orange); border-radius: 50%;
+      box-shadow: 0 0 0 6px rgba(206,71,3,.25), 0 0 0 14px rgba(206,71,3,.1);
+      animation: pinpulse 2s ease-in-out infinite;
+    }
+    @keyframes pinpulse {
+      0%,100% { box-shadow: 0 0 0 6px rgba(206,71,3,.25), 0 0 0 14px rgba(206,71,3,.1); }
+      50%      { box-shadow: 0 0 0 10px rgba(206,71,3,.15), 0 0 0 22px rgba(206,71,3,.05); }
+    }
+    .pin-label {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: .16em;
+      text-transform: uppercase; color: var(--off-white);
+      background: rgba(15,15,15,.9); padding: 6px 14px;
+      position: relative; z-index: 2;
+    }
+    .map-address {
+      font-family: var(--font-display); font-size: 16px; font-weight: 400;
+      text-transform: uppercase; letter-spacing: .06em; color: var(--grey-light);
+      text-align: center; position: relative; z-index: 2;
+    }
+
+    /* ── Footer ── */
+    footer { background: #060606; border-top: 1px solid rgba(255,255,255,.05); padding: 72px 80px 40px; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 64px; }
+    .footer-brand-name { font-family: var(--font-display); font-size: 32px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--off-white); margin-bottom: 16px; }
+    .footer-brand-tag { font-size: 13px; color: var(--grey-mid); line-height: 1.6; max-width: 280px; margin-bottom: 28px; }
+    .footer-socials { display: flex; gap: 12px; }
+    .social-icon { width: 36px; height: 36px; border: 1px solid rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--grey-light); transition: border-color .2s, color .2s; text-decoration: none; cursor: none; }
+    .social-icon:hover { border-color: var(--orange); color: var(--orange); }
+    .footer-col-title { font-family: var(--font-display); font-size: 12px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--grey-light); margin-bottom: 24px; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-links a { font-size: 13px; color: var(--grey-mid); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--off-white); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.05); padding-top: 32px; display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { font-size: 11px; color: var(--grey-mid); letter-spacing: .05em; }
+    .footer-bottom-links { display: flex; gap: 24px; }
+    .footer-bottom-links a { font-size: 11px; color: var(--grey-mid); text-decoration: none; letter-spacing: .08em; text-transform: uppercase; transition: color .2s; }
+    .footer-bottom-links a:hover { color: var(--off-white); }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      nav { padding: 18px 32px; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 140px 32px 72px; }
+      .hero-right { display: none; }
+      .methods-inner, .form-inner, .office-inner { padding: 72px 32px; }
+      .method-cards { grid-template-columns: 1fr; }
+      .response-inner { grid-template-columns: 1fr; gap: 2px; padding: 48px 32px; }
+      .form-inner { grid-template-columns: 1fr; gap: 48px; }
+      .office-inner { grid-template-columns: 1fr; gap: 48px; }
+      .methods-header { flex-direction: column; align-items: flex-start; }
+      footer { padding: 48px 32px 32px; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+    @media (max-width: 640px) {
+      .form-row { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; gap: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ── Nav ── -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.5"/>
+          <path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20" stroke="white" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <span class="nav-wordmark">Grey</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="company.html">Company</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="#" class="active">Contact</a></li>
+      <li><a href="#form-section" class="btn nav-cta">Send a Message</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow fade-up">Get in Touch</p>
+      <h1 class="fade-up d1">We're<br/>Always<br/><em>Here.</em></h1>
+      <p class="hero-sub fade-up d2">No long contact forms. No waiting days for a reply. Reach us directly — we respond faster than you'd expect.</p>
+
+      <div class="hero-channels fade-up d3">
+        <a href="tel:+2348139293216" class="channel-pill">
+          <div class="channel-pill-icon">📞</div>
+          <div>
+            <div class="channel-pill-label">Phone</div>
+            <div class="channel-pill-value">+234 813 929 3216</div>
+          </div>
+          <span class="channel-pill-arr" style="transform:rotate(-45deg)">↗</span>
+        </a>
+        <a href="https://wa.me/2348139293216" target="_blank" class="channel-pill">
+          <div class="channel-pill-icon">💬</div>
+          <div>
+            <div class="channel-pill-label">WhatsApp</div>
+            <div class="channel-pill-value">Chat with Us</div>
+          </div>
+          <span class="channel-pill-arr" style="transform:rotate(-45deg)">↗</span>
+        </a>
+        <a href="mailto:hello@greys.llc" class="channel-pill">
+          <div class="channel-pill-icon">✉️</div>
+          <div>
+            <div class="channel-pill-label">Email</div>
+            <div class="channel-pill-value">hello@greys.llc</div>
+          </div>
+          <span class="channel-pill-arr" style="transform:rotate(-45deg)">↗</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-right-bg"></div>
+      <div class="hero-grid-lines"></div>
+      <div class="hero-watermark">Grey</div>
+      <div class="hero-info-stack">
+        <div class="info-row">
+          <div class="info-row-left">
+            <span class="info-key">Preferred Channel</span>
+            <span class="info-val">WhatsApp</span>
+          </div>
+          <div class="info-dot"></div>
+        </div>
+        <div class="info-row">
+          <div class="info-row-left">
+            <span class="info-key">Response Time</span>
+            <span class="info-val">Under 1 Hour</span>
+          </div>
+          <div class="info-dot slow"></div>
+        </div>
+        <div class="info-row">
+          <div class="info-row-left">
+            <span class="info-key">Business Hours</span>
+            <span class="info-val">Mon – Sat · 8AM – 8PM</span>
+          </div>
+          <div class="info-dot slower"></div>
+        </div>
+        <div class="info-row">
+          <div class="info-row-left">
+            <span class="info-key">Location</span>
+            <span class="info-val">Nigeria & Delaware</span>
+          </div>
+          <div class="info-dot"></div>
+        </div>
+        <div class="info-row">
+          <div class="info-row-left">
+            <span class="info-key">Website</span>
+            <span class="info-val">www.greys.llc</span>
+          </div>
+          <div class="info-dot slow"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span class="marquee-item">Phone</span>
+      <span class="marquee-item">WhatsApp</span>
+      <span class="marquee-item">Email</span>
+      <span class="marquee-item">We're Here</span>
+      <span class="marquee-item">No Emails · Text Us Directly</span>
+      <span class="marquee-item">Fast Response</span>
+      <span class="marquee-item">Phone</span>
+      <span class="marquee-item">WhatsApp</span>
+      <span class="marquee-item">Email</span>
+      <span class="marquee-item">We're Here</span>
+      <span class="marquee-item">No Emails · Text Us Directly</span>
+      <span class="marquee-item">Fast Response</span>
+    </div>
+  </div>
+
+  <!-- ── Contact Method Cards ── -->
+  <section class="methods-section">
+    <div class="methods-inner">
+      <div class="methods-header fade-up">
+        <div>
+          <p class="section-label">How to Reach Us</p>
+          <h2 class="section-title">Three Ways<br/>to <em>Connect.</em></h2>
+        </div>
+        <p class="methods-sub">Pick the channel that works best for you. We monitor all three and respond promptly across the board.</p>
+      </div>
+
+      <div class="method-cards">
+
+        <!-- Phone -->
+        <div class="method-card fade-up d1">
+          <div class="method-card-bg-num">01</div>
+          <div class="method-icon-wrap">📞</div>
+          <p class="method-label">Call Us</p>
+          <h3 class="method-name">Phone</h3>
+          <p class="method-value">+234 813 929 3216</p>
+          <p class="method-desc">For time-sensitive requests or when you'd prefer a conversation, give us a call. Our team is available Monday through Saturday, 8AM to 8PM WAT. If we miss your call, we'll ring back within the hour.</p>
+          <a href="tel:+2348139293216" class="method-cta">Call Now →</a>
+        </div>
+
+        <!-- WhatsApp -->
+        <div class="method-card whatsapp fade-up d2">
+          <div class="method-card-bg-num">02</div>
+          <div class="method-icon-wrap">💬</div>
+          <p class="method-label">Message Us</p>
+          <h3 class="method-name">WhatsApp</h3>
+          <p class="method-value">+234 813 929 3216</p>
+          <p class="method-desc">Our fastest channel. Send us a message on WhatsApp for bookings, investment enquiries, or anything else. We respond within the hour on business days — usually much faster. This is the channel we recommend.</p>
+          <a href="https://wa.me/2348139293216" target="_blank" class="method-cta" style="background:#25D366;">Open WhatsApp →</a>
+        </div>
+
+        <!-- Email -->
+        <div class="method-card fade-up d3">
+          <div class="method-card-bg-num">03</div>
+          <div class="method-icon-wrap">✉️</div>
+          <p class="method-label">Write to Us</p>
+          <h3 class="method-name">Email</h3>
+          <p class="method-value">hello@greys.llc</p>
+          <p class="method-desc">For detailed enquiries, formal requests, partnership proposals, or documents that need to be attached — email is the right channel. We respond to all emails within 24 business hours.</p>
+          <a href="mailto:hello@greys.llc" class="method-cta">Send an Email →</a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Response times -->
+    <div class="response-strip">
+      <div class="response-inner">
+        <div class="resp-item fade-up d1">
+          <p class="resp-channel">Phone</p>
+          <p class="resp-time">&lt; 1 <span>hour callback</span></p>
+          <p class="resp-note">If we miss your call, we'll ring back within the hour during business hours.</p>
+        </div>
+        <div class="resp-item fade-up d2">
+          <p class="resp-channel">WhatsApp</p>
+          <p class="resp-time">~15 <span>min avg reply</span></p>
+          <p class="resp-note">Our most actively monitored channel. Fastest responses for everyday service bookings.</p>
+        </div>
+        <div class="resp-item fade-up d3">
+          <p class="resp-channel">Email</p>
+          <p class="resp-time">24 <span>hr response</span></p>
+          <p class="resp-note">All emails are replied to within one business day. Complex enquiries may take slightly longer.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact Form ── -->
+  <section class="form-section" id="form-section">
+    <div class="form-inner">
+
+      <div class="fade-up">
+        <p class="section-label">Send a Message</p>
+        <h2 class="section-title" style="color:var(--near-black);">Fill In &<br/><em>We'll Respond.</em></h2>
+        <p class="form-intro-body" style="margin-top:20px;">Prefer to write it all out? Use the form and we'll get back to you promptly. Include as much detail as you like — the more context, the faster we can help.</p>
+
+        <div class="form-details">
+          <div class="detail-row">
+            <span class="detail-icon">📞</span>
+            <div>
+              <div class="detail-key">Phone</div>
+              <div class="detail-val">+234 813 929 3216</div>
+            </div>
+          </div>
+          <div class="detail-row">
+            <span class="detail-icon">💬</span>
+            <div>
+              <div class="detail-key">WhatsApp</div>
+              <div class="detail-val">+234 813 929 3216</div>
+            </div>
+          </div>
+          <div class="detail-row">
+            <span class="detail-icon">✉️</span>
+            <div>
+              <div class="detail-key">Email</div>
+              <div class="detail-val">hello@greys.llc</div>
+            </div>
+          </div>
+          <div class="detail-row">
+            <span class="detail-icon">🌐</span>
+            <div>
+              <div class="detail-key">Website</div>
+              <div class="detail-val">www.greys.llc</div>
+            </div>
+          </div>
+          <div class="detail-row">
+            <span class="detail-icon">🕐</span>
+            <div>
+              <div class="detail-key">Business Hours</div>
+              <div class="detail-val">Mon – Sat · 8:00 AM – 8:00 PM WAT</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fade-up d2">
+        <form class="contact-form" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-field">
+              <label class="form-label">First Name</label>
+              <input type="text" class="form-input" placeholder="Jane" required />
+            </div>
+            <div class="form-field">
+              <label class="form-label">Last Name</label>
+              <input type="text" class="form-input" placeholder="Doe" required />
+            </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-input" placeholder="jane@example.com" required />
+          </div>
+          <div class="form-field">
+            <label class="form-label">Phone / WhatsApp Number</label>
+            <input type="tel" class="form-input" placeholder="+234 800 000 0000" />
+          </div>
+          <div class="form-field">
+            <label class="form-label">What do you need?</label>
+            <select class="form-select" required>
+              <option value="" disabled selected>Select a topic</option>
+              <optgroup label="Everyday Services">
+                <option>Meals & Catering</option>
+                <option>Cleaning</option>
+                <option>Home Care</option>
+                <option>Errand & Shopping</option>
+                <option>Delivery & Logistics</option>
+              </optgroup>
+              <optgroup label="Investments">
+                <option>Agricultural Investment</option>
+                <option>Real Estate</option>
+              </optgroup>
+              <optgroup label="Professional">
+                <option>Business Consultation</option>
+                <option>Freelance Services</option>
+              </optgroup>
+              <option>General Enquiry</option>
+              <option>Something Else</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label class="form-label">Your Message</label>
+            <textarea class="form-textarea" placeholder="Tell us what you need, when you need it, and any specific details…" required></textarea>
+          </div>
+          <button type="submit" class="form-submit">
+            Send Message
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+          <p id="form-success" style="display:none; font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--orange); margin-top:8px;">✓ Message sent. We'll be in touch shortly.</p>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Office & Socials ── -->
+  <section class="office-section">
+    <div class="office-inner">
+
+      <div class="fade-up">
+        <p class="office-label">Where We Are</p>
+        <h2 class="office-title">Registered<br/>in <em>Delaware.</em><br/>Based in Nigeria.</h2>
+        <div class="office-address">
+          <strong>Registered Office</strong>
+          651 N. Broad Street,<br/>
+          Middletown, Delaware,<br/>
+          United States.
+          <br/><br/>
+          <strong>Operating Base</strong>
+          Nigeria — serving clients locally<br/>
+          and internationally.
+        </div>
+        <div class="office-socials">
+          <a href="#" class="office-social">
+            <span class="office-social-icon">𝕗</span>
+            <span class="office-social-name">Facebook</span>
+            <span class="office-social-handle">@greys.llc</span>
+            <span class="office-social-arr">→</span>
+          </a>
+          <a href="#" class="office-social">
+            <span class="office-social-icon">📸</span>
+            <span class="office-social-name">Instagram</span>
+            <span class="office-social-handle">@greys.llc</span>
+            <span class="office-social-arr">→</span>
+          </a>
+          <a href="#" class="office-social">
+            <span class="office-social-icon">in</span>
+            <span class="office-social-name">LinkedIn</span>
+            <span class="office-social-handle">Grey LLC</span>
+            <span class="office-social-arr">→</span>
+          </a>
+          <a href="https://wa.me/2348139293216" target="_blank" class="office-social">
+            <span class="office-social-icon">💬</span>
+            <span class="office-social-name">WhatsApp</span>
+            <span class="office-social-handle">+234 813 929 3216</span>
+            <span class="office-social-arr">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="fade-up d2">
+        <div class="office-map">
+          <div class="office-map-grid"></div>
+          <div class="office-map-pin">
+            <div class="pin-dot"></div>
+          </div>
+          <p class="pin-label">Grey LLC</p>
+          <p class="map-address">651 N. Broad St · Middletown, Delaware</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-name">Grey</div>
+        <p class="footer-brand-tag">Redefining how people work, live, and grow — one service at a time.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-icon">f</a>
+          <a href="#" class="social-icon">𝕏</a>
+          <a href="#" class="social-icon">in</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-links">
+          <li><a href="services.html#s-everyday">Everyday Services</a></li>
+          <li><a href="services.html#s-agri">Agriculture Investment</a></li>
+          <li><a href="services.html#s-consultation">Consultation</a></li>
+          <li><a href="services.html#s-freelance">Freelancing</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="company.html">Company</a></li>
+          <li><a href="legal.html">Privacy & Terms</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <ul class="footer-links">
+          <li><a href="tel:+2348139293216">+234 813 929 3216</a></li>
+          <li><a href="https://wa.me/2348139293216">WhatsApp Us</a></li>
+          <li><a href="mailto:hello@greys.llc">hello@greys.llc</a></li>
+          <li><a href="#">www.greys.llc</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 Grey LLC · The House of Asher Int. Holdings™. All rights reserved.</span>
+      <div class="footer-bottom-links">
+        <a href="legal.html">Privacy Policy</a>
+        <a href="legal.html">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── Cursor ──
+    const cursor = document.getElementById('cursor');
+    const ring   = document.getElementById('cursorRing');
+    let rx = 0, ry = 0, mx = 0, my = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top  = my + 'px';
+    });
+    (function animateRing() {
+      rx += (mx - rx) * 0.15;
+      ry += (my - ry) * 0.15;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(animateRing);
+    })();
+
+    document.querySelectorAll('a, button, .method-card, .channel-pill, .detail-row, .resp-item, .office-social').forEach(el => {
+      el.addEventListener('mouseenter', () => { cursor.classList.add('expand'); ring.classList.add('expand'); });
+      el.addEventListener('mouseleave', () => { cursor.classList.remove('expand'); ring.classList.remove('expand'); });
+    });
+
+    // ── Scroll reveals ──
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.09 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // ── Form submit ──
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.form-submit');
+      btn.textContent = 'Sending…';
+      btn.style.background = 'var(--grey-mid)';
+      setTimeout(() => {
+        btn.innerHTML = '✓ Sent';
+        btn.style.background = 'var(--orange)';
+        document.getElementById('form-success').style.display = 'block';
+        e.target.reset();
+        setTimeout(() => {
+          btn.innerHTML = 'Send Message <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+          btn.style.background = 'var(--near-black)';
+          document.getElementById('form-success').style.display = 'none';
+        }, 4000);
+      }, 1200);
+    }
+  </script>
+</body>
+</html>

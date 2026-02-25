@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us | Grey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange: #CE4703;
+      --orange-light: #FB4F0F;
+      --near-black: #0F0F0F;
+      --off-white: #F4F1EE;
+      --grey-mid: #575757;
+      --grey-light: #878787;
+      --teal: #4CA8A3;
+      --cream: #FAF8F5;
+      --font-display: 'Oswald', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--near-black);
+      color: var(--off-white);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── Custom Cursor ── */
+    .cursor {
+      position: fixed;
+      width: 10px; height: 10px;
+      background: var(--orange);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, background 0.2s;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 1.5px solid rgba(206,71,3,0.5);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: all 0.12s ease;
+    }
+    .cursor.expand { width: 18px; height: 18px; background: var(--orange-light); }
+    .cursor-ring.expand { width: 52px; height: 52px; border-color: rgba(206,71,3,0.25); }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 48px;
+      background: rgba(15,15,15,0.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .nav-logo-icon {
+      width: 36px; height: 36px;
+      background: var(--orange);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .nav-logo-icon svg { width: 20px; height: 20px; }
+    .nav-wordmark {
+      font-family: var(--font-display);
+      font-size: 22px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--off-white);
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: 36px; list-style: none;
+    }
+    .nav-links a {
+      font-size: 13px; font-weight: 400; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--grey-light);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--off-white); }
+    .nav-links a.active { color: var(--off-white); }
+    .nav-cta {
+      background: var(--orange); color: white !important;
+      padding: 10px 22px; font-weight: 500 !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--orange-light) !important; }
+
+    /* ── Shared Utilities ── */
+    .section-inner {
+      max-width: 1240px; margin: 0 auto; padding: 100px 48px;
+    }
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 24px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-label::before {
+      content: ''; display: block; width: 24px; height: 1px; background: var(--orange);
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4.5vw, 60px); font-weight: 500;
+      line-height: 1.0; letter-spacing: 0.01em; text-transform: uppercase;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      text-decoration: none; font-family: var(--font-body);
+      font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+      font-weight: 500; padding: 14px 30px; transition: all 0.22s; cursor: none;
+    }
+    .btn-primary {
+      background: var(--orange); color: white; border: 1px solid var(--orange);
+    }
+    .btn-primary:hover {
+      background: var(--orange-light); border-color: var(--orange-light); transform: translateY(-2px);
+    }
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,0.2); color: var(--off-white);
+    }
+    .btn-outline:hover {
+      border-color: var(--off-white); background: rgba(255,255,255,0.05);
+    }
+
+    /* ── Animations ── */
+    .fade-up {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up.d1 { transition-delay: 0.1s; }
+    .fade-up.d2 { transition-delay: 0.2s; }
+    .fade-up.d3 { transition-delay: 0.3s; }
+    .fade-up.d4 { transition-delay: 0.4s; }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      position: relative; overflow: hidden;
+    }
+
+    .hero-left {
+      padding: 160px 48px 80px 80px;
+      display: flex; flex-direction: column; justify-content: center;
+      position: relative; z-index: 2;
+    }
+    .hero-label {
+      font-family: var(--font-mono);
+      font-size: 11px; letter-spacing: 0.2em; color: var(--orange);
+      text-transform: uppercase; margin-bottom: 28px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .hero-label::before {
+      content: ''; display: block; width: 32px; height: 1px; background: var(--orange);
+    }
+    .hero-h1 {
+      font-family: var(--font-display);
+      font-size: clamp(52px, 7vw, 88px); font-weight: 600;
+      line-height: 1.0; letter-spacing: -0.01em; text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+    .hero-h1 em { font-style: normal; color: var(--orange); }
+    .hero-body {
+      font-size: 16px; line-height: 1.7; color: var(--grey-light);
+      max-width: 440px; margin-bottom: 48px;
+    }
+    .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    .hero-right { position: relative; overflow: hidden; }
+    .hero-visual {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #1a0d07 0%, #0F0F0F 60%);
+    }
+    .hero-visual::before {
+      content: ''; position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 70% 40%, rgba(206,71,3,0.18) 0%, transparent 60%),
+        radial-gradient(circle at 30% 70%, rgba(76,168,163,0.08) 0%, transparent 50%);
+    }
+    .hero-grid-lines {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+    .hero-big-text {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: var(--font-display); font-size: 160px; font-weight: 700;
+      color: rgba(255,255,255,0.03); white-space: nowrap; letter-spacing: -0.04em;
+      text-transform: uppercase; user-select: none; pointer-events: none;
+    }
+    .hero-values {
+      position: absolute; bottom: 80px; left: 48px; right: 48px;
+    }
+    .hero-value-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 0; border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .hero-value-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .value-word {
+      font-family: var(--font-display); font-size: 22px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.04em; color: var(--off-white);
+    }
+    .value-desc {
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--grey-mid); text-align: right; max-width: 140px; line-height: 1.5;
+    }
+
+    /* ── Marquee ── */
+    .marquee-strip {
+      background: var(--orange); padding: 14px 0; overflow: hidden; display: flex;
+    }
+    .marquee-track {
+      display: flex; gap: 0; animation: marquee 22s linear infinite; white-space: nowrap;
+    }
+    .marquee-item {
+      font-family: var(--font-display); font-size: 13px; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase; color: white;
+      padding: 0 48px; display: flex; align-items: center; gap: 16px;
+    }
+    .marquee-item::after { content: '◆'; font-size: 8px; opacity: 0.5; }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── Origin Story ── */
+    .origin-section { background: var(--near-black); }
+    .origin-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center;
+    }
+    .origin-pull {
+      font-family: var(--font-display);
+      font-size: clamp(30px, 3.5vw, 46px); font-weight: 400; line-height: 1.15;
+      text-transform: uppercase; letter-spacing: 0.02em; margin-bottom: 36px;
+    }
+    .origin-pull strong { color: var(--orange); font-weight: 600; }
+    .origin-body {
+      font-size: 15px; line-height: 1.85; color: var(--grey-light); margin-bottom: 20px;
+    }
+
+    /* pillars right side */
+    .pillar {
+      display: flex; gap: 24px; padding: 28px 0;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      transition: border-color 0.3s;
+    }
+    .pillar:last-child { border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .pillar:hover { border-top-color: rgba(206,71,3,0.25); }
+    .pillar-num {
+      font-family: var(--font-mono); font-size: 11px; color: var(--orange);
+      letter-spacing: 0.12em; flex-shrink: 0; padding-top: 4px; min-width: 32px;
+    }
+    .pillar-title {
+      font-family: var(--font-display); font-size: 20px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px;
+    }
+    .pillar-body { font-size: 13px; color: var(--grey-mid); line-height: 1.65; }
+
+    /* ── Model Band ── */
+    .model-band {
+      background: var(--orange);
+      padding: 64px 80px;
+      display: flex; align-items: center; justify-content: space-between; gap: 40px;
+      flex-wrap: wrap;
+    }
+    .model-band-title {
+      font-family: var(--font-display); font-size: clamp(22px, 3vw, 36px);
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+      color: white; max-width: 480px; line-height: 1.1;
+    }
+    .model-band-tag {
+      font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.7;
+      max-width: 360px;
+    }
+
+    /* ── Team ── */
+    .team-section { background: var(--cream); color: var(--near-black); }
+    .team-section .section-title { color: var(--near-black); }
+
+    .team-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin-top: 64px;
+    }
+
+    .team-card {
+      background: white; position: relative; overflow: hidden;
+      transition: transform 0.35s;
+    }
+    .team-card:hover { transform: translateY(-4px); }
+
+    .team-card-inner { padding: 48px 40px 40px; }
+
+    /* Decorative top bar */
+    .team-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 4px; background: var(--orange);
+      transform: scaleX(0); transform-origin: left; transition: transform 0.35s;
+    }
+    .team-card:hover::before { transform: scaleX(1); }
+
+    /* big background initial */
+    .team-bg-letter {
+      position: absolute; bottom: -20px; right: -10px;
+      font-family: var(--font-display); font-size: 160px; font-weight: 700;
+      color: rgba(15,15,15,0.04); line-height: 1; text-transform: uppercase;
+      pointer-events: none; user-select: none; letter-spacing: -0.04em;
+      transition: color 0.35s;
+    }
+    .team-card:hover .team-bg-letter { color: rgba(206,71,3,0.06); }
+
+    .team-role {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .team-role::before {
+      content: ''; display: block; width: 20px; height: 1px; background: var(--orange);
+    }
+    .team-name {
+      font-family: var(--font-display); font-size: clamp(28px, 3vw, 40px);
+      font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em;
+      color: var(--near-black); margin-bottom: 20px; line-height: 1.05;
+    }
+    .team-bio {
+      font-size: 14px; line-height: 1.75; color: var(--grey-mid); max-width: 380px;
+    }
+    .team-divider {
+      width: 40px; height: 2px; background: var(--orange);
+      margin: 24px 0;
+    }
+
+    /* ── Contact Band ── */
+    .contact-band {
+      background: var(--near-black); padding: 80px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 40px; flex-wrap: wrap;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .contact-band-left {}
+    .contact-band-label {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .contact-band-label::before {
+      content: ''; display: block; width: 20px; height: 1px; background: var(--orange);
+    }
+    .contact-band-title {
+      font-family: var(--font-display); font-size: clamp(28px, 3.5vw, 48px);
+      font-weight: 500; text-transform: uppercase; letter-spacing: 0.02em;
+      line-height: 1.05; margin-bottom: 8px;
+    }
+    .contact-band-title em { font-style: normal; color: var(--orange); }
+    .contact-band-sub {
+      font-size: 14px; color: var(--grey-mid); margin-top: 12px;
+    }
+    .contact-band-right { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    /* ── Footer ── */
+    footer {
+      background: #060606;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 72px 80px 40px;
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 64px;
+    }
+    .footer-brand-name {
+      font-family: var(--font-display); font-size: 32px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--off-white); margin-bottom: 16px;
+    }
+    .footer-brand-tag {
+      font-size: 13px; color: var(--grey-mid); line-height: 1.6; max-width: 280px; margin-bottom: 28px;
+    }
+    .footer-socials { display: flex; gap: 12px; }
+    .social-icon {
+      width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: var(--grey-light); transition: border-color 0.2s, color 0.2s;
+      text-decoration: none; cursor: none;
+    }
+    .social-icon:hover { border-color: var(--orange); color: var(--orange); }
+    .footer-col-title {
+      font-family: var(--font-display); font-size: 12px; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase; color: var(--grey-light); margin-bottom: 24px;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-links a {
+      font-size: 13px; color: var(--grey-mid); text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--off-white); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.05); padding-top: 32px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-copy { font-size: 11px; color: var(--grey-mid); letter-spacing: 0.05em; }
+    .footer-bottom-links { display: flex; gap: 24px; }
+    .footer-bottom-links a {
+      font-size: 11px; color: var(--grey-mid); text-decoration: none;
+      letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s;
+    }
+    .footer-bottom-links a:hover { color: var(--off-white); }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .hero-left { padding: 140px 40px 80px; }
+      .origin-grid { grid-template-columns: 1fr; gap: 48px; }
+      .team-grid { grid-template-columns: 1fr; }
+      nav { padding: 18px 32px; }
+      .nav-links { display: none; }
+      .section-inner { padding: 72px 32px; }
+      .model-band { padding: 48px 32px; }
+      .contact-band { padding: 60px 32px; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      footer { padding: 48px 32px 32px; }
+    }
+    @media (max-width: 600px) {
+      .footer-top { grid-template-columns: 1fr; gap: 32px; }
+      .contact-band-right { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- Nav -->
+  <nav>
+    <a href="company.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.5"/>
+          <path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20" stroke="white" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <span class="nav-wordmark">Grey</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="company.html">Company</a></li>
+      <li><a href="#" class="active">About Us</a></li>
+      <li><a href="company.html#services">Services</a></li>
+      <li><a href="company.html#investments">Investments</a></li>
+      <li><a href="company.html#schedule" class="btn nav-cta">Schedule</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <div class="hero-left">
+      <p class="hero-label">About Grey</p>
+      <h1 class="hero-h1">
+        People<br/>
+        First,<br/>
+        <em>Always.</em>
+      </h1>
+      <p class="hero-body">
+        We began with the shared belief that people come first — and the business realisation that everyone wants something. How they want it, and how we get it to them, is what our Life as an Experience Service Model is built around.
+      </p>
+      <div class="hero-buttons">
+        <a href="#team" class="btn btn-primary">Meet the Team →</a>
+        <a href="company.html#services" class="btn btn-outline">Our Services</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-visual">
+        <div class="hero-grid-lines"></div>
+        <div class="hero-big-text">Grey</div>
+        <div class="hero-values">
+          <div class="hero-value-row">
+            <span class="value-word">Curiosity</span>
+            <span class="value-desc">How we approach every problem</span>
+          </div>
+          <div class="hero-value-row">
+            <span class="value-word">Empathy</span>
+            <span class="value-desc">The lens we design through</span>
+          </div>
+          <div class="hero-value-row">
+            <span class="value-word">Care</span>
+            <span class="value-desc">What shapes our decisions</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span class="marquee-item">People First</span>
+      <span class="marquee-item">Life as an Experience</span>
+      <span class="marquee-item">Curiosity</span>
+      <span class="marquee-item">Empathy</span>
+      <span class="marquee-item">Care</span>
+      <span class="marquee-item">Vetted Providers</span>
+      <span class="marquee-item">People First</span>
+      <span class="marquee-item">Life as an Experience</span>
+      <span class="marquee-item">Curiosity</span>
+      <span class="marquee-item">Empathy</span>
+      <span class="marquee-item">Care</span>
+      <span class="marquee-item">Vetted Providers</span>
+    </div>
+  </div>
+
+  <!-- ── Origin Story ── -->
+  <section class="origin-section">
+    <div class="section-inner">
+      <div class="origin-grid">
+
+        <div class="fade-up">
+          <p class="section-label">Our Origin</p>
+          <h2 class="origin-pull">
+            Decision-making<br/>shaped by<br/><strong>what matters.</strong>
+          </h2>
+          <p class="origin-body">
+            We began with the shared belief that people come first — and the business realisation that everyone wants something. How they want it and how we get it to them is what our Life as an Experience Service Model is built around.
+          </p>
+          <p class="origin-body">
+            Our decision-making is shaped by curiosity, empathy, and care. We wanted to build something that made excellent service required, normal, and expected — not a privilege.
+          </p>
+          <a href="#team" class="btn btn-primary" style="margin-top: 12px;">Meet the People Behind It →</a>
+        </div>
+
+        <div class="fade-up d2">
+          <div class="pillar">
+            <div class="pillar-num">01</div>
+            <div>
+              <div class="pillar-title">Life as an Experience</div>
+              <div class="pillar-body">Our service model is built on the understanding that every interaction is an experience — and every experience is a reflection of our values.</div>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num">02</div>
+            <div>
+              <div class="pillar-title">Excellence as Standard</div>
+              <div class="pillar-body">We don't treat quality as optional. Our systems, providers, and processes are built to deliver consistently — every single time.</div>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num">03</div>
+            <div>
+              <div class="pillar-title">Scalable Systems</div>
+              <div class="pillar-body">From one-off requests to recurring subscriptions, Grey is built to grow with you — across services, investments, and everything in between.</div>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num">04</div>
+            <div>
+              <div class="pillar-title">Verified at Every Step</div>
+              <div class="pillar-body">Every vendor is identity-checked, service-tested, and onboarded in person. Trust is our infrastructure.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Model Band ── -->
+  <div class="model-band fade-up">
+    <div class="model-band-title">The Life as an Experience Service Model</div>
+    <p class="model-band-tag">Our philosophy is simple: service should feel effortless for the person receiving it. Every system we build is designed to make that possible — reliably, at scale.</p>
+  </div>
+
+  <!-- ── Team ── -->
+  <section class="team-section" id="team">
+    <div class="section-inner">
+      <p class="section-label">The People</p>
+      <h2 class="section-title" style="color: var(--near-black);">Meet the Team</h2>
+
+      <div class="team-grid">
+
+        <!-- Asher -->
+        <div class="team-card fade-up d1">
+          <div class="team-bg-letter">A</div>
+          <div class="team-card-inner">
+            <div class="team-role">Founder & CEO</div>
+            <h3 class="team-name">Asher<br/>Izilein</h3>
+            <div class="team-divider"></div>
+            <p class="team-bio">A visionary creatorpreneur, blending strategy, branding, and execution to build scalable systems, lead teams, and drive growth across creative tech ventures.</p>
+          </div>
+        </div>
+
+        <!-- Mary-Jane -->
+        <div class="team-card fade-up d2">
+          <div class="team-bg-letter">M</div>
+          <div class="team-card-inner">
+            <div class="team-role">Customer Success Manager</div>
+            <h3 class="team-name">Mary-Jane<br/>Nnajiofor</h3>
+            <div class="team-divider"></div>
+            <p class="team-bio">Experienced in client relations, dispute resolution, and workflow optimisation, ensuring seamless service delivery between Grey, all clients and vendors.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact Band ── -->
+  <div class="contact-band fade-up">
+    <div class="contact-band-left">
+      <div class="contact-band-label">Get in Touch</div>
+      <h2 class="contact-band-title">We're <em>Here.</em></h2>
+      <p class="contact-band-sub">No emails. Text us directly.</p>
+    </div>
+    <div class="contact-band-right">
+      <a href="company.html#schedule" class="btn btn-primary">Schedule a Service →</a>
+      <a href="company.html#faq" class="btn btn-outline">View FAQ</a>
+    </div>
+  </div>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-name">Grey</div>
+        <p class="footer-brand-tag">Redefining how people work, live, and grow — one service at a time.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-icon">f</a>
+          <a href="#" class="social-icon">𝕏</a>
+          <a href="#" class="social-icon">in</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-links">
+          <li><a href="#">Freelance</a></li>
+          <li><a href="#">Meals & Catering</a></li>
+          <li><a href="#">Cleaning</a></li>
+          <li><a href="#">Home Care</a></li>
+          <li><a href="#">Errands</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Investments</div>
+        <ul class="footer-links">
+          <li><a href="#">Agriculture</a></li>
+          <li><a href="#">Real Estate</a></li>
+          <li><a href="#">Consultation</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="company.html">Home</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 Grey LLC. All rights reserved.</span>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── Custom Cursor ──
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let rx = 0, ry = 0, mx = 0, my = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top = my + 'px';
+    });
+
+    // Smooth ring follow
+    function animateRing() {
+      rx += (mx - rx) * 0.15;
+      ry += (my - ry) * 0.15;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    // Expand cursor on interactive elements
+    const interactives = document.querySelectorAll('a, button, .team-card, .pillar');
+    interactives.forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.classList.add('expand');
+        ring.classList.add('expand');
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.classList.remove('expand');
+        ring.classList.remove('expand');
+      });
+    });
+
+    // ── Scroll Reveals ──
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>

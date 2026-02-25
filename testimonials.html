@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Testimonials | Grey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --orange:       #CE4703;
+      --orange-light: #FB4F0F;
+      --near-black:   #0F0F0F;
+      --off-white:    #F4F1EE;
+      --grey-mid:     #575757;
+      --grey-light:   #878787;
+      --cream:        #FAF8F5;
+      --font-display: 'Oswald', sans-serif;
+      --font-body:    'DM Sans', sans-serif;
+      --font-mono:    'Space Mono', monospace;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--near-black); color: var(--off-white); font-family: var(--font-body); overflow-x: hidden; cursor: none; }
+
+    /* ── Cursor ── */
+    .cursor { position: fixed; width: 10px; height: 10px; background: var(--orange); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width .2s, height .2s; }
+    .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1.5px solid rgba(206,71,3,.5); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); }
+    .cursor.expand { width: 18px; height: 18px; background: var(--orange-light); }
+    .cursor-ring.expand { width: 52px; height: 52px; border-color: rgba(206,71,3,.2); }
+
+    /* ── Nav ── */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 22px 48px; background: rgba(15,15,15,.9); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(255,255,255,.04); transition: padding .3s; }
+    nav.scrolled { padding: 14px 48px; }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo-icon { width: 36px; height: 36px; background: var(--orange); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .nav-logo-icon svg { width: 20px; height: 20px; }
+    .nav-wordmark { font-family: var(--font-display); font-size: 22px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--off-white); }
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--grey-light); text-decoration: none; transition: color .2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--off-white); }
+    .nav-cta { background: var(--orange); color: white !important; padding: 10px 22px; font-weight: 500 !important; }
+    .nav-cta:hover { background: var(--orange-light) !important; }
+
+    /* ── Animations ── */
+    .fade-up { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up.d1 { transition-delay: .1s; } .fade-up.d2 { transition-delay: .2s; } .fade-up.d3 { transition-delay: .3s; } .fade-up.d4 { transition-delay: .4s; }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      position: relative; overflow: hidden;
+    }
+    .hero-left {
+      padding: 160px 60px 80px 80px;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      position: relative; z-index: 2;
+    }
+    .hero-bg-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(145deg, #140500 0%, #0F0F0F 60%);
+    }
+    .hero-bg-overlay::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 25% 60%, rgba(206,71,3,.14) 0%, transparent 50%);
+    }
+    .hero-grid-tex {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 24px;
+      display: flex; align-items: center; gap: 12px; position: relative; z-index: 2;
+    }
+    .hero-eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: var(--orange); }
+    .hero h1 {
+      font-family: var(--font-display); font-size: clamp(52px, 7vw, 96px);
+      font-weight: 600; line-height: .96; text-transform: uppercase; letter-spacing: -.01em;
+      margin-bottom: 28px; position: relative; z-index: 2;
+    }
+    .hero h1 em { font-style: normal; color: var(--orange); }
+    .hero-sub {
+      font-size: 16px; color: rgba(244,241,238,.6); line-height: 1.75;
+      max-width: 420px; margin-bottom: 52px; position: relative; z-index: 2;
+    }
+
+    /* Stats row */
+    .hero-stats { display: flex; gap: 0; position: relative; z-index: 2; }
+    .hero-stat {
+      padding: 24px 32px; border: 1px solid rgba(255,255,255,.07);
+      border-right: none; flex: 1;
+    }
+    .hero-stat:last-child { border-right: 1px solid rgba(255,255,255,.07); }
+    .stat-num {
+      font-family: var(--font-display); font-size: 38px; font-weight: 700;
+      color: var(--orange); line-height: 1; margin-bottom: 4px;
+    }
+    .stat-lbl { font-size: 11px; color: var(--grey-mid); letter-spacing: .1em; text-transform: uppercase; }
+
+    /* Hero right — photo mosaic */
+    .hero-right { position: relative; overflow: hidden; }
+    .hero-mosaic {
+      position: absolute; inset: 0;
+      display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 3px;
+    }
+    .mosaic-cell { overflow: hidden; position: relative; }
+    .mosaic-cell img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%) brightness(.85); transition: filter .5s; }
+    .mosaic-cell:hover img { filter: grayscale(0%) brightness(1); }
+    .mosaic-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(15,15,15,.4) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    /* Big cell spans 2 rows */
+    .mosaic-tall { grid-row: span 2; }
+    .hero-right-darken {
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(15,15,15,.6) 0%, transparent 30%);
+      pointer-events: none; z-index: 1;
+    }
+
+    /* ── Marquee ── */
+    .marquee-strip { background: var(--orange); padding: 14px 0; overflow: hidden; display: flex; }
+    .marquee-track { display: flex; animation: marquee 22s linear infinite; white-space: nowrap; }
+    .marquee-item { font-family: var(--font-display); font-size: 13px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: white; padding: 0 48px; display: flex; align-items: center; gap: 16px; }
+    .marquee-item::after { content: '◆'; font-size: 8px; opacity: .5; }
+    @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+    /* ── Section shared ── */
+    .section-label {
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 20px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--orange); }
+    .section-title {
+      font-family: var(--font-display); font-size: clamp(36px, 4.5vw, 58px);
+      font-weight: 600; line-height: .96; text-transform: uppercase; letter-spacing: -.01em;
+    }
+    .section-title em { font-style: normal; color: var(--orange); }
+
+    /* ── VIDEO TESTIMONIALS ── */
+    .video-section { background: var(--near-black); padding: 100px 80px; }
+    .video-header { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; margin-bottom: 64px; }
+    .video-sub { font-size: 15px; color: var(--grey-light); line-height: 1.8; }
+
+    .video-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+
+    /* video card */
+    .v-card {
+      position: relative; overflow: hidden; aspect-ratio: 9/12; cursor: none;
+      background: #111;
+    }
+    .v-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .5s, filter .5s;
+      filter: brightness(.75) saturate(.9);
+    }
+    .v-card:hover img { transform: scale(1.04); filter: brightness(.6) saturate(.8); }
+
+    /* gradient overlay */
+    .v-card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(15,15,15,.92) 0%, rgba(15,15,15,.2) 50%, transparent 100%);
+      transition: background .4s;
+    }
+    .v-card:hover .v-card-overlay {
+      background: linear-gradient(to top, rgba(15,15,15,.96) 0%, rgba(15,15,15,.4) 60%, rgba(206,71,3,.08) 100%);
+    }
+
+    /* play button */
+    .v-play {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 60px; height: 60px; border-radius: 50%;
+      background: rgba(206,71,3,.9); display: flex; align-items: center; justify-content: center;
+      transition: background .25s, transform .25s;
+      z-index: 3;
+    }
+    .v-play svg { width: 20px; height: 20px; fill: white; margin-left: 3px; }
+    .v-card:hover .v-play { background: var(--orange); transform: translate(-50%,-50%) scale(1.1); }
+
+    /* card info */
+    .v-card-info {
+      position: absolute; bottom: 0; left: 0; right: 0; padding: 28px 28px 24px;
+      z-index: 2;
+    }
+    .v-service-tag {
+      font-family: var(--font-mono); font-size: 9px; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 8px;
+    }
+    .v-quote {
+      font-family: var(--font-display); font-size: 16px; font-weight: 400;
+      line-height: 1.3; letter-spacing: .02em; text-transform: uppercase;
+      color: var(--off-white); margin-bottom: 14px;
+    }
+    .v-name { font-size: 12px; color: var(--grey-light); display: flex; align-items: center; gap: 8px; }
+    .v-name::before { content: '—'; color: var(--orange); }
+
+    /* ── VIDEO MODAL ── */
+    .modal-bg {
+      position: fixed; inset: 0; background: rgba(0,0,0,.92); z-index: 999;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity .3s;
+    }
+    .modal-bg.open { opacity: 1; pointer-events: all; }
+    .modal-inner { position: relative; width: 90vw; max-width: 920px; }
+    .modal-close {
+      position: absolute; top: -44px; right: 0;
+      font-family: var(--font-mono); font-size: 10px; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--grey-light); background: none;
+      border: none; cursor: none; transition: color .2s; display: flex; align-items: center; gap: 8px;
+    }
+    .modal-close:hover { color: var(--off-white); }
+    .modal-video-wrap { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+    .modal-video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+    /* ── WRITTEN TESTIMONIALS ── */
+    .written-section { background: var(--cream); padding: 100px 80px; }
+    .written-header { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; margin-bottom: 64px; }
+    .written-sub { font-size: 15px; color: var(--grey-mid); line-height: 1.8; align-self: end; }
+
+    /* Masonry-style testimonial grid */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+    }
+
+    .t-card {
+      background: white; padding: 40px 36px;
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column; gap: 20px;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .t-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(206,71,3,.08); }
+    .t-card.featured { background: var(--near-black); }
+    .t-card.tall { grid-row: span 2; }
+
+    /* quote mark */
+    .t-quote-mark {
+      font-family: var(--font-display); font-size: 80px; font-weight: 700;
+      color: rgba(206,71,3,.12); line-height: .7; flex-shrink: 0;
+    }
+    .t-card.featured .t-quote-mark { color: rgba(206,71,3,.2); }
+
+    .t-stars { display: flex; gap: 4px; }
+    .t-star { font-size: 14px; }
+
+    .t-text {
+      font-size: 15px; line-height: 1.8; color: var(--grey-mid); flex: 1;
+      font-style: italic;
+    }
+    .t-card.featured .t-text { color: var(--grey-light); }
+
+    .t-service {
+      font-family: var(--font-mono); font-size: 9px; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--orange);
+      padding: 5px 10px; border: 1px solid rgba(206,71,3,.3);
+      display: inline-block; align-self: flex-start;
+    }
+
+    /* author row */
+    .t-author { display: flex; align-items: center; gap: 14px; margin-top: auto; }
+    .t-avatar {
+      width: 48px; height: 48px; border-radius: 50%; overflow: hidden; flex-shrink: 0;
+      border: 2px solid rgba(206,71,3,.3);
+    }
+    .t-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .t-author-name {
+      font-family: var(--font-display); font-size: 14px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: .05em;
+    }
+    .t-card.featured .t-author-name { color: var(--off-white); }
+    .t-author-role { font-size: 11px; color: var(--grey-mid); margin-top: 2px; }
+    .t-card.featured .t-author-role { color: var(--grey-light); }
+
+    /* orange top bar on featured */
+    .t-card.featured::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--orange); }
+
+    /* ── PHOTO TESTIMONIALS STRIP ── */
+    .photo-strip { background: var(--near-black); }
+    .photo-strip-inner { max-width: 100%; overflow: hidden; }
+    .photo-row { display: flex; gap: 3px; }
+    .photo-cell { position: relative; flex: 1; overflow: hidden; height: 320px; }
+    .photo-cell img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(30%) brightness(.8); transition: filter .4s, transform .4s; }
+    .photo-cell:hover img { filter: grayscale(0%) brightness(1); transform: scale(1.03); }
+    .photo-cell-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(15,15,15,.85) 0%, transparent 55%);
+    }
+    .photo-cell-info {
+      position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 20px;
+    }
+    .photo-cell-name {
+      font-family: var(--font-display); font-size: 14px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: .05em; color: var(--off-white); margin-bottom: 3px;
+    }
+    .photo-cell-detail { font-size: 11px; color: var(--grey-light); }
+    .photo-cell-quote {
+      position: absolute; top: 16px; right: 16px;
+      font-family: var(--font-mono); font-size: 9px; letter-spacing: .16em;
+      text-transform: uppercase; background: var(--orange); color: white; padding: 4px 10px;
+      opacity: 0; transform: translateY(-4px); transition: opacity .3s, transform .3s;
+    }
+    .photo-cell:hover .photo-cell-quote { opacity: 1; transform: translateY(0); }
+
+    /* ── PULL QUOTE BAND ── */
+    .pullquote-band { background: var(--orange); padding: 80px; text-align: center; }
+    .pullquote-text {
+      font-family: var(--font-display); font-size: clamp(26px, 4vw, 48px);
+      font-weight: 500; text-transform: uppercase; letter-spacing: .02em;
+      color: white; line-height: 1.05; max-width: 900px; margin: 0 auto 20px;
+    }
+    .pullquote-source { font-family: var(--font-mono); font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.65); }
+
+    /* ── SHARE YOUR STORY ── */
+    .share-section { background: var(--cream); padding: 100px 80px; }
+    .share-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; }
+    .share-body { font-size: 15px; color: var(--grey-mid); line-height: 1.8; margin-top: 20px; margin-bottom: 36px; }
+    .share-channels { display: flex; flex-direction: column; gap: 2px; }
+    .share-channel {
+      display: flex; align-items: center; gap: 18px;
+      padding: 18px 24px; background: white;
+      border-left: 3px solid transparent; text-decoration: none;
+      transition: border-color .25s; cursor: none;
+    }
+    .share-channel:hover { border-left-color: var(--orange); }
+    .share-ch-icon { font-size: 20px; width: 28px; text-align: center; flex-shrink: 0; }
+    .share-ch-key { font-family: var(--font-mono); font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--grey-mid); margin-bottom: 2px; }
+    .share-ch-val { font-size: 14px; color: var(--near-black); font-weight: 500; }
+    .share-visual {
+      position: relative; aspect-ratio: 4/5; overflow: hidden; background: var(--near-black);
+    }
+    .share-visual img { width: 100%; height: 100%; object-fit: cover; filter: brightness(.7); }
+    .share-visual-overlay {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; justify-content: flex-end; padding: 36px;
+      background: linear-gradient(to top, rgba(15,15,15,.9) 0%, transparent 60%);
+    }
+    .share-visual-tag { font-family: var(--font-mono); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
+    .share-visual-quote { font-family: var(--font-display); font-size: 18px; font-weight: 400; text-transform: uppercase; color: var(--off-white); line-height: 1.2; }
+
+    /* CTA */
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px; text-decoration: none;
+      font-family: var(--font-body); font-size: 13px; letter-spacing: .1em;
+      text-transform: uppercase; font-weight: 500; padding: 14px 30px;
+      transition: all .22s; cursor: none; border: none;
+    }
+    .btn-dark { background: var(--near-black); color: white; }
+    .btn-dark:hover { background: var(--orange); }
+    .btn-orange { background: var(--orange); color: white; }
+    .btn-orange:hover { background: var(--orange-light); }
+
+    /* ── Footer ── */
+    footer { background: #060606; border-top: 1px solid rgba(255,255,255,.05); padding: 72px 80px 40px; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 64px; }
+    .footer-brand-name { font-family: var(--font-display); font-size: 32px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--off-white); margin-bottom: 16px; }
+    .footer-brand-tag { font-size: 13px; color: var(--grey-mid); line-height: 1.6; max-width: 280px; margin-bottom: 28px; }
+    .footer-socials { display: flex; gap: 12px; }
+    .social-icon { width: 36px; height: 36px; border: 1px solid rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; font-size: 13px; color: var(--grey-light); transition: border-color .2s, color .2s; text-decoration: none; cursor: none; }
+    .social-icon:hover { border-color: var(--orange); color: var(--orange); }
+    .footer-col-title { font-family: var(--font-display); font-size: 12px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--grey-light); margin-bottom: 24px; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-links a { font-size: 13px; color: var(--grey-mid); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--off-white); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.05); padding-top: 32px; display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { font-size: 11px; color: var(--grey-mid); letter-spacing: .05em; }
+    .footer-bottom-links { display: flex; gap: 24px; }
+    .footer-bottom-links a { font-size: 11px; color: var(--grey-mid); text-decoration: none; letter-spacing: .08em; text-transform: uppercase; transition: color .2s; }
+    .footer-bottom-links a:hover { color: var(--off-white); }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      nav { padding: 18px 32px; } nav.scrolled { padding: 14px 32px; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 140px 32px 72px; }
+      .hero-right { display: none; }
+      .video-section, .written-section, .share-section { padding: 72px 32px; }
+      .video-header, .written-header, .share-inner { grid-template-columns: 1fr; gap: 24px; }
+      .video-grid { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .t-card.tall { grid-row: span 1; }
+      .photo-row { flex-wrap: wrap; }
+      .photo-cell { flex: 0 0 calc(50% - 2px); height: 240px; }
+      .pullquote-band { padding: 60px 32px; }
+      footer { padding: 48px 32px 32px; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+    @media (max-width: 640px) {
+      .hero-stats { flex-direction: column; }
+      .hero-stat { border-right: 1px solid rgba(255,255,255,.07); }
+      .photo-cell { flex: 0 0 100%; }
+      .footer-top { grid-template-columns: 1fr; gap: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ── Video Modal ── -->
+<div class="modal-bg" id="modal">
+  <div class="modal-inner">
+    <button class="modal-close" onclick="closeModal()">✕ Close</button>
+    <div class="modal-video-wrap">
+      <iframe id="modalIframe" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- ── Nav ── -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.5"/>
+        <path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20" stroke="white" stroke-width="1.5"/>
+      </svg>
+    </div>
+    <span class="nav-wordmark">Grey</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="#" class="active">Testimonials</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="https://paystack.shop/pay/inkroom" target="_blank" class="btn nav-cta">Pay Now</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<header class="hero">
+  <div class="hero-left">
+    <div class="hero-bg-overlay"></div>
+    <div class="hero-grid-tex"></div>
+    <p class="hero-eyebrow fade-up">Client Stories</p>
+    <h1 class="fade-up d1">Real People.<br/><em>Real Results.</em></h1>
+    <p class="hero-sub fade-up d2">From daily errands to agricultural investments that grew their wealth — here's what our clients have to say about working with Grey.</p>
+    <div class="hero-stats fade-up d3">
+      <div class="hero-stat">
+        <div class="stat-num" data-target="200">0</div>
+        <div class="stat-lbl">Happy Clients</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-num" data-target="98">0</div>
+        <div class="stat-lbl">% Satisfaction</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-num" data-target="30">0</div>
+        <div class="stat-lbl">% Max ROI</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-right-darken"></div>
+    <div class="hero-mosaic">
+      <!-- Tall left cell -->
+      <div class="mosaic-cell mosaic-tall">
+        <img src="https://images.pexels.com/photos/9512950/pexels-photo-9512950.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Grey client" loading="lazy" />
+        <div class="mosaic-overlay"></div>
+      </div>
+      <!-- Top right -->
+      <div class="mosaic-cell">
+        <img src="https://images.pexels.com/photos/4568376/pexels-photo-4568376.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Grey client" loading="lazy" />
+        <div class="mosaic-overlay"></div>
+      </div>
+      <!-- Bottom right -->
+      <div class="mosaic-cell">
+        <img src="https://images.pexels.com/photos/16221482/pexels-photo-16221482.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Grey client" loading="lazy" />
+        <div class="mosaic-overlay"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Marquee -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span class="marquee-item">Client Stories</span>
+    <span class="marquee-item">Real Reviews</span>
+    <span class="marquee-item">Everyday Services</span>
+    <span class="marquee-item">Agriculture Investments</span>
+    <span class="marquee-item">Freelance Projects</span>
+    <span class="marquee-item">Consultation Results</span>
+    <span class="marquee-item">Client Stories</span>
+    <span class="marquee-item">Real Reviews</span>
+    <span class="marquee-item">Everyday Services</span>
+    <span class="marquee-item">Agriculture Investments</span>
+    <span class="marquee-item">Freelance Projects</span>
+    <span class="marquee-item">Consultation Results</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     VIDEO TESTIMONIALS
+══════════════════════════════ -->
+<section class="video-section">
+  <div class="video-header fade-up">
+    <div>
+      <p class="section-label">Video Stories</p>
+      <h2 class="section-title">Hear It<br/><em>From Them.</em></h2>
+    </div>
+    <p class="video-sub">Nothing speaks louder than a client telling their own story. Watch what our clients have to say about their experience working with Grey across our service categories.</p>
+  </div>
+
+  <div class="video-grid">
+    <!-- Video 1 -->
+    <div class="v-card fade-up d1" onclick="openModal('https://player.vimeo.com/video/824804225?autoplay=1')">
+      <img src="https://images.pexels.com/photos/12455720/pexels-photo-12455720.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Client testimonial" loading="lazy" />
+      <div class="v-card-overlay"></div>
+      <div class="v-play">
+        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+      </div>
+      <div class="v-card-info">
+        <div class="v-service-tag">Agriculture Investment</div>
+        <div class="v-quote">"I invested ₦150K and received ₦195K six months later. I didn't touch a bag of grain."</div>
+        <div class="v-name">Emeka O. · Lagos</div>
+      </div>
+    </div>
+
+    <!-- Video 2 -->
+    <div class="v-card fade-up d2" onclick="openModal('https://player.vimeo.com/video/824804225?autoplay=1')">
+      <img src="https://images.pexels.com/photos/4568376/pexels-photo-4568376.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Client testimonial" loading="lazy" />
+      <div class="v-card-overlay"></div>
+      <div class="v-play">
+        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+      </div>
+      <div class="v-card-info">
+        <div class="v-service-tag">Everyday Services · Life as Experience</div>
+        <div class="v-quote">"My home is cleaner, my meals are sorted, and I haven't run a single errand in three months."</div>
+        <div class="v-name">Chisom A. · Abuja</div>
+      </div>
+    </div>
+
+    <!-- Video 3 -->
+    <div class="v-card fade-up d3" onclick="openModal('https://player.vimeo.com/video/824804225?autoplay=1')">
+      <img src="https://images.pexels.com/photos/16221482/pexels-photo-16221482.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Client testimonial" loading="lazy" />
+      <div class="v-card-overlay"></div>
+      <div class="v-play">
+        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+      </div>
+      <div class="v-card-info">
+        <div class="v-service-tag">Business Consultation</div>
+        <div class="v-quote">"The Standard Plan gave my business more clarity in 3 months than 2 years of trial and error."</div>
+        <div class="v-name">Dare F. · Port Harcourt</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════
+     WRITTEN TESTIMONIALS
+══════════════════════════════ -->
+<section class="written-section">
+  <div class="written-header fade-up">
+    <div>
+      <p class="section-label" style="color:var(--orange);">Written Reviews</p>
+      <h2 class="section-title" style="color:var(--near-black);">What Our<br/><em>Clients Say.</em></h2>
+    </div>
+    <p class="written-sub">Every review below is from a real client. We don't edit them. We just make sure they keep coming.</p>
+  </div>
+
+  <div class="testimonials-grid">
+
+    <!-- Card 1 – tall featured -->
+    <div class="t-card featured tall fade-up d1">
+      <div class="t-quote-mark">"</div>
+      <div class="t-stars">
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+      </div>
+      <p class="t-text">"I was skeptical about agricultural investment — I thought it required farming knowledge or a lot of capital. Grey made it simple. I bought 5 units of rice, chose the 6-month cycle, and received my capital plus profit exactly as promised. I've since reinvested three times. The returns are real, the communication is excellent, and I feel like my money is genuinely working for me."</p>
+      <span class="t-service">Agriculture · 6 Months</span>
+      <div class="t-author">
+        <div class="t-avatar">
+          <img src="https://images.pexels.com/photos/7533333/pexels-photo-7533333.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Tunde B." loading="lazy" />
+        </div>
+        <div>
+          <div class="t-author-name">Tunde B.</div>
+          <div class="t-author-role">Entrepreneur · Ibadan</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="t-card fade-up d2">
+      <div class="t-quote-mark">"</div>
+      <div class="t-stars">
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+      </div>
+      <p class="t-text">"The cleaning service was so thorough I actually walked around my flat twice to double-check it was mine. Professional, on time, and they didn't need me hovering over them."</p>
+      <span class="t-service">Everyday · Cleaning</span>
+      <div class="t-author">
+        <div class="t-avatar">
+          <img src="https://images.pexels.com/photos/17842277/pexels-photo-17842277.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Adaeze M." loading="lazy" />
+        </div>
+        <div>
+          <div class="t-author-name">Adaeze M.</div>
+          <div class="t-author-role">Architect · Lagos</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="t-card fade-up d3">
+      <div class="t-quote-mark">"</div>
+      <div class="t-stars">
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+      </div>
+      <p class="t-text">"Grey matched me with a graphic designer who understood my brand without me having to explain it three times. The project was done ahead of schedule and I've recommended them to four people already."</p>
+      <span class="t-service">Freelance · Design</span>
+      <div class="t-author">
+        <div class="t-avatar">
+          <img src="https://images.pexels.com/photos/27107622/pexels-photo-27107622.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Ibrahim K." loading="lazy" />
+        </div>
+        <div>
+          <div class="t-author-name">Ibrahim K.</div>
+          <div class="t-author-role">Brand Owner · Abuja</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="t-card fade-up d1">
+      <div class="t-quote-mark">"</div>
+      <div class="t-stars">
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+      </div>
+      <p class="t-text">"Honestly, the subscription plan changed my life. I have home care twice a week, my meals are handled three days a week, and they even did my errands last Saturday. I don't know how I managed before."</p>
+      <span class="t-service">Life as an Experience</span>
+      <div class="t-author">
+        <div class="t-avatar">
+          <img src="https://images.pexels.com/photos/4568376/pexels-photo-4568376.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Ngozi E." loading="lazy" />
+        </div>
+        <div>
+          <div class="t-author-name">Ngozi E.</div>
+          <div class="t-author-role">Doctor · Lekki</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 5 – featured -->
+    <div class="t-card fade-up d2">
+      <div class="t-quote-mark">"</div>
+      <div class="t-stars">
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+      </div>
+      <p class="t-text">"The consultation session was worth more than its price. Within two weeks I had a clear growth plan, a repositioned brand narrative, and a prioritised action list. Asher and the team genuinely understand business."</p>
+      <span class="t-service">Consultation · Standard</span>
+      <div class="t-author">
+        <div class="t-avatar">
+          <img src="https://images.pexels.com/photos/9512950/pexels-photo-9512950.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Femi O." loading="lazy" />
+        </div>
+        <div>
+          <div class="t-author-name">Femi O.</div>
+          <div class="t-author-role">Startup Founder · Lagos</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="t-card fade-up d3">
+      <div class="t-quote-mark">"</div>
+      <div class="t-stars">
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+        <span class="t-star" style="color:var(--orange);">★</span>
+      </div>
+      <p class="t-text">"I placed a custom order — needed a writer and a social media manager for a product launch. Grey found both within 24 hours. I've never worked with a service company this responsive."</p>
+      <span class="t-service">Freelance · Retainer</span>
+      <div class="t-author">
+        <div class="t-avatar">
+          <img src="https://images.pexels.com/photos/19379640/pexels-photo-19379640.jpeg?auto=compress&cs=tinysrgb&w=200" alt="Seun A." loading="lazy" />
+        </div>
+        <div>
+          <div class="t-author-name">Seun A.</div>
+          <div class="t-author-role">Product Manager · Ikeja</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════
+     PHOTO STRIP
+══════════════════════════════ -->
+<div class="photo-strip">
+  <div class="photo-strip-inner">
+    <div class="photo-row">
+      <div class="photo-cell">
+        <img src="https://images.pexels.com/photos/12455720/pexels-photo-12455720.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Client" loading="lazy" />
+        <div class="photo-cell-overlay"></div>
+        <div class="photo-cell-info">
+          <div class="photo-cell-name">Emeka O.</div>
+          <div class="photo-cell-detail">Investor · Lagos</div>
+        </div>
+        <div class="photo-cell-quote">Agriculture</div>
+      </div>
+      <div class="photo-cell">
+        <img src="https://images.pexels.com/photos/16221482/pexels-photo-16221482.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Client" loading="lazy" />
+        <div class="photo-cell-overlay"></div>
+        <div class="photo-cell-info">
+          <div class="photo-cell-name">Dare F.</div>
+          <div class="photo-cell-detail">Consultant · PH</div>
+        </div>
+        <div class="photo-cell-quote">Consultation</div>
+      </div>
+      <div class="photo-cell">
+        <img src="https://images.pexels.com/photos/17842277/pexels-photo-17842277.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Client" loading="lazy" />
+        <div class="photo-cell-overlay"></div>
+        <div class="photo-cell-info">
+          <div class="photo-cell-name">Chisom A.</div>
+          <div class="photo-cell-detail">Subscriber · Abuja</div>
+        </div>
+        <div class="photo-cell-quote">Life as Experience</div>
+      </div>
+      <div class="photo-cell">
+        <img src="https://images.pexels.com/photos/27107622/pexels-photo-27107622.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Client" loading="lazy" />
+        <div class="photo-cell-overlay"></div>
+        <div class="photo-cell-info">
+          <div class="photo-cell-name">Ibrahim K.</div>
+          <div class="photo-cell-detail">Brand Owner · Abuja</div>
+        </div>
+        <div class="photo-cell-quote">Freelance</div>
+      </div>
+      <div class="photo-cell">
+        <img src="https://images.pexels.com/photos/7533333/pexels-photo-7533333.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Client" loading="lazy" />
+        <div class="photo-cell-overlay"></div>
+        <div class="photo-cell-info">
+          <div class="photo-cell-name">Tunde B.</div>
+          <div class="photo-cell-detail">Entrepreneur · Ibadan</div>
+        </div>
+        <div class="photo-cell-quote">Agriculture</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     PULL QUOTE
+══════════════════════════════ -->
+<div class="pullquote-band fade-up">
+  <p class="pullquote-text">"Grey isn't just a service company. It's what happens when someone actually takes the time to make your life better."</p>
+  <p class="pullquote-source">— Ngozi E. · Life as an Experience Subscriber</p>
+</div>
+
+<!-- ══════════════════════════════
+     SHARE YOUR STORY
+══════════════════════════════ -->
+<section class="share-section">
+  <div class="share-inner">
+    <div class="fade-up">
+      <p class="section-label" style="color:var(--orange);">Share Your Story</p>
+      <h2 class="section-title" style="color:var(--near-black);">Worked With<br/><em>Grey? Tell Us.</em></h2>
+      <p class="share-body">Your experience matters — not just to us, but to people who are still deciding whether to take that first step. Share your story and help someone else make the right call.</p>
+      <div class="share-channels">
+        <a href="https://wa.me/message/ID5IMVTNGKCJC1" target="_blank" class="share-channel">
+          <span class="share-ch-icon">💬</span>
+          <div>
+            <div class="share-ch-key">WhatsApp</div>
+            <div class="share-ch-val">Send us a voice note or text</div>
+          </div>
+        </a>
+        <a href="https://www.instagram.com/greys.llc?igsh=MjdpemdjMjdmc2Qx" target="_blank" class="share-channel">
+          <span class="share-ch-icon">📸</span>
+          <div>
+            <div class="share-ch-key">Instagram</div>
+            <div class="share-ch-val">Tag @greys.llc in your review</div>
+          </div>
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61563298919257&mibextid=ZbWKwL" target="_blank" class="share-channel">
+          <span class="share-ch-icon">𝕗</span>
+          <div>
+            <div class="share-ch-key">Facebook</div>
+            <div class="share-ch-val">Leave a review on our page</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="share-visual fade-up d2">
+      <img src="https://images.pexels.com/photos/9512950/pexels-photo-9512950.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Grey client" loading="lazy" />
+      <div class="share-visual-overlay">
+        <div class="share-visual-tag">Featured Client</div>
+        <div class="share-visual-quote">"My money grew while I was busy living."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name">Grey</div>
+      <p class="footer-brand-tag">Redefining how people work, live, and grow — one service at a time.</p>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/greys.llc?igsh=MjdpemdjMjdmc2Qx" target="_blank" class="social-icon" title="Instagram">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61563298919257&mibextid=ZbWKwL" target="_blank" class="social-icon" title="Facebook">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/company/greys-llc/" target="_blank" class="social-icon" title="LinkedIn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="https://wa.me/message/ID5IMVTNGKCJC1" target="_blank" class="social-icon" title="WhatsApp">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.135.561 4.133 1.532 5.86L.057 23.428a.75.75 0 00.921.921l5.568-1.475A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.75 9.75 0 01-4.937-1.341l-.354-.21-3.658.968.985-3.572-.229-.368A9.75 9.75 0 0112 2.25c5.385 0 9.75 4.365 9.75 9.75S17.385 21.75 12 21.75z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Services</div>
+      <ul class="footer-links">
+        <li><a href="services.html#s-everyday">Everyday Services</a></li>
+        <li><a href="services.html#s-agri">Agriculture Investment</a></li>
+        <li><a href="services.html#s-consultation">Consultation</a></li>
+        <li><a href="services.html#s-freelance">Freelancing</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Company</div>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="legal.html">Privacy & Terms</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Get Started</div>
+      <ul class="footer-links">
+        <li><a href="https://paystack.shop/pay/inkroom" target="_blank">Pay Now</a></li>
+        <li><a href="https://wa.me/message/ID5IMVTNGKCJC1" target="_blank">WhatsApp Us</a></li>
+        <li><a href="contact.html">Contact Page</a></li>
+        <li><a href="testimonials.html">Testimonials</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 Grey LLC · The House of Asher Int. Holdings™. All rights reserved.</span>
+    <div class="footer-bottom-links">
+      <a href="legal.html">Privacy Policy</a>
+      <a href="legal.html">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── Cursor ──
+  const cursor = document.getElementById('cursor');
+  const ring   = document.getElementById('cursorRing');
+  let rx = 0, ry = 0, mx = 0, my = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+  });
+  (function loop() {
+    rx += (mx - rx) * .15; ry += (my - ry) * .15;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(loop);
+  })();
+  document.querySelectorAll('a, button, .v-card, .t-card, .photo-cell, .share-channel, .mosaic-cell').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.classList.add('expand'); ring.classList.add('expand'); });
+    el.addEventListener('mouseleave', () => { cursor.classList.remove('expand'); ring.classList.remove('expand'); });
+  });
+
+  // ── Nav shrink ──
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // ── Scroll reveals ──
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // ── Stats counter ──
+  const statNums = document.querySelectorAll('.stat-num[data-target]');
+  const statsObs = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = +el.dataset.target;
+      let current = 0;
+      const step = Math.ceil(target / 60);
+      const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.textContent = current + (el.dataset.target === '98' ? '%' : '+');
+        if (current >= target) clearInterval(timer);
+      }, 20);
+      statsObs.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  statNums.forEach(el => statsObs.observe(el));
+
+  // ── Video modal ──
+  function openModal(src) {
+    document.getElementById('modalIframe').src = src;
+    document.getElementById('modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+    document.getElementById('modalIframe').src = '';
+    document.body.style.overflow = '';
+  }
+  document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pricing | Grey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:       #CE4703;
+      --orange-light: #FB4F0F;
+      --near-black:   #0F0F0F;
+      --off-white:    #F4F1EE;
+      --grey-mid:     #575757;
+      --grey-light:   #878787;
+      --cream:        #FAF8F5;
+      --font-display: 'Oswald', sans-serif;
+      --font-body:    'DM Sans', sans-serif;
+      --font-mono:    'Space Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--near-black); color: var(--off-white); font-family: var(--font-body); overflow-x: hidden; cursor: none; }
+
+    /* ── Cursor ── */
+    .cursor { position: fixed; width: 10px; height: 10px; background: var(--orange); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); transition: width .2s, height .2s, background .2s; }
+    .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1.5px solid rgba(206,71,3,.5); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); }
+    .cursor.expand { width: 18px; height: 18px; background: var(--orange-light); }
+    .cursor-ring.expand { width: 52px; height: 52px; border-color: rgba(206,71,3,.2); }
+
+    /* ── Nav ── */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 22px 48px; background: rgba(15,15,15,.9); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(255,255,255,.04); transition: padding .3s; }
+    nav.scrolled { padding: 14px 48px; }
+    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo-icon { width: 36px; height: 36px; background: var(--orange); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .nav-logo-icon svg { width: 20px; height: 20px; }
+    .nav-wordmark { font-family: var(--font-display); font-size: 22px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--off-white); }
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--grey-light); text-decoration: none; transition: color .2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--off-white); }
+    .nav-cta { background: var(--orange); color: white !important; padding: 10px 22px; font-weight: 500 !important; transition: background .2s !important; }
+    .nav-cta:hover { background: var(--orange-light) !important; }
+
+    /* ── Shared ── */
+    .section-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--orange); margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+    .section-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--orange); }
+
+    .fade-up { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .fade-up.d1 { transition-delay: .1s; } .fade-up.d2 { transition-delay: .2s; } .fade-up.d3 { transition-delay: .3s; } .fade-up.d4 { transition-delay: .4s; }
+
+    /* ── Hero ── */
+    .hero { min-height: 56vh; padding: 160px 80px 80px; display: flex; flex-direction: column; justify-content: flex-end; position: relative; overflow: hidden; }
+    .hero-bg { position: absolute; inset: 0; background: linear-gradient(145deg, #1a0900 0%, #0F0F0F 65%); }
+    .hero-bg::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 70% 30%, rgba(206,71,3,.18) 0%, transparent 55%), radial-gradient(circle at 20% 80%, rgba(76,168,163,.06) 0%, transparent 45%); }
+    .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px); background-size: 60px 60px; }
+    .hero-watermark { position: absolute; bottom: -30px; right: -10px; font-family: var(--font-display); font-size: 220px; font-weight: 700; color: rgba(255,255,255,.025); line-height: 1; text-transform: uppercase; letter-spacing: -.04em; user-select: none; pointer-events: none; }
+    .hero-content { position: relative; z-index: 2; }
+    .hero-eyebrow { font-family: var(--font-mono); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--orange); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+    .hero-eyebrow::before { content: ''; display: block; width: 32px; height: 1px; background: var(--orange); }
+    .hero h1 { font-family: var(--font-display); font-size: clamp(52px, 8vw, 108px); font-weight: 600; line-height: .96; text-transform: uppercase; letter-spacing: -.01em; margin-bottom: 28px; }
+    .hero h1 em { font-style: normal; color: var(--orange); }
+    .hero-sub { font-size: 16px; color: rgba(244,241,238,.6); line-height: 1.65; max-width: 520px; margin-bottom: 44px; }
+
+    /* Tab switcher pills in hero */
+    .cat-switcher { display: flex; gap: 2px; flex-wrap: wrap; }
+    .cat-btn { font-family: var(--font-display); font-size: 12px; letter-spacing: .1em; text-transform: uppercase; padding: 11px 24px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); color: var(--grey-light); cursor: none; transition: all .2s; }
+    .cat-btn:hover { background: rgba(206,71,3,.12); border-color: rgba(206,71,3,.4); color: var(--off-white); }
+    .cat-btn.active { background: var(--orange); border-color: var(--orange); color: white; }
+
+    /* ── Marquee ── */
+    .marquee-strip { background: var(--orange); padding: 14px 0; overflow: hidden; display: flex; }
+    .marquee-track { display: flex; animation: marquee 24s linear infinite; white-space: nowrap; }
+    .marquee-item { font-family: var(--font-display); font-size: 13px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: white; padding: 0 48px; display: flex; align-items: center; gap: 16px; }
+    .marquee-item::after { content: '◆'; font-size: 8px; opacity: .5; }
+    @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+    /* ── Pricing Panels ── */
+    .pricing-panel { display: none; }
+    .pricing-panel.active { display: block; }
+
+    /* ─ Panel wrapper ─ */
+    .panel-section { padding: 100px 80px; }
+    .panel-header { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end; margin-bottom: 72px; }
+    .panel-title { font-family: var(--font-display); font-size: clamp(36px, 5vw, 64px); font-weight: 600; line-height: .96; text-transform: uppercase; letter-spacing: -.01em; }
+    .panel-title em { font-style: normal; color: var(--orange); }
+    .panel-title-dark { color: var(--near-black); }
+    .panel-body { font-size: 15px; line-height: 1.8; color: var(--grey-light); align-self: end; }
+    .panel-body-dark { color: var(--grey-mid); }
+
+    /* ─ Card grid ─ */
+    .cards-grid { display: grid; gap: 3px; }
+    .cards-3 { grid-template-columns: repeat(3,1fr); }
+    .cards-4 { grid-template-columns: repeat(4,1fr); }
+    .cards-2 { grid-template-columns: 1fr 1fr; }
+
+    /* ─ Price card base ─ */
+    .p-card { padding: 48px 40px; display: flex; flex-direction: column; position: relative; overflow: hidden; transition: transform .3s, box-shadow .3s; }
+    .p-card:hover { transform: translateY(-5px); }
+    .p-card-dark { background: white; border: 1px solid rgba(15,15,15,.07); }
+    .p-card-dark:hover { box-shadow: 0 16px 48px rgba(206,71,3,.1); }
+    .p-card-light { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07); }
+    .p-card-light:hover { border-color: rgba(206,71,3,.3); background: rgba(206,71,3,.03); }
+    .p-card-featured-dark { background: var(--near-black); border: 1px solid rgba(206,71,3,.4); }
+    .p-card-featured-dark:hover { box-shadow: 0 16px 48px rgba(206,71,3,.15); }
+    .p-card-featured-light { background: var(--orange); border: 1px solid var(--orange); }
+
+    /* ghost watermark num */
+    .p-card-ghost { position: absolute; bottom: -12px; right: -4px; font-family: var(--font-display); font-size: 120px; font-weight: 700; line-height: 1; letter-spacing: -.04em; user-select: none; pointer-events: none; transition: color .3s; }
+    .ghost-dark { color: rgba(15,15,15,.04); }
+    .p-card-dark:hover .ghost-dark { color: rgba(206,71,3,.06); }
+    .ghost-light { color: rgba(255,255,255,.04); }
+    .ghost-feat-light { color: rgba(255,255,255,.15); }
+
+    /* badge */
+    .p-badge { display: inline-block; font-family: var(--font-mono); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; padding: 4px 10px; margin-bottom: 20px; align-self: flex-start; }
+    .badge-orange { color: var(--orange); border: 1px solid rgba(206,71,3,.35); }
+    .badge-white { color: white; border: 1px solid rgba(255,255,255,.4); }
+    .badge-solid { background: var(--orange); color: white; border: 1px solid var(--orange); }
+    .badge-solid-dark { background: var(--near-black); color: var(--off-white); border: 1px solid var(--near-black); }
+
+    /* tier name */
+    .p-tier { font-family: var(--font-display); font-size: 20px; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+    .p-tier-dark { color: var(--near-black); }
+    .p-tier-light { color: var(--off-white); }
+    .p-tier-white { color: white; }
+
+    /* amount */
+    .p-amount { font-family: var(--font-display); font-size: 46px; font-weight: 700; line-height: 1; margin-bottom: 4px; letter-spacing: -.01em; }
+    .p-amount-dark { color: var(--near-black); }
+    .p-amount-light { color: var(--off-white); }
+    .p-amount-white { color: white; }
+    .p-amount sub { font-size: 16px; font-weight: 400; letter-spacing: .02em; vertical-align: baseline; }
+
+    /* note & desc */
+    .p-note { font-size: 11px; color: var(--grey-mid); margin-bottom: 4px; font-family: var(--font-mono); letter-spacing: .1em; }
+    .p-note-light { color: var(--grey-light); }
+    .p-note-white { color: rgba(255,255,255,.65); }
+    .p-desc { font-size: 13px; line-height: 1.7; margin: 14px 0 20px; }
+    .p-desc-dark { color: var(--grey-mid); }
+    .p-desc-light { color: var(--grey-light); }
+    .p-desc-white { color: rgba(255,255,255,.8); }
+
+    /* divider */
+    .p-divider { width: 100%; height: 1px; margin: 16px 0 20px; }
+    .divider-dark { background: rgba(15,15,15,.08); }
+    .divider-light { background: rgba(255,255,255,.08); }
+    .divider-white { background: rgba(255,255,255,.25); }
+
+    /* features list */
+    .p-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; flex: 1; }
+    .p-list li { font-size: 13px; display: flex; align-items: flex-start; gap: 9px; line-height: 1.5; }
+    .p-list li::before { content: '→'; flex-shrink: 0; font-size: 11px; margin-top: 2px; }
+    .list-dark li { color: var(--grey-mid); }
+    .list-dark li::before { color: var(--orange); }
+    .list-light li { color: var(--grey-light); }
+    .list-light li::before { color: var(--orange); }
+    .list-white li { color: rgba(255,255,255,.85); }
+    .list-white li::before { color: rgba(255,255,255,.6); }
+
+    /* CTA button */
+    .p-cta { padding: 15px 24px; font-family: var(--font-display); font-size: 13px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; border: none; cursor: none; transition: background .25s, transform .2s; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; }
+    .p-cta:hover { transform: translateY(-1px); }
+    .cta-dark-default { background: var(--near-black); color: white; }
+    .cta-dark-default:hover { background: var(--orange); }
+    .cta-dark-featured { background: var(--orange); color: white; }
+    .cta-dark-featured:hover { background: var(--orange-light); }
+    .cta-light-default { background: rgba(255,255,255,.07); color: var(--off-white); border: 1px solid rgba(255,255,255,.1); }
+    .cta-light-default:hover { background: var(--orange); border-color: var(--orange); }
+    .cta-light-featured { background: var(--orange); color: white; }
+    .cta-light-featured:hover { background: var(--orange-light); }
+    .cta-white { background: white; color: var(--orange); }
+    .cta-white:hover { background: var(--off-white); }
+
+    /* ── EVERYDAY — subscription strip ── */
+    .sub-strip { margin-top: 3px; background: var(--near-black); padding: 52px 80px; display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,.04); }
+    .sub-strip-left {}
+    .sub-tag { font-family: var(--font-mono); font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--orange); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+    .sub-tag::before { content: ''; display: block; width: 16px; height: 1px; background: var(--orange); }
+    .sub-title { font-family: var(--font-display); font-size: clamp(26px, 3.5vw, 42px); font-weight: 500; text-transform: uppercase; line-height: 1.0; }
+    .sub-title em { font-style: normal; color: var(--orange); }
+    .sub-body { font-size: 14px; color: var(--grey-mid); line-height: 1.7; max-width: 400px; margin-top: 10px; }
+    .sub-right { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+
+    /* ── AGRI duration cards ── */
+    .dur-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 3px; margin-bottom: 48px; }
+    .dur-card { border: 1px solid rgba(255,255,255,.07); padding: 36px 28px; transition: border-color .3s, transform .3s; display: flex; flex-direction: column; }
+    .dur-card:hover { border-color: rgba(206,71,3,.35); transform: translateY(-3px); }
+    .dur-card.best { border-color: rgba(206,71,3,.4); background: rgba(206,71,3,.04); }
+    .dur-best-badge { display: inline-block; font-family: var(--font-mono); font-size: 8px; letter-spacing: .18em; text-transform: uppercase; background: var(--orange); color: white; padding: 3px 8px; margin-bottom: 16px; align-self: flex-start; }
+    .dur-label { font-family: var(--font-mono); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--orange); margin-bottom: 12px; }
+    .dur-months { font-family: var(--font-display); font-size: 48px; font-weight: 700; line-height: 1; letter-spacing: -.02em; }
+    .dur-months span { font-size: 16px; font-weight: 400; color: var(--grey-mid); }
+    .dur-roi { font-family: var(--font-display); font-size: 30px; font-weight: 500; color: var(--orange); margin: 6px 0 10px; }
+    .dur-eg { font-size: 12px; color: var(--grey-mid); margin-bottom: 14px; line-height: 1.55; }
+    .dur-note { font-size: 11px; color: var(--grey-mid); font-style: italic; border-top: 1px solid rgba(255,255,255,.06); padding-top: 12px; margin-top: auto; }
+
+    /* Commodity mini table */
+    .comm-table-wrap { overflow-x: auto; margin-bottom: 52px; }
+    .comm-table { width: 100%; border-collapse: collapse; }
+    .comm-table th { font-family: var(--font-display); font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--grey-light); padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,.08); text-align: left; white-space: nowrap; }
+    .comm-table td { font-size: 13px; color: var(--off-white); padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,.04); vertical-align: middle; }
+    .comm-table tr:hover td { background: rgba(255,255,255,.02); }
+    .td-orange { color: var(--orange); font-family: var(--font-display); font-size: 15px; font-weight: 500; }
+    .avail-dot { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; }
+    .avail-dot::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .avail-high::before { background: #4CAF50; }
+    .avail-med::before  { background: var(--orange); }
+
+    /* ── COMPARISON TABLE ── */
+    .compare-section { background: var(--cream); padding: 100px 80px; }
+    .compare-header { margin-bottom: 56px; }
+    .compare-title { font-family: var(--font-display); font-size: clamp(34px, 4.5vw, 56px); font-weight: 600; text-transform: uppercase; letter-spacing: -.01em; line-height: .96; color: var(--near-black); }
+    .compare-title em { font-style: normal; color: var(--orange); }
+    .compare-sub { font-size: 15px; color: var(--grey-mid); max-width: 440px; line-height: 1.75; margin-top: 16px; }
+    .compare-table { width: 100%; border-collapse: collapse; }
+    .compare-table thead th { font-family: var(--font-display); font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; padding: 16px 20px; background: var(--near-black); color: var(--off-white); text-align: center; }
+    .compare-table thead th:first-child { text-align: left; background: var(--near-black); }
+    .compare-table thead th.feat-col { background: var(--orange); color: white; }
+    .compare-table tbody td { padding: 15px 20px; font-size: 13px; border-bottom: 1px solid rgba(15,15,15,.07); text-align: center; color: var(--grey-mid); }
+    .compare-table tbody td:first-child { text-align: left; font-weight: 500; color: var(--near-black); }
+    .compare-table tbody tr:hover td { background: rgba(15,15,15,.02); }
+    .compare-table .check { color: var(--orange); font-size: 16px; }
+    .compare-table .dash { color: rgba(15,15,15,.2); font-size: 16px; }
+    .compare-table tfoot td { padding: 20px 20px; background: rgba(15,15,15,.03); }
+    .compare-table tfoot td:first-child { background: rgba(15,15,15,.03); }
+
+    /* ── HOW PAYMENT WORKS ── */
+    .payment-how { background: var(--near-black); padding: 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .pay-left .section-label { margin-bottom: 20px; }
+    .pay-title { font-family: var(--font-display); font-size: clamp(32px, 4vw, 52px); font-weight: 500; text-transform: uppercase; line-height: .96; letter-spacing: .01em; margin-bottom: 20px; }
+    .pay-title em { font-style: normal; color: var(--orange); }
+    .pay-body { font-size: 15px; line-height: 1.8; color: var(--grey-light); margin-bottom: 32px; }
+    .pay-steps { display: flex; flex-direction: column; gap: 2px; }
+    .pay-step { display: flex; align-items: flex-start; gap: 20px; padding: 20px 24px; border: 1px solid rgba(255,255,255,.06); transition: border-color .25s; }
+    .pay-step:hover { border-color: rgba(206,71,3,.25); }
+    .pay-step-num { font-family: var(--font-display); font-size: 32px; font-weight: 700; color: rgba(255,255,255,.08); line-height: 1; flex-shrink: 0; width: 44px; transition: color .3s; }
+    .pay-step:hover .pay-step-num { color: rgba(206,71,3,.15); }
+    .pay-step-text h4 { font-family: var(--font-display); font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
+    .pay-step-text p { font-size: 12px; line-height: 1.65; color: var(--grey-mid); }
+    .paystack-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); padding: 10px 18px; font-family: var(--font-mono); font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--grey-light); margin-top: 28px; }
+    .paystack-badge::before { content: '🔒'; font-size: 13px; }
+
+    /* ── CUSTOM QUOTE BAND ── */
+    .custom-band { background: var(--orange); padding: 80px; display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+    .custom-band-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 52px); font-weight: 600; text-transform: uppercase; line-height: 1.0; color: white; }
+    .custom-band-body { font-size: 15px; color: rgba(255,255,255,.78); max-width: 420px; line-height: 1.75; margin-top: 10px; }
+    .btn-white { background: white; color: var(--orange); padding: 15px 32px; font-family: var(--font-display); font-size: 14px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; transition: background .2s; cursor: none; display: inline-flex; align-items: center; gap: 10px; }
+    .btn-white:hover { background: var(--off-white); }
+
+    /* ── FAQ ── */
+    .faq-section { background: var(--cream); padding: 100px 80px; }
+    .faq-inner { max-width: 860px; margin: 0 auto; }
+    .faq-title { font-family: var(--font-display); font-size: clamp(34px, 4vw, 52px); font-weight: 600; text-transform: uppercase; letter-spacing: -.01em; line-height: .96; color: var(--near-black); margin-bottom: 52px; }
+    .faq-title em { font-style: normal; color: var(--orange); }
+    .faq-item { border-bottom: 1px solid rgba(15,15,15,.1); }
+    .faq-q { width: 100%; background: none; border: none; padding: 24px 0; display: flex; align-items: center; justify-content: space-between; gap: 20px; text-align: left; cursor: none; }
+    .faq-q-text { font-family: var(--font-display); font-size: 16px; font-weight: 400; text-transform: uppercase; letter-spacing: .04em; color: var(--near-black); transition: color .2s; line-height: 1.3; }
+    .faq-q:hover .faq-q-text { color: var(--orange); }
+    .faq-icon { flex-shrink: 0; width: 28px; height: 28px; border: 1px solid rgba(15,15,15,.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--grey-mid); transition: all .25s; }
+    .faq-item.open .faq-icon { background: var(--orange); border-color: var(--orange); color: white; transform: rotate(45deg); }
+    .faq-answer { overflow: hidden; max-height: 0; transition: max-height .4s ease; }
+    .faq-item.open .faq-answer { max-height: 240px; }
+    .faq-answer-inner { padding: 0 0 24px; font-size: 14px; line-height: 1.8; color: var(--grey-mid); max-width: 680px; }
+
+    /* ── Footer ── */
+    footer { background: #060606; border-top: 1px solid rgba(255,255,255,.05); padding: 72px 80px 40px; }
+    .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; margin-bottom: 64px; }
+    .footer-brand-name { font-family: var(--font-display); font-size: 32px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--off-white); margin-bottom: 16px; }
+    .footer-brand-tag { font-size: 13px; color: var(--grey-mid); line-height: 1.6; max-width: 280px; margin-bottom: 28px; }
+    .footer-socials { display: flex; gap: 12px; }
+    .social-icon { width: 36px; height: 36px; border: 1px solid rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; font-size: 13px; color: var(--grey-light); transition: border-color .2s, color .2s; text-decoration: none; cursor: none; }
+    .social-icon:hover { border-color: var(--orange); color: var(--orange); }
+    .footer-col-title { font-family: var(--font-display); font-size: 12px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--grey-light); margin-bottom: 24px; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+    .footer-links a { font-size: 13px; color: var(--grey-mid); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--off-white); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.05); padding-top: 32px; display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { font-size: 11px; color: var(--grey-mid); letter-spacing: .05em; }
+    .footer-bottom-links { display: flex; gap: 24px; }
+    .footer-bottom-links a { font-size: 11px; color: var(--grey-mid); text-decoration: none; letter-spacing: .08em; text-transform: uppercase; transition: color .2s; }
+    .footer-bottom-links a:hover { color: var(--off-white); }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      nav { padding: 18px 32px; } nav.scrolled { padding: 14px 32px; }
+      .nav-links { display: none; }
+      .hero { padding: 140px 32px 64px; }
+      .panel-section { padding: 64px 32px; }
+      .panel-header { grid-template-columns: 1fr; gap: 24px; }
+      .cards-3, .cards-4 { grid-template-columns: 1fr; }
+      .cards-2 { grid-template-columns: 1fr; }
+      .dur-grid { grid-template-columns: 1fr 1fr; }
+      .compare-section { padding: 64px 32px; }
+      .compare-table thead th, .compare-table tbody td { padding: 12px 12px; font-size: 12px; }
+      .payment-how { grid-template-columns: 1fr; gap: 48px; padding: 64px 32px; }
+      .custom-band { padding: 60px 32px; }
+      .faq-section { padding: 72px 32px; }
+      .sub-strip { padding: 48px 32px; }
+      footer { padding: 48px 32px 32px; }
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+    @media (max-width: 640px) {
+      .dur-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; gap: 28px; }
+      .hero-watermark { font-size: 120px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ── Nav ── -->
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.5"/>
+          <path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20" stroke="white" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <span class="nav-wordmark">Grey</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="#" class="active">Pricing</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="https://paystack.shop/pay/inkroom" target="_blank" class="btn nav-cta">Pay Now</a></li>
+    </ul>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-watermark">Pricing</div>
+    <div class="hero-content fade-up">
+      <p class="hero-eyebrow">Transparent Pricing</p>
+      <h1>Simple Plans.<br/><em>Real Value.</em></h1>
+      <p class="hero-sub">No hidden fees. No surprises. Pick your service category below and see exactly what you'll pay — then book directly through our secure payment link.</p>
+      <div class="cat-switcher">
+        <button class="cat-btn active" onclick="switchCat('everyday', this)">Everyday Services</button>
+        <button class="cat-btn" onclick="switchCat('agri', this)">Agriculture Investment</button>
+        <button class="cat-btn" onclick="switchCat('consultation', this)">Consultation</button>
+        <button class="cat-btn" onclick="switchCat('freelance', this)">Freelancing</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Marquee -->
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span class="marquee-item">Everyday Services</span>
+      <span class="marquee-item">Agriculture Investment</span>
+      <span class="marquee-item">Business Consultation</span>
+      <span class="marquee-item">Freelance Services</span>
+      <span class="marquee-item">Secure Payment via Paystack</span>
+      <span class="marquee-item">Everyday Services</span>
+      <span class="marquee-item">Agriculture Investment</span>
+      <span class="marquee-item">Business Consultation</span>
+      <span class="marquee-item">Freelance Services</span>
+      <span class="marquee-item">Secure Payment via Paystack</span>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════
+       PANEL 1 — EVERYDAY SERVICES
+  ══════════════════════════════ -->
+  <div class="pricing-panel active" id="panel-everyday">
+    <div class="panel-section" style="background:var(--cream);">
+      <div class="panel-header fade-up">
+        <div>
+          <p class="section-label">Everyday Services</p>
+          <h2 class="panel-title panel-title-dark">Pay as You<br/><em>Need It.</em></h2>
+        </div>
+        <p class="panel-body panel-body-dark">All everyday service bookings are priced on scope — what you need, when you need it. Subscribe for the best value, or book once and pay for exactly that.</p>
+      </div>
+      <div class="cards-grid cards-3 fade-up">
+
+        <!-- One-off -->
+        <div class="p-card p-card-dark">
+          <div class="p-card-ghost ghost-dark">A</div>
+          <span class="p-badge badge-orange">One-Off</span>
+          <div class="p-tier p-tier-dark">Single Booking</div>
+          <div class="p-amount p-amount-dark">Custom<sub> / scope</sub></div>
+          <p class="p-note">Priced per service request</p>
+          <p class="p-desc p-desc-dark">Perfect for occasional needs. Tell us what you need, we scope it, you pay for exactly that service — nothing more.</p>
+          <div class="p-divider divider-dark"></div>
+          <ul class="p-list list-dark">
+            <li>Any single service category</li>
+            <li>Same-day availability where possible</li>
+            <li>Verified provider matched to your need</li>
+            <li>Flexible scheduling</li>
+          </ul>
+          <a href="javascript:void(0)" onclick="payNow('Everyday Single Booking')" class="p-cta cta-dark-default">Book & Pay →</a>
+        </div>
+
+        <!-- Subscription – Featured -->
+        <div class="p-card p-card-featured-dark">
+          <div class="p-card-ghost ghost-light">B</div>
+          <span class="p-badge badge-solid">Life as an Experience</span>
+          <div class="p-tier p-tier-light">Subscription</div>
+          <div class="p-amount p-amount-light">Custom<sub> / month</sub></div>
+          <p class="p-note p-note-light">Recurring · cancel anytime</p>
+          <p class="p-desc p-desc-light">Our flagship plan — recurring services built around your lifestyle. Priority matching, personalised onboarding, and a dedicated support line.</p>
+          <div class="p-divider divider-light"></div>
+          <ul class="p-list list-light">
+            <li>Recurring service scheduling</li>
+            <li>Priority provider access</li>
+            <li>Personalised onboarding session</li>
+            <li>Dedicated WhatsApp support line</li>
+            <li>Custom plan tailored to you</li>
+            <li>Cancel or pause anytime</li>
+          </ul>
+          <a href="javascript:void(0)" onclick="payNow('Life as an Experience Subscription')" class="p-cta cta-dark-featured">Subscribe & Pay →</a>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="p-card p-card-dark">
+          <div class="p-card-ghost ghost-dark">C</div>
+          <span class="p-badge badge-orange">Business</span>
+          <div class="p-tier p-tier-dark">Enterprise</div>
+          <div class="p-amount p-amount-dark">Custom<sub> / plan</sub></div>
+          <p class="p-note">Multi-team · volume pricing</p>
+          <p class="p-desc p-desc-dark">For businesses and organisations needing ongoing, multi-location, or high-volume service coverage with SLA-backed delivery.</p>
+          <div class="p-divider divider-dark"></div>
+          <ul class="p-list list-dark">
+            <li>Multi-team service coverage</li>
+            <li>Dedicated account manager</li>
+            <li>SLA-backed delivery standards</li>
+            <li>Volume pricing available</li>
+            <li>Monthly reporting</li>
+          </ul>
+          <a href="contact.html" class="p-cta cta-dark-default">Get a Quote →</a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Subscription details strip -->
+    <div class="sub-strip fade-up">
+      <div class="sub-strip-left">
+        <p class="sub-tag">Subscription Details</p>
+        <h3 class="sub-title">Life as an <em>Experience</em> — How It Works</h3>
+        <p class="sub-body">Sign up once, tell us your recurring needs, and we handle the rest. Your schedule, your preferences, your providers — managed consistently every month.</p>
+      </div>
+      <div class="sub-right">
+        <a href="javascript:void(0)" onclick="payNow('Life as an Experience Subscription')" class="p-cta cta-dark-featured" style="white-space:nowrap;">Start Subscription →</a>
+        <a href="contact.html" class="p-cta cta-light-default" style="white-space:nowrap;">Ask a Question</a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════
+       PANEL 2 — AGRICULTURE
+  ══════════════════════════════ -->
+  <div class="pricing-panel" id="panel-agri">
+    <div class="panel-section" style="background:var(--near-black);">
+      <div class="panel-header fade-up">
+        <div>
+          <p class="section-label">Agricultural Investment</p>
+          <h2 class="panel-title" style="color:var(--off-white);">Choose Your<br/><em>Duration.</em></h2>
+        </div>
+        <p class="panel-body">Buy units of real agricultural commodities at harvest-low prices. Choose your duration and collect your capital plus profit at maturity. Minimum investment: <strong style="color:var(--off-white);">₦30,000</strong>.</p>
+      </div>
+
+      <!-- Duration cards -->
+      <div class="dur-grid fade-up">
+        <div class="dur-card">
+          <div class="dur-label">Duration 01</div>
+          <div class="dur-months">3 <span>months</span></div>
+          <div class="dur-roi">12% ROI</div>
+          <p class="dur-eg">₦100,000 in → <strong style="color:var(--off-white);">₦112,000</strong> out</p>
+          <p class="dur-note">Quick liquidity. Great for first-time investors.</p>
+          <a href="javascript:void(0)" onclick="payNow('Agricultural Investment — 3 Months', 30000)" class="p-cta cta-light-default" style="margin-top:20px;">Invest Now →</a>
+        </div>
+        <div class="dur-card">
+          <div class="dur-label">Duration 02</div>
+          <div class="dur-months">6 <span>months</span></div>
+          <div class="dur-roi">20% ROI</div>
+          <p class="dur-eg">₦100,000 in → <strong style="color:var(--off-white);">₦120,000</strong> out</p>
+          <p class="dur-note">Ideal for mid-term planning. Seasonal demand growth.</p>
+          <a href="javascript:void(0)" onclick="payNow('Agricultural Investment — 6 Months', 30000)" class="p-cta cta-light-default" style="margin-top:20px;">Invest Now →</a>
+        </div>
+        <div class="dur-card">
+          <div class="dur-label">Duration 03</div>
+          <div class="dur-months">9 <span>months</span></div>
+          <div class="dur-roi">25% ROI</div>
+          <p class="dur-eg">₦100,000 in → <strong style="color:var(--off-white);">₦125,000</strong> out</p>
+          <p class="dur-note">Balance of return and liquidity. Good for annual goals.</p>
+          <a href="javascript:void(0)" onclick="payNow('Agricultural Investment — 9 Months', 30000)" class="p-cta cta-light-default" style="margin-top:20px;">Invest Now →</a>
+        </div>
+        <div class="dur-card best">
+          <div class="dur-best-badge">Best Value</div>
+          <div class="dur-label">Duration 04</div>
+          <div class="dur-months">12 <span>months</span></div>
+          <div class="dur-roi">30% ROI</div>
+          <p class="dur-eg">₦100,000 in → <strong style="color:var(--off-white);">₦130,000</strong> out</p>
+          <p class="dur-note">Maximum returns. Compound and reinvest for wealth growth.</p>
+          <a href="javascript:void(0)" onclick="payNow('Agricultural Investment — 12 Months', 30000)" class="p-cta cta-light-featured" style="margin-top:20px;">Invest Now →</a>
+        </div>
+      </div>
+
+      <!-- Commodity table -->
+      <p class="section-label fade-up" style="margin-bottom:20px;">Available Commodities &amp; Prices</p>
+      <div class="comm-table-wrap fade-up">
+        <table class="comm-table">
+          <thead>
+            <tr>
+              <th>Commodity</th>
+              <th>Price / Unit</th>
+              <th>Availability</th>
+              <th>3 Months</th>
+              <th>6 Months</th>
+              <th>9 Months</th>
+              <th>12 Months</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Maize</strong></td>
+              <td>₦30,000</td>
+              <td><span class="avail-dot avail-high">High</span></td>
+              <td>₦39,000</td><td>₦39,600</td><td>₦40,500</td>
+              <td class="td-orange">₦41,100</td>
+            </tr>
+            <tr>
+              <td><strong>Rice</strong></td>
+              <td>₦45,000</td>
+              <td><span class="avail-dot avail-high">High</span></td>
+              <td>₦58,500</td><td>₦59,400</td><td>₦60,750</td>
+              <td class="td-orange">₦61,650</td>
+            </tr>
+            <tr>
+              <td><strong>Millet</strong></td>
+              <td>₦32,000</td>
+              <td><span class="avail-dot avail-med">Medium</span></td>
+              <td>₦41,600</td><td>₦42,240</td><td>₦43,200</td>
+              <td class="td-orange">₦43,840</td>
+            </tr>
+            <tr>
+              <td><strong>Sorghum</strong></td>
+              <td>₦35,000</td>
+              <td><span class="avail-dot avail-med">Medium</span></td>
+              <td>₦45,500</td><td>₦46,200</td><td>₦47,250</td>
+              <td class="td-orange">₦47,950</td>
+            </tr>
+            <tr>
+              <td><strong>Soybeans</strong></td>
+              <td>₦50,000</td>
+              <td><span class="avail-dot avail-med">Medium</span></td>
+              <td>₦65,000</td><td>₦66,000</td><td>₦67,500</td>
+              <td class="td-orange">₦68,500</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display:flex;gap:14px;flex-wrap:wrap;" class="fade-up">
+        <a href="javascript:void(0)" onclick="payNow('Agricultural Investment', 30000)" class="p-cta cta-light-featured" style="padding:15px 32px;">Start Investing →</a>
+        <a href="contact.html" class="p-cta cta-light-default" style="padding:15px 32px;">Ask a Question</a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════
+       PANEL 3 — CONSULTATION
+  ══════════════════════════════ -->
+  <div class="pricing-panel" id="panel-consultation">
+    <div class="panel-section" style="background:var(--cream);">
+      <div class="panel-header fade-up">
+        <div>
+          <p class="section-label">Business Consultation</p>
+          <h2 class="panel-title panel-title-dark">Expertise<br/><em>at Every Scale.</em></h2>
+        </div>
+        <p class="panel-body panel-body-dark">Pick a plan that matches your stage and scope. Every tier includes direct access to experienced consultants who deliver tailored, actionable strategies.</p>
+      </div>
+      <div class="cards-grid cards-3 fade-up">
+
+        <div class="p-card p-card-dark">
+          <div class="p-card-ghost ghost-dark">A</div>
+          <span class="p-badge badge-orange">Starter</span>
+          <div class="p-tier p-tier-dark">Custom Plan</div>
+          <div class="p-amount p-amount-dark">₦30,000</div>
+          <p class="p-note">+ ₦5,000 consultation fee</p>
+          <p class="p-desc p-desc-dark">For individuals and early-stage founders with specific, focused needs that require a tailored one-time approach.</p>
+          <div class="p-divider divider-dark"></div>
+          <ul class="p-list list-dark">
+            <li>Single focused consultation session</li>
+            <li>Tailored strategy memo delivered</li>
+            <li>48-hour follow-up Q&A window</li>
+            <li>Scope-based deliverables</li>
+          </ul>
+          <a href="javascript:void(0)" onclick="payNow('Consultation — Custom Plan', 30000)" class="p-cta cta-dark-default">Get Started →</a>
+        </div>
+
+        <div class="p-card p-card-featured-dark">
+          <div class="p-card-ghost ghost-light">B</div>
+          <span class="p-badge badge-solid">Most Popular</span>
+          <div class="p-tier p-tier-light">Standard Plan</div>
+          <div class="p-amount p-amount-light">₦100,000</div>
+          <p class="p-note p-note-light">Valid for 3 months</p>
+          <p class="p-desc p-desc-light">For growing businesses that need comprehensive support, structured sessions, and a clear growth roadmap delivered.</p>
+          <div class="p-divider divider-light"></div>
+          <ul class="p-list list-light">
+            <li>3 consultation sessions</li>
+            <li>Full operations audit</li>
+            <li>Growth roadmap document</li>
+            <li>Priority scheduling</li>
+            <li>Email & WhatsApp support</li>
+          </ul>
+          <a href="javascript:void(0)" onclick="payNow('Consultation — Standard Plan', 100000)" class="p-cta cta-dark-featured">Get Started →</a>
+        </div>
+
+        <div class="p-card p-card-dark">
+          <div class="p-card-ghost ghost-dark">C</div>
+          <span class="p-badge badge-orange">Enterprise</span>
+          <div class="p-tier p-tier-dark">Premium Plan</div>
+          <div class="p-amount p-amount-dark">₦200,000</div>
+          <p class="p-note">Ongoing support included</p>
+          <p class="p-desc p-desc-dark">For established businesses needing in-depth, ongoing strategic support across multiple functions over a sustained period.</p>
+          <div class="p-divider divider-dark"></div>
+          <ul class="p-list list-dark">
+            <li>Unlimited sessions (3 months)</li>
+            <li>Dedicated consultant assigned</li>
+            <li>Brand & positioning overhaul</li>
+            <li>Monthly strategy reviews</li>
+            <li>Full implementation support</li>
+          </ul>
+          <a href="javascript:void(0)" onclick="payNow('Consultation — Premium Plan', 200000)" class="p-cta cta-dark-default">Get Started →</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════
+       PANEL 4 — FREELANCING
+  ══════════════════════════════ -->
+  <div class="pricing-panel" id="panel-freelance">
+    <div class="panel-section" style="background:var(--near-black);">
+      <div class="panel-header fade-up">
+        <div>
+          <p class="section-label">Freelance Services</p>
+          <h2 class="panel-title" style="color:var(--off-white);">Scope-Based.<br/><em>Always Fair.</em></h2>
+        </div>
+        <p class="panel-body">Freelance pricing is determined by your project scope, timeline, and specific requirements. We quote fairly — and every project is backed by Grey's quality guarantee.</p>
+      </div>
+      <div class="cards-grid cards-3 fade-up">
+
+        <div class="p-card p-card-light">
+          <div class="p-card-ghost ghost-light">A</div>
+          <span class="p-badge badge-orange">Micro Project</span>
+          <div class="p-tier p-tier-light">Quick Turnaround</div>
+          <div class="p-amount p-amount-light">Custom<sub> / project</sub></div>
+          <p class="p-note p-note-light">Under 5 days delivery</p>
+          <p class="p-desc p-desc-light">Short-form tasks, one-off designs, quick copy pieces, or small technical fixes. Fast, clean, done.</p>
+          <div class="p-divider divider-light"></div>
+          <ul class="p-list list-light">
+            <li>Single-deliverable projects</li>
+            <li>Up to 2 rounds of revision</li>
+            <li>Fast-tracked matching</li>
+            <li>Flexible payment on completion</li>
+          </ul>
+          <a href="javascript:void(0)" onclick="payNow('Freelance — Micro Project')" class="p-cta cta-light-default">Get a Quote →</a>
+        </div>
+
+        <div class="p-card p-card-featured-light">
+          <div class="p-card-ghost ghost-feat-light">B</div>
+          <span class="p-badge badge-solid-dark">Most Popular</span>
+          <div class="p-tier p-tier-white">Mid-Range Project</div>
+          <div class="p-amount p-amount-white">Custom<sub style="color:rgba(255,255,255,.7);"> / project</sub></div>
+          <p class="p-note p-note-white">1–4 week timeline</p>
+          <p class="p-desc p-desc-white">The sweet spot for most clients — full creative or technical projects with proper scoping, consistent communication, and quality output.</p>
+          <div class="p-divider divider-white"></div>
+          <ul class="p-list list-white">
+            <li>Full project scoping session</li>
+            <li>Dedicated matched freelancer</li>
+            <li>Up to 4 revision rounds</li>
+            <li>Milestone-based payments</li>
+            <li>Grey quality guarantee</li>
+          </ul>
+          <a href="javascript:void(0)" onclick="payNow('Freelance — Mid-Range Project')" class="p-cta cta-white">Get a Quote →</a>
+        </div>
+
+        <div class="p-card p-card-light">
+          <div class="p-card-ghost ghost-light">C</div>
+          <span class="p-badge badge-orange">Long-Term</span>
+          <div class="p-tier p-tier-light">Retainer</div>
+          <div class="p-amount p-amount-light">Custom<sub> / month</sub></div>
+          <p class="p-note p-note-light">Ongoing partnership</p>
+          <p class="p-desc p-desc-light">For clients who need consistent, recurring creative or technical support — a dedicated freelancer on retainer, managed through Grey.</p>
+          <div class="p-divider divider-light"></div>
+          <ul class="p-list list-light">
+            <li>Dedicated freelancer allocated</li>
+            <li>Defined monthly deliverables</li>
+            <li>Priority support & scheduling</li>
+            <li>Monthly performance reviews</li>
+          </ul>
+          <a href="javascript:void(0)" onclick="payNow('Freelance — Retainer')" class="p-cta cta-light-default">Get a Quote →</a>
+        </div>
+
+      </div>
+
+      <div class="sub-strip fade-up" style="margin-top:3px; padding:52px 0 0; border-top:1px solid rgba(255,255,255,.05); background:transparent;">
+        <div>
+          <p class="sub-tag">Are you a Freelancer?</p>
+          <h3 class="sub-title">Join the <em>Grey Network.</em></h3>
+          <p class="sub-body">We're always looking for talented, reliable creatives and specialists. Apply to join our verified freelancer pool and get matched with quality clients.</p>
+        </div>
+        <a href="contact.html" class="p-cta cta-light-featured" style="white-space:nowrap;padding:15px 32px;">Apply to Join →</a>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════
+       COMPARISON TABLE
+  ══════════════════════════════ -->
+  <section class="compare-section fade-up">
+    <div class="compare-header">
+      <p class="section-label" style="color:var(--orange);">Compare Plans</p>
+      <h2 class="compare-title">What You Get<br/><em>Across Tiers.</em></h2>
+      <p class="compare-sub">A quick side-by-side of what's included across our most popular everyday service plans.</p>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Single Booking</th>
+            <th class="feat-col">Life as Experience ★</th>
+            <th>Enterprise</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Verified Provider Matching</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Flexible Scheduling</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Recurring Services</td><td><span class="dash">—</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Priority Provider Access</td><td><span class="dash">—</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Personalised Onboarding</td><td><span class="dash">—</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Dedicated Support Line</td><td><span class="dash">—</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Dedicated Account Manager</td><td><span class="dash">—</span></td><td><span class="dash">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Volume Pricing</td><td><span class="dash">—</span></td><td><span class="dash">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Monthly Reporting</td><td><span class="dash">—</span></td><td><span class="dash">—</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>SLA-Backed Delivery</td><td><span class="dash">—</span></td><td><span class="dash">—</span></td><td><span class="check">✓</span></td></tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td></td>
+            <td><a href="javascript:void(0)" onclick="payNow('Everyday Single Booking')" class="p-cta cta-dark-default" style="display:inline-flex;">Book Now</a></td>
+            <td style="background:rgba(206,71,3,.06);"><a href="javascript:void(0)" onclick="payNow('Life as an Experience Subscription')" class="p-cta cta-dark-featured" style="display:inline-flex;">Subscribe</a></td>
+            <td><a href="contact.html" class="p-cta cta-dark-default" style="display:inline-flex;">Get a Quote</a></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════
+       HOW PAYMENT WORKS
+  ══════════════════════════════ -->
+  <section class="payment-how fade-up">
+    <div class="pay-left">
+      <p class="section-label">Secure Checkout</p>
+      <h2 class="pay-title">Pay in 3<br/><em>Simple Steps.</em></h2>
+      <p class="pay-body">We use Paystack — one of Africa's most trusted payment processors — to handle all transactions securely. Your card details are never stored by Grey.</p>
+      <div class="paystack-badge">Secured & processed by Paystack</div>
+    </div>
+    <div class="pay-steps">
+      <div class="pay-step">
+        <div class="pay-step-num">01</div>
+        <div class="pay-step-text">
+          <h4>Choose Your Plan</h4>
+          <p>Select a pricing tier above. Click "Pay Now" — your chosen service will be pre-filled as the payment reference so we know exactly what you've booked.</p>
+        </div>
+      </div>
+      <div class="pay-step">
+        <div class="pay-step-num">02</div>
+        <div class="pay-step-text">
+          <h4>Complete Payment</h4>
+          <p>You'll be taken to our secure Paystack checkout page. Pay via card, bank transfer, or USSD — whichever works best for you.</p>
+        </div>
+      </div>
+      <div class="pay-step">
+        <div class="pay-step-num">03</div>
+        <div class="pay-step-text">
+          <h4>We Follow Up</h4>
+          <p>Once payment is confirmed, a Grey team member will reach out via WhatsApp within the hour to confirm your booking details and next steps.</p>
+        </div>
+      </div>
+      <div class="pay-step">
+        <div class="pay-step-num">04</div>
+        <div class="pay-step-text">
+          <h4>Experience Delivered</h4>
+          <p>Your service begins. For investments, your portfolio details are sent within 24 hours. For everyday services, your provider is matched and confirmed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════
+       CUSTOM QUOTE BAND
+  ══════════════════════════════ -->
+  <div class="custom-band fade-up">
+    <div>
+      <h2 class="custom-band-title">Not Sure Which<br/>Plan Fits?</h2>
+      <p class="custom-band-body">Reach out and we'll figure it out together. No pressure, no commitment — just a quick conversation to understand what you need and recommend the right option.</p>
+    </div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
+      <a href="https://wa.me/message/ID5IMVTNGKCJC1" target="_blank" class="btn-white">Chat on WhatsApp →</a>
+      <a href="contact.html" style="background:transparent;color:white;padding:15px 32px;font-family:var(--font-display);font-size:14px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border:1px solid rgba(255,255,255,.4);transition:border-color .2s;cursor:none;" onmouseenter="this.style.borderColor='white'" onmouseleave="this.style.borderColor='rgba(255,255,255,.4)'">Contact Us</a>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════
+       FAQ
+  ══════════════════════════════ -->
+  <section class="faq-section fade-up">
+    <div class="faq-inner">
+      <h2 class="faq-title">Pricing<br/><em>Questions.</em></h2>
+
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">How does payment work?</span><span class="faq-icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">All payments are processed securely through Paystack. Click any "Pay Now" or "Get Started" button and you'll be taken to our Paystack checkout. Enter your details, choose your payment method (card, bank transfer, or USSD), and confirm. We'll follow up via WhatsApp within the hour.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Are there any hidden fees?</span><span class="faq-icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">No. What you see is what you pay. For scope-based services (freelancing, single bookings), we give you a full quote before any payment is required. The only exception is the Consultation Custom Plan which includes a separate ₦5,000 consultation fee, clearly stated upfront.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Can I get a refund?</span><span class="faq-icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Cancellations with more than 24 hours notice are eligible for a full refund. Cancellations within 24 hours may incur a processing fee. Subscription plans can be cancelled at any time — you won't be charged beyond your current billing period. Agricultural investment refunds are governed by the specific investment agreement.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">What currencies do you accept?</span><span class="faq-icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Our primary currency is the Nigerian Naira (₦ / NGN). Paystack also supports international card payments in other currencies depending on your card issuer. If you're paying from outside Nigeria, your bank will handle the conversion at the prevailing exchange rate.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">What happens after I pay?</span><span class="faq-icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">After a successful payment, a Grey team member will contact you via WhatsApp within one hour to confirm your booking, collect any additional details needed, and set expectations for delivery. For agricultural investments, your portfolio documentation is sent within 24 business hours.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Can I split payment across milestones?</span><span class="faq-icon">+</span></button>
+        <div class="faq-answer"><div class="faq-answer-inner">Yes — for mid-range and retainer freelance projects, milestone-based payments are available and often preferred. For consultation plans, we can also discuss a split payment structure. Reach out on WhatsApp or through our contact page to arrange this.</div></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand-name">Grey</div>
+        <p class="footer-brand-tag">Redefining how people work, live, and grow — one service at a time.</p>
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/greys.llc?igsh=MjdpemdjMjdmc2Qx" target="_blank" class="social-icon" title="Instagram">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61563298919257&mibextid=ZbWKwL" target="_blank" class="social-icon" title="Facebook">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+          <a href="https://www.linkedin.com/company/greys-llc/" target="_blank" class="social-icon" title="LinkedIn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="https://wa.me/message/ID5IMVTNGKCJC1" target="_blank" class="social-icon" title="WhatsApp">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.135.561 4.133 1.532 5.86L.057 23.428a.75.75 0 00.921.921l5.568-1.475A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.75 9.75 0 01-4.937-1.341l-.354-.21-3.658.968.985-3.572-.229-.368A9.75 9.75 0 0112 2.25c5.385 0 9.75 4.365 9.75 9.75S17.385 21.75 12 21.75z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-links">
+          <li><a href="services.html#s-everyday">Everyday Services</a></li>
+          <li><a href="services.html#s-agri">Agriculture Investment</a></li>
+          <li><a href="services.html#s-consultation">Consultation</a></li>
+          <li><a href="services.html#s-freelance">Freelancing</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="company.html">Company</a></li>
+          <li><a href="legal.html">Privacy & Terms</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Get Started</div>
+        <ul class="footer-links">
+          <li><a href="https://paystack.shop/pay/inkroom" target="_blank">Pay Now (Paystack)</a></li>
+          <li><a href="https://wa.me/message/ID5IMVTNGKCJC1" target="_blank">WhatsApp Us</a></li>
+          <li><a href="contact.html">Contact Page</a></li>
+          <li><a href="pricing.html" class="active">Pricing</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2025 Grey LLC · The House of Asher Int. Holdings™. All rights reserved.</span>
+      <div class="footer-bottom-links">
+        <a href="legal.html">Privacy Policy</a>
+        <a href="legal.html">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <script>
+    // ── Cursor ──
+    const cursor = document.getElementById('cursor');
+    const ring   = document.getElementById('cursorRing');
+    let rx = 0, ry = 0, mx = 0, my = 0;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+    });
+    (function loop() {
+      rx += (mx - rx) * .15; ry += (my - ry) * .15;
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(loop);
+    })();
+    document.querySelectorAll('a, button, .p-card, .dur-card, .pay-step, .faq-item').forEach(el => {
+      el.addEventListener('mouseenter', () => { cursor.classList.add('expand'); ring.classList.add('expand'); });
+      el.addEventListener('mouseleave', () => { cursor.classList.remove('expand'); ring.classList.remove('expand'); });
+    });
+
+    // ── Nav shrink ──
+    window.addEventListener('scroll', () => {
+      document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // ── Scroll reveals ──
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // ── Category switcher ──
+    function switchCat(id, btn) {
+      document.querySelectorAll('.pricing-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('panel-' + id).classList.add('active');
+      btn.classList.add('active');
+      // re-trigger fade-ups inside new panel
+      document.querySelectorAll('#panel-' + id + ' .fade-up').forEach(el => {
+        el.classList.remove('visible');
+        setTimeout(() => observer.observe(el), 50);
+      });
+      window.scrollTo({ top: document.querySelector('.marquee-strip').offsetTop, behavior: 'smooth' });
+    }
+
+    // ── Paystack with prefill ──
+    // Paystack payment links accept ?amount= (in kobo) and show the label in reference
+    function payNow(serviceLabel, amountNaira) {
+      const base = 'https://paystack.shop/pay/inkroom';
+      const params = new URLSearchParams();
+
+      // Prefill the reference with the service so Grey knows what was booked
+      params.set('reference', serviceLabel.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9\-]/g, '') + '-' + Date.now());
+
+      // Amount in kobo if provided (Paystack uses kobo: 1 NGN = 100 kobo)
+      if (amountNaira) {
+        params.set('amount', amountNaira * 100);
+      }
+
+      // Open in new tab
+      window.open(base + '?' + params.toString(), '_blank');
+    }
+
+    // ── FAQ accordion ──
+    function toggleFaq(btn) {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+  </script>
+</body>
+</html>

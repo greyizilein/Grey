@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Investments | Grey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono@0;1&display=swap" rel="stylesheet" />
+
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --or:#CE4703; --or2:#FB4F0F;
+      --blk:#0F0F0F; --ow:#F4F1EE;
+      --gm:#575757; --gl:#878787;
+      --cr:#FAF8F5;
+      --D:'Oswald',sans-serif;
+      --B:'DM Sans',sans-serif;
+      --M:'Space Mono',monospace;
+    }
+    html{scroll-behavior:smooth}
+    body{background:var(--blk);color:var(--ow);font-family:var(--B);overflow-x:hidden;cursor:none}
+
+    /* cursor */
+    #cx{position:fixed;width:10px;height:10px;background:var(--or);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s}
+    #cr{position:fixed;width:36px;height:36px;border:1.5px solid rgba(206,71,3,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .25s,height .25s,border-color .25s}
+    #cx.b{width:18px;height:18px;background:var(--or2)}
+    #cr.b{width:52px;height:52px;border-color:rgba(206,71,3,.2)}
+
+    /* nav */
+    nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:22px 60px;background:rgba(15,15,15,.93);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.04);transition:padding .3s}
+    nav.slim{padding:14px 60px}
+    .logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+    .logo-dot{width:34px;height:34px;background:var(--or);border-radius:50%;display:flex;align-items:center;justify-content:center}
+    .logo-dot svg{width:18px;height:18px}
+    .logo-nm{font-family:var(--D);font-size:21px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ow)}
+    .nav-ul{display:flex;align-items:center;gap:30px;list-style:none}
+    .nav-ul a{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--gl);text-decoration:none;transition:color .2s}
+    .nav-ul a:hover,.nav-ul a.on{color:var(--ow)}
+    .nav-cta{background:var(--or);color:white!important;padding:9px 22px;transition:background .2s!important}
+    .nav-cta:hover{background:var(--or2)!important}
+
+    /* utility */
+    .eyebrow{font-family:var(--M);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--or);display:flex;align-items:center;gap:11px}
+    .eyebrow::before{content:'';display:block;width:22px;height:1px;background:var(--or);flex-shrink:0}
+    .fu{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
+    .fu.in{opacity:1;transform:none}
+    .fu.d1{transition-delay:.1s}.fu.d2{transition-delay:.2s}.fu.d3{transition-delay:.3s}.fu.d4{transition-delay:.4s}
+
+    /* ══════════════════
+       HERO
+    ══════════════════ */
+    .hero{position:relative;min-height:100vh;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;align-items:end}
+    .hero-bg{position:absolute;inset:0}
+    .hero-bg img{width:100%;height:100%;object-fit:cover;filter:brightness(.3) saturate(.55)}
+    .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,rgba(15,15,15,.97) 0%,rgba(15,15,15,.5) 55%,rgba(15,15,15,.15) 100%),linear-gradient(0deg,rgba(15,15,15,.9) 0%,transparent 45%)}
+    .grid-tex{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:68px 68px;pointer-events:none}
+    .hero-l{position:relative;z-index:2;padding:180px 56px 100px 60px}
+    .hero-r{position:relative;z-index:2;padding:180px 60px 100px 40px;display:flex;flex-direction:column;gap:3px;justify-content:flex-end}
+    .hero-tag{font-family:var(--M);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--or);display:flex;align-items:center;gap:12px;margin-bottom:24px}
+    .hero-tag::before{content:'';display:block;width:32px;height:1px;background:var(--or)}
+    h1{font-family:var(--D);font-size:clamp(52px,7.5vw,108px);font-weight:700;line-height:.9;text-transform:uppercase;letter-spacing:-.02em;margin-bottom:28px}
+    h1 em{font-style:normal;color:var(--or)}
+    .hero-sub{font-size:16px;line-height:1.8;color:rgba(244,241,238,.6);max-width:430px;margin-bottom:44px}
+    .hero-pills{display:flex;gap:2px;flex-wrap:wrap}
+    .pill{font-family:var(--D);font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:11px 24px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);color:var(--gl);text-decoration:none;transition:all .2s;cursor:none}
+    .pill:hover{background:rgba(206,71,3,.14);border-color:var(--or);color:var(--ow)}
+    .hstat{background:rgba(15,15,15,.72);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.07);padding:26px 30px;display:flex;align-items:center;gap:18px;transition:border-color .3s}
+    .hstat:hover{border-color:rgba(206,71,3,.3)}
+    .hstat-ico{font-size:26px;flex-shrink:0}
+    .hstat-n{font-family:var(--D);font-size:34px;font-weight:700;color:var(--or);line-height:1}
+    .hstat-l{font-size:11px;color:var(--gl);letter-spacing:.12em;text-transform:uppercase;margin-top:3px}
+    .scroll-cue{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:3;font-family:var(--M);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.28);display:flex;flex-direction:column;align-items:center;gap:7px;animation:bob 2s ease-in-out infinite}
+    .scroll-cue::after{content:'↓';font-size:15px}
+    @keyframes bob{0%,100%{transform:translateX(-50%)}50%{transform:translateX(-50%) translateY(6px)}}
+
+    /* marquee */
+    .mq{background:var(--or);padding:14px 0;overflow:hidden;display:flex}
+    .mq-t{display:flex;animation:mq 28s linear infinite;white-space:nowrap}
+    .mq-i{font-family:var(--D);font-size:13px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:white;padding:0 48px;display:flex;align-items:center;gap:16px}
+    .mq-i::after{content:'◆';font-size:8px;opacity:.5}
+    @keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+    /* intro */
+    .intro{background:var(--cr);padding:80px 60px;display:grid;grid-template-columns:1fr 1.6fr;gap:80px;align-items:center}
+    .intro-hed{font-family:var(--D);font-size:clamp(34px,4vw,54px);font-weight:600;text-transform:uppercase;letter-spacing:-.01em;line-height:.95;color:var(--blk)}
+    .intro-hed em{font-style:normal;color:var(--or)}
+    .intro-body{font-size:16px;line-height:1.85;color:var(--gm)}
+    .intro-body strong{color:var(--blk);font-weight:500}
+    .jump-pills{display:flex;gap:2px;margin-top:28px;flex-wrap:wrap}
+    .jpill{font-family:var(--D);font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:10px 20px;border:1px solid rgba(15,15,15,.12);color:var(--gm);text-decoration:none;transition:all .2s;cursor:none}
+    .jpill:hover{background:var(--or);border-color:var(--or);color:white}
+
+    /* ══════════════════
+       SECTION BANNERS
+    ══════════════════ */
+    .s-banner{position:relative;height:420px;overflow:hidden}
+    .s-banner img{width:100%;height:100%;object-fit:cover;filter:brightness(.3) saturate(.6)}
+    .s-banner-ov{position:absolute;inset:0;background:linear-gradient(105deg,rgba(15,15,15,.92) 0%,rgba(15,15,15,.2) 65%,transparent 100%),linear-gradient(0deg,rgba(15,15,15,.75) 0%,transparent 50%)}
+    .s-banner-num{position:absolute;right:-6px;bottom:-20px;font-family:var(--D);font-size:200px;font-weight:700;color:rgba(255,255,255,.04);line-height:1;letter-spacing:-.04em;pointer-events:none}
+    .s-banner-txt{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:56px 60px}
+    .banner-h{font-family:var(--D);font-size:clamp(44px,6vw,90px);font-weight:700;text-transform:uppercase;letter-spacing:-.02em;line-height:.9;margin:16px 0 12px}
+    .banner-h em{font-style:normal;color:var(--or)}
+    .banner-p{font-size:16px;color:rgba(244,241,238,.6);max-width:500px;line-height:1.65}
+
+    /* ══════════════════
+       AGRICULTURE
+    ══════════════════ */
+    #agri{background:var(--blk)}
+
+    /* crop photo strip */
+    .crop-strip{display:grid;grid-template-columns:repeat(5,1fr);height:210px;gap:3px}
+    .cs-cell{overflow:hidden;position:relative}
+    .cs-cell img{width:100%;height:100%;object-fit:cover;filter:brightness(.65) saturate(.8);transition:filter .4s,transform .4s}
+    .cs-cell:hover img{filter:brightness(1) saturate(1.1);transform:scale(1.06)}
+    .cs-lbl{position:absolute;bottom:10px;left:0;right:0;text-align:center;font-family:var(--M);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.8);opacity:0;transition:opacity .3s}
+    .cs-cell:hover .cs-lbl{opacity:1}
+
+    /* how it works steps */
+    .how-inner{padding:80px 60px}
+    .sec-h{font-family:var(--D);font-size:clamp(32px,4.5vw,56px);font-weight:600;text-transform:uppercase;letter-spacing:-.01em;line-height:.95;margin-bottom:48px}
+    .sec-h em{font-style:normal;color:var(--or)}
+    .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-bottom:80px}
+    .step{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);padding:38px 28px;position:relative;overflow:hidden;transition:background .3s,border-color .3s}
+    .step:hover{background:rgba(206,71,3,.05);border-color:rgba(206,71,3,.28)}
+    .step-ghost{position:absolute;bottom:-14px;right:-6px;font-family:var(--D);font-size:120px;font-weight:700;color:rgba(255,255,255,.035);line-height:1;letter-spacing:-.04em;pointer-events:none;transition:color .3s}
+    .step:hover .step-ghost{color:rgba(206,71,3,.08)}
+    .step-seq{font-family:var(--M);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--or);margin-bottom:16px}
+    .step-bar{width:28px;height:2px;background:var(--or);margin-bottom:14px}
+    .step-t{font-family:var(--D);font-size:17px;font-weight:500;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
+    .step-b{font-size:13px;line-height:1.75;color:var(--gl)}
+
+    /* commodity cards */
+    .row-lbl{font-family:var(--M);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--or);display:flex;align-items:center;gap:11px;margin-bottom:26px}
+    .row-lbl::before{content:'';display:block;width:20px;height:1px;background:var(--or)}
+    .comms{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;margin-bottom:80px}
+    .comm{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);padding:30px 24px;display:flex;flex-direction:column;gap:9px;position:relative;overflow:hidden;transition:background .3s,border-color .3s,transform .3s}
+    .comm:hover{background:rgba(206,71,3,.06);border-color:rgba(206,71,3,.3);transform:translateY(-5px)}
+    .comm::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--or);transform:scaleX(0);transform-origin:left;transition:transform .35s}
+    .comm:hover::before{transform:scaleX(1)}
+    .comm-nm{font-family:var(--D);font-size:19px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+    .comm-px{font-family:var(--D);font-size:24px;font-weight:500;line-height:1.1}
+    .comm-px sub{font-size:11px;font-weight:400;color:var(--gl);font-family:var(--B)}
+    .avail{display:inline-flex;align-items:center;gap:7px;font-size:11px;color:var(--gl)}
+    .avail::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;flex-shrink:0}
+    .ah::before{background:#4CAF50}
+    .am::before{background:var(--or)}
+    .comm-roi{margin-top:auto;padding-top:12px;border-top:1px solid rgba(255,255,255,.06)}
+    .comm-roi-l{font-family:var(--M);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--gm);margin-bottom:3px}
+    .comm-roi-v{font-family:var(--D);font-size:26px;font-weight:600;color:var(--or)}
+    .comm-btn{font-family:var(--D);font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:none;border:none;border-top:1px solid rgba(255,255,255,.06);padding:12px 0 0;color:var(--gl);cursor:none;transition:color .2s;display:flex;align-items:center;gap:7px;width:100%}
+    .comm-btn::after{content:'→';transition:transform .2s}
+    .comm:hover .comm-btn{color:var(--or)}
+    .comm:hover .comm-btn::after{transform:translateX(4px)}
+
+    /* ROI Calculator */
+    .calc-band{background:rgba(206,71,3,.06);border-top:1px solid rgba(206,71,3,.14);border-bottom:1px solid rgba(206,71,3,.14);padding:80px 60px}
+    .calc-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+    .calc-h{font-family:var(--D);font-size:clamp(32px,4vw,52px);font-weight:600;text-transform:uppercase;letter-spacing:-.01em;line-height:.95;margin:14px 0 10px}
+    .calc-h em{font-style:normal;color:var(--or)}
+    .calc-sub{font-size:15px;color:var(--gl);line-height:1.8;margin-bottom:36px}
+    .calc-fields{display:flex;flex-direction:column;gap:16px}
+    .cf-row{display:flex;flex-direction:column;gap:8px}
+    .cf-lbl{font-family:var(--M);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gl)}
+    .cf-sel,.cf-inp{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--ow);font-family:var(--B);font-size:15px;padding:14px 16px;outline:none;transition:border-color .2s;cursor:none;appearance:none;-webkit-appearance:none}
+    .cf-sel:hover,.cf-inp:hover{border-color:rgba(206,71,3,.4)}
+    .cf-sel:focus,.cf-inp:focus{border-color:var(--or)}
+    .cf-sel option{background:var(--blk)}
+    .calc-card{background:rgba(15,15,15,.85);backdrop-filter:blur(12px);border:1px solid rgba(206,71,3,.25);padding:40px}
+    .cc-lbl{font-family:var(--M);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gl);margin-bottom:8px}
+    .cc-total{font-family:var(--D);font-size:clamp(42px,5vw,72px);font-weight:700;color:var(--or);line-height:1;margin-bottom:20px}
+    .cc-rows{display:flex;flex-direction:column;gap:8px;padding:20px 0;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);margin-bottom:24px}
+    .cc-row{display:flex;justify-content:space-between;font-size:13px}
+    .cc-row .k{color:var(--gl)}
+    .cc-row .v{color:var(--ow);font-family:var(--D);font-size:15px;font-weight:500}
+    .cc-row .v.pos{color:var(--or)}
+    .calc-cta-btn{width:100%;padding:15px;font-family:var(--D);font-size:13px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;background:var(--or);color:white;border:none;cursor:none;transition:background .2s}
+    .calc-cta-btn:hover{background:var(--or2)}
+
+    /* duration cards */
+    .dur-inner{padding:0 60px 80px}
+    .dur-intro{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:48px}
+    .dur-h{font-family:var(--D);font-size:clamp(32px,4vw,52px);font-weight:600;text-transform:uppercase;letter-spacing:-.01em;line-height:.95}
+    .dur-h em{font-style:normal;color:var(--or)}
+    .durs{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-bottom:60px}
+    .dur{border:1px solid rgba(255,255,255,.07);padding:38px 28px;display:flex;flex-direction:column;gap:7px;transition:border-color .3s,transform .3s;position:relative;overflow:hidden}
+    .dur:hover{border-color:rgba(206,71,3,.4);transform:translateY(-5px)}
+    .dur.best{border-color:rgba(206,71,3,.4);background:rgba(206,71,3,.04)}
+    .dur-best-tag{position:absolute;top:18px;right:18px;font-family:var(--M);font-size:8px;letter-spacing:.18em;text-transform:uppercase;background:var(--or);color:white;padding:3px 9px}
+    .dur-seq{font-family:var(--M);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--or)}
+    .dur-num{font-family:var(--D);font-size:50px;font-weight:700;line-height:1;letter-spacing:-.02em}
+    .dur-unit{font-size:13px;color:var(--gm);font-family:var(--B);margin-top:1px}
+    .dur-roi{font-family:var(--D);font-size:28px;font-weight:500;color:var(--or);margin-top:4px}
+    .dur-ex{font-size:12px;color:var(--gm);padding:12px 0 0;border-top:1px solid rgba(255,255,255,.06);line-height:1.65}
+    .dur-ex strong{color:var(--ow)}
+    .dur-note{font-size:11px;color:var(--gm);font-style:italic}
+    .dur-btn{margin-top:auto;padding:12px 0 0;font-family:var(--D);font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:none;border:none;border-top:1px solid rgba(255,255,255,.07);color:var(--gl);cursor:none;transition:color .2s;display:flex;align-items:center;gap:8px;width:100%;text-decoration:none}
+    .dur-btn::after{content:'→';transition:transform .2s}
+    .dur:hover .dur-btn{color:var(--or)}
+    .dur:hover .dur-btn::after{transform:translateX(4px)}
+
+    /* returns table */
+    .tbl-wrap{overflow-x:auto;margin-bottom:80px}
+    .rtbl{width:100%;border-collapse:collapse}
+    .rtbl thead th{font-family:var(--D);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gl);padding:16px 20px;border-bottom:1px solid rgba(255,255,255,.08);text-align:left;white-space:nowrap}
+    .rtbl thead th.best-th{color:var(--or)}
+    .rtbl tbody td{font-size:13px;color:var(--ow);padding:18px 20px;border-bottom:1px solid rgba(255,255,255,.04)}
+    .rtbl tbody tr:hover td{background:rgba(255,255,255,.02)}
+    .td-or{color:var(--or);font-family:var(--D);font-size:15px;font-weight:600}
+    .td-dim{color:var(--gm)}
+
+    /* flow */
+    .flow-band{background:rgba(255,255,255,.02);border-top:1px solid rgba(255,255,255,.04);padding:80px 60px}
+    .flow-h{font-family:var(--D);font-size:clamp(28px,3.8vw,46px);font-weight:500;text-transform:uppercase;letter-spacing:-.01em;margin-bottom:52px}
+    .flow-h em{font-style:normal;color:var(--or)}
+    .flow{display:grid;grid-template-columns:1fr 40px 1fr 40px 1fr 40px 1fr;align-items:center}
+    .flow-step{display:flex;flex-direction:column;align-items:center;text-align:center;padding:20px 14px}
+    .flow-ico{width:58px;height:58px;border-radius:50%;background:rgba(206,71,3,.12);border:1px solid rgba(206,71,3,.3);display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:16px;transition:background .3s}
+    .flow-step:hover .flow-ico{background:var(--or)}
+    .flow-t{font-family:var(--D);font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+    .flow-b{font-size:12px;color:var(--gm);line-height:1.6}
+    .flow-arr{text-align:center;font-size:22px;color:rgba(206,71,3,.4)}
+
+    /* faq */
+    .faq-inner{padding:80px 60px}
+    .faq-hrow{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:44px;flex-wrap:wrap;gap:20px}
+    .faq-h{font-family:var(--D);font-size:clamp(30px,4vw,50px);font-weight:600;text-transform:uppercase;letter-spacing:-.01em;line-height:.95}
+    .faq-h em{font-style:normal;color:var(--or)}
+    .faq-more{font-family:var(--M);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gl);text-decoration:none;transition:color .2s}
+    .faq-more:hover{color:var(--or)}
+    .faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+    .faq-item{border:1px solid rgba(255,255,255,.06);overflow:hidden}
+    .faq-q{width:100%;background:none;border:none;padding:22px 26px;display:flex;align-items:center;justify-content:space-between;gap:16px;text-align:left;cursor:none}
+    .faq-qt{font-family:var(--D);font-size:14px;font-weight:400;text-transform:uppercase;letter-spacing:.04em;color:var(--ow);transition:color .2s;line-height:1.3}
+    .faq-q:hover .faq-qt{color:var(--or)}
+    .faq-ico{flex-shrink:0;width:24px;height:24px;border:1px solid rgba(255,255,255,.12);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--gl);transition:all .25s}
+    .faq-item.open .faq-ico{background:var(--or);border-color:var(--or);color:white;transform:rotate(45deg)}
+    .faq-ans{overflow:hidden;max-height:0;transition:max-height .4s ease}
+    .faq-item.open .faq-ans{max-height:200px}
+    .faq-ans-in{padding:0 26px 22px;font-size:13px;line-height:1.8;color:var(--gl)}
+
+    /* ══════════════════
+       CONSULTATION
+    ══════════════════ */
+    #consult{background:var(--cr)}
+
+    .consult-top{padding:80px 60px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;background:var(--blk)}
+    .consult-h{font-family:var(--D);font-size:clamp(40px,5.5vw,80px);font-weight:700;text-transform:uppercase;letter-spacing:-.02em;line-height:.9;color:var(--ow)}
+    .consult-h em{font-style:normal;color:var(--or)}
+    .cstats{display:flex;flex-direction:column;gap:2px}
+    .cstat{display:flex;align-items:center;gap:20px;padding:22px 26px;border:1px solid rgba(255,255,255,.07);transition:border-color .25s}
+    .cstat:hover{border-color:rgba(206,71,3,.25)}
+    .cstat-n{font-family:var(--D);font-size:32px;font-weight:600;color:var(--or);flex-shrink:0;min-width:80px}
+    .cstat-info h4{font-family:var(--D);font-size:14px;font-weight:500;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+    .cstat-info p{font-size:12px;color:var(--gl);line-height:1.5}
+
+    .areas-wrap{padding:80px 60px;background:var(--cr)}
+    .areas-head{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:end;margin-bottom:52px}
+    .areas-h{font-family:var(--D);font-size:clamp(30px,4vw,50px);font-weight:600;text-transform:uppercase;letter-spacing:-.01em;line-height:.95;color:var(--blk)}
+    .areas-h em{font-style:normal;color:var(--or)}
+    .areas-sub{font-size:15px;color:var(--gm);line-height:1.8;align-self:end}
+    .areas{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-bottom:52px}
+    .area{background:white;padding:38px 32px;border-left:3px solid transparent;transition:border-color .3s,transform .3s}
+    .area:hover{border-left-color:var(--or);transform:translateX(4px)}
+    .area-ico{font-size:30px;margin-bottom:18px}
+    .area-t{font-family:var(--D);font-size:17px;font-weight:500;text-transform:uppercase;letter-spacing:.04em;color:var(--blk);margin-bottom:10px}
+    .area-b{font-size:13px;line-height:1.8;color:var(--gm)}
+
+    .plans-wrap{padding:0 60px 80px;background:var(--cr)}
+    .plans-lbl{font-family:var(--M);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--or);display:flex;align-items:center;gap:11px;margin-bottom:28px}
+    .plans-lbl::before{content:'';display:block;width:20px;height:1px;background:var(--or)}
+    .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+    .plan{background:white;padding:44px 38px;display:flex;flex-direction:column;border:1px solid rgba(15,15,15,.07);position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s}
+    .plan:hover{transform:translateY(-5px);box-shadow:0 16px 48px rgba(206,71,3,.08)}
+    .plan.dark{background:var(--blk);border-color:rgba(206,71,3,.28)}
+    .plan-ghost{position:absolute;bottom:-14px;right:-4px;font-family:var(--D);font-size:120px;font-weight:700;color:rgba(15,15,15,.04);line-height:1;pointer-events:none}
+    .plan.dark .plan-ghost{color:rgba(255,255,255,.03)}
+    .plan-badge{display:inline-block;font-family:var(--M);font-size:9px;letter-spacing:.2em;text-transform:uppercase;padding:4px 10px;margin-bottom:20px;align-self:flex-start}
+    .bo{color:var(--or);border:1px solid rgba(206,71,3,.35)}
+    .bs{background:var(--or);color:white}
+    .plan-tier{font-family:var(--D);font-size:20px;font-weight:500;text-transform:uppercase;letter-spacing:.06em;color:var(--blk);margin-bottom:7px}
+    .plan.dark .plan-tier{color:var(--ow)}
+    .plan-price{font-family:var(--D);font-size:48px;font-weight:700;line-height:1;color:var(--blk);margin-bottom:4px}
+    .plan.dark .plan-price{color:var(--ow)}
+    .plan-note{font-family:var(--M);font-size:10px;color:var(--gm);margin-bottom:16px;letter-spacing:.08em}
+    .plan.dark .plan-note{color:var(--gl)}
+    .plan-desc{font-size:13px;line-height:1.75;color:var(--gm);margin-bottom:22px}
+    .plan.dark .plan-desc{color:rgba(244,241,238,.55)}
+    .plan-div{height:1px;background:rgba(15,15,15,.08);margin-bottom:20px}
+    .plan.dark .plan-div{background:rgba(255,255,255,.08)}
+    .plan-feats{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:28px;flex:1}
+    .plan-feats li{font-size:13px;color:var(--gm);display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+    .plan-feats li::before{content:'→';color:var(--or);flex-shrink:0;font-size:11px;margin-top:2px}
+    .plan.dark .plan-feats li{color:var(--gl)}
+    .plan-cta{padding:15px;font-family:var(--D);font-size:13px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;border:none;cursor:none;transition:background .22s;text-decoration:none;text-align:center;display:block}
+    .pc-blk{background:var(--blk);color:white}
+    .pc-blk:hover{background:var(--or)}
+    .pc-or{background:var(--or);color:white}
+    .pc-or:hover{background:var(--or2)}
+
+    /* ══════════════════
+       REAL ESTATE
+    ══════════════════ */
+    #realestate{background:var(--blk)}
+    .re-inner{padding:80px 60px;display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:start;border-top:1px solid rgba(255,255,255,.04)}
+    .re-h{font-family:var(--D);font-size:clamp(34px,4.5vw,64px);font-weight:600;text-transform:uppercase;letter-spacing:-.01em;line-height:.95;margin:16px 0 20px}
+    .re-h em{font-style:normal;color:var(--or)}
+    .re-badge{display:inline-flex;align-items:center;gap:13px;padding:14px 22px;border:1px solid rgba(255,255,255,.1);font-size:13px;color:var(--gl);margin-bottom:26px;line-height:1.5}
+    .re-badge strong{color:var(--ow);font-weight:500}
+    .re-body{font-size:15px;color:var(--gl);line-height:1.85;margin-bottom:16px;max-width:520px}
+    .re-btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
+    .btn-or{background:var(--or);color:white;padding:14px 28px;font-family:var(--D);font-size:13px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:none;transition:background .2s;display:inline-flex;align-items:center;gap:8px;border:1px solid var(--or)}
+    .btn-or:hover{background:var(--or2);border-color:var(--or2)}
+    .btn-ghost{background:transparent;color:var(--ow);padding:14px 28px;font-family:var(--D);font-size:13px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:none;transition:border-color .2s;display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.2)}
+    .btn-ghost:hover{border-color:var(--ow)}
+    .re-feats{display:flex;flex-direction:column;gap:2px}
+    .re-feat{padding:24px 28px;border:1px solid rgba(255,255,255,.06);transition:border-color .25s,background .25s}
+    .re-feat:hover{border-color:rgba(206,71,3,.25);background:rgba(206,71,3,.03)}
+    .re-feat-t{font-family:var(--D);font-size:15px;font-weight:500;text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+    .re-feat-b{font-size:12px;color:var(--gm);line-height:1.65}
+    .re-note{margin-top:2px;padding:22px 28px;background:rgba(206,71,3,.05);border:1px solid rgba(206,71,3,.18)}
+    .re-note-hed{font-family:var(--M);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--or);margin-bottom:8px}
+    .re-note p{font-size:13px;color:var(--gl);line-height:1.7}
+
+    /* cta band */
+    .cta-band{background:var(--or);padding:80px 60px;display:flex;align-items:center;justify-content:space-between;gap:48px;flex-wrap:wrap}
+    .cta-h{font-family:var(--D);font-size:clamp(28px,4vw,56px);font-weight:700;text-transform:uppercase;line-height:1;color:white}
+    .cta-sub{font-size:15px;color:rgba(255,255,255,.72);max-width:360px;line-height:1.8;margin-top:10px}
+    .cta-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+    .btn-wh{background:white;color:var(--or);padding:15px 32px;font-family:var(--D);font-size:14px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:none;display:inline-flex;align-items:center;gap:10px;border:1px solid white;transition:background .2s}
+    .btn-wh:hover{background:var(--ow)}
+    .btn-ghost-w{background:transparent;color:white;padding:15px 32px;font-family:var(--D);font-size:14px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:none;border:1px solid rgba(255,255,255,.4);transition:border-color .2s;display:inline-flex;align-items:center;gap:10px}
+    .btn-ghost-w:hover{border-color:white}
+
+    /* footer */
+    footer{background:#060606;border-top:1px solid rgba(255,255,255,.05);padding:72px 60px 40px}
+    .ft-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:64px}
+    .ft-name{font-family:var(--D);font-size:32px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ow);margin-bottom:14px}
+    .ft-tag{font-size:13px;color:var(--gm);line-height:1.6;max-width:280px;margin-bottom:26px}
+    .ft-socs{display:flex;gap:10px}
+    .ft-soc{width:36px;height:36px;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--gl);transition:border-color .2s,color .2s;text-decoration:none;cursor:none}
+    .ft-soc:hover{border-color:var(--or);color:var(--or)}
+    .ft-col-t{font-family:var(--D);font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gl);margin-bottom:22px}
+    .ft-links{list-style:none;display:flex;flex-direction:column;gap:12px}
+    .ft-links a{font-size:13px;color:var(--gm);text-decoration:none;transition:color .2s}
+    .ft-links a:hover{color:var(--ow)}
+    .ft-bot{border-top:1px solid rgba(255,255,255,.05);padding-top:32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+    .ft-copy{font-size:11px;color:var(--gm);letter-spacing:.05em}
+    .ft-bl{display:flex;gap:24px}
+    .ft-bl a{font-size:11px;color:var(--gm);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:color .2s}
+    .ft-bl a:hover{color:var(--ow)}
+
+    /* responsive */
+    @media(max-width:1024px){
+      nav{padding:18px 32px}
+      nav.slim{padding:14px 32px}
+      .nav-ul{display:none}
+      .hero{grid-template-columns:1fr}
+      .hero-l{padding:140px 32px 0}
+      .hero-r{padding:32px 32px 72px;display:grid;grid-template-columns:1fr 1fr;gap:3px}
+      .intro{grid-template-columns:1fr;padding:64px 32px;gap:28px}
+      .how-inner,.calc-band,.dur-inner,.flow-band,.faq-inner,.areas-wrap,.plans-wrap,.consult-top,.re-inner,.cta-band{padding-left:32px;padding-right:32px}
+      .steps{grid-template-columns:1fr 1fr}
+      .comms{grid-template-columns:1fr 1fr}
+      .calc-inner{grid-template-columns:1fr;gap:40px}
+      .dur-intro{grid-template-columns:1fr;gap:16px}
+      .durs{grid-template-columns:1fr 1fr}
+      .flow{grid-template-columns:1fr 1fr}
+      .flow-arr{display:none}
+      .faq-grid{grid-template-columns:1fr}
+      .consult-top{grid-template-columns:1fr;gap:40px}
+      .areas-head{grid-template-columns:1fr;gap:16px}
+      .areas{grid-template-columns:1fr 1fr}
+      .plans{grid-template-columns:1fr}
+      .re-inner{grid-template-columns:1fr;gap:48px}
+      .crop-strip{grid-template-columns:repeat(3,1fr);height:160px}
+      .s-banner{height:360px}
+      .s-banner-txt{padding:36px 32px}
+      footer{padding:48px 32px 32px}
+      .ft-top{grid-template-columns:1fr 1fr;gap:36px}
+    }
+    @media(max-width:640px){
+      .steps,.comms,.durs{grid-template-columns:1fr}
+      .areas{grid-template-columns:1fr}
+      .crop-strip{grid-template-columns:1fr 1fr;height:180px}
+      .ft-top{grid-template-columns:1fr;gap:28px}
+      .hero-r{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+
+<div id="cx"></div>
+<div id="cr"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="logo">
+    <div class="logo-dot">
+      <svg viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.5"/>
+        <path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20" stroke="white" stroke-width="1.5"/>
+      </svg>
+    </div>
+    <span class="logo-nm">Grey</span>
+  </a>
+  <ul class="nav-ul">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="investments.html" class="on">Investments</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="testimonials.html">Testimonials</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="https://paystack.shop/pay/inkroom" target="_blank" class="nav-cta">Invest Now</a></li>
+  </ul>
+</nav>
+
+
+<!-- ══════════════════════════════
+     HERO
+══════════════════════════════ -->
+<header class="hero">
+  <div class="hero-bg">
+    <img
+      src="https://images.pexels.com/photos/14314165/pexels-photo-14314165.jpeg?auto=compress&cs=tinysrgb&w=1600"
+      alt="Farmers working the field, Benue State, Nigeria" />
+  </div>
+  <div class="grid-tex"></div>
+
+  <div class="hero-l fu">
+    <p class="hero-tag">Grey Investments</p>
+    <h1>Your Capital,<br/>Truly <em>Working.</em></h1>
+    <p class="hero-sub">Structured opportunities in real Nigerian commodities and strategic business growth — built for ordinary people to build extraordinary wealth, starting from ₦30,000.</p>
+    <div class="hero-pills">
+      <a href="#agri"       class="pill">Agriculture</a>
+      <a href="#consult"    class="pill">Consultation</a>
+      <a href="#realestate" class="pill">Real Estate ↗</a>
+    </div>
+  </div>
+
+  <div class="hero-r fu d2">
+    <div class="hstat"><div class="hstat-ico">🌾</div><div><div class="hstat-n">30%</div><div class="hstat-l">Max ROI · Agriculture</div></div></div>
+    <div class="hstat"><div class="hstat-ico">₦</div><div><div class="hstat-n">30K</div><div class="hstat-l">Minimum to Start</div></div></div>
+    <div class="hstat"><div class="hstat-ico">📅</div><div><div class="hstat-n">4</div><div class="hstat-l">Duration Options</div></div></div>
+    <div class="hstat"><div class="hstat-ico">🔒</div><div><div class="hstat-n">100%</div><div class="hstat-l">Capital Secured</div></div></div>
+  </div>
+
+  <div class="scroll-cue">Scroll</div>
+</header>
+
+<!-- Marquee -->
+<div class="mq">
+  <div class="mq-t">
+    <span class="mq-i">Agriculture Investment</span><span class="mq-i">Up to 30% ROI</span>
+    <span class="mq-i">Maize · Rice · Millet · Sorghum · Soybeans</span>
+    <span class="mq-i">Business Consultation</span><span class="mq-i">Real Estate via Fealthy Hallmark</span>
+    <span class="mq-i">Start from ₦30,000</span><span class="mq-i">Agriculture Investment</span>
+    <span class="mq-i">Up to 30% ROI</span><span class="mq-i">Maize · Rice · Millet · Sorghum · Soybeans</span>
+    <span class="mq-i">Business Consultation</span><span class="mq-i">Real Estate via Fealthy Hallmark</span>
+    <span class="mq-i">Start from ₦30,000</span>
+  </div>
+</div>
+
+<!-- Intro split -->
+<div class="intro fu">
+  <h2 class="intro-hed">Three Ways<br/>to <em>Grow.</em></h2>
+  <div>
+    <p class="intro-body">
+      Grey offers three clearly structured paths to grow your money.
+      <strong>Agriculture</strong> puts your capital into real staple crops — bought at harvest-low prices and sold at seasonal peaks. Zero farming knowledge needed.
+      <strong>Consultation</strong> is a structured investment in your business growth, with measurable outcomes and hands-on support.
+      <strong>Real Estate</strong> is handled entirely by our trusted partner Fealthy Hallmark Consults, who bring specialist expertise we fully endorse and actively connect you to.
+    </p>
+    <div class="jump-pills">
+      <a href="#agri"       class="jpill">Agriculture</a>
+      <a href="#consult"    class="jpill">Consultation</a>
+      <a href="#realestate" class="jpill">Real Estate</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     SECTION 01 · AGRICULTURE
+══════════════════════════════ -->
+<section id="agri">
+
+  <div class="s-banner">
+    <img
+      src="https://images.pexels.com/photos/14127288/pexels-photo-14127288.jpeg?auto=compress&cs=tinysrgb&w=1600"
+      alt="Nigerian farmer at work, Kaduna state" loading="lazy" />
+    <div class="s-banner-ov"></div>
+    <div class="s-banner-num">01</div>
+    <div class="s-banner-txt fu">
+      <p class="eyebrow">01 · Agriculture Investment</p>
+      <h2 class="banner-h">Commodity<br/><em>Returns.</em></h2>
+      <p class="banner-p">Buy units of real Nigerian crops at harvest-low prices. Grey handles sourcing, storage, logistics, and resale — you collect your capital plus profit at maturity.</p>
+    </div>
+  </div>
+
+  <!-- Crop photo strip — close-up grain textures, no farms or landscapes -->
+  <div class="crop-strip">
+    <div class="cs-cell">
+      <img src="https://images.pexels.com/photos/226621/pexels-photo-226621.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Grain in hand" loading="lazy"/>
+      <div class="cs-lbl">Maize</div>
+    </div>
+    <div class="cs-cell">
+      <img src="https://images.pexels.com/photos/18328392/pexels-photo-18328392.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Rice grains macro" loading="lazy"/>
+      <div class="cs-lbl">Rice</div>
+    </div>
+    <div class="cs-cell">
+      <img src="https://images.pexels.com/photos/4110255/pexels-photo-4110255.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Assorted grain types" loading="lazy"/>
+      <div class="cs-lbl">Millet</div>
+    </div>
+    <div class="cs-cell">
+      <img src="https://images.pexels.com/photos/18778270/pexels-photo-18778270.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Sacks of grain at market" loading="lazy"/>
+      <div class="cs-lbl">Sorghum</div>
+    </div>
+    <div class="cs-cell">
+      <img src="https://images.pexels.com/photos/1311771/pexels-photo-1311771.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Assorted grain bowl" loading="lazy"/>
+      <div class="cs-lbl">Soybeans</div>
+    </div>
+  </div>
+
+  <!-- How it works -->
+  <div class="how-inner">
+    <h2 class="sec-h fu">How It <em>Works.</em></h2>
+
+    <div class="steps fu">
+      <div class="step">
+        <div class="step-ghost">1</div>
+        <div class="step-seq">Step 01</div>
+        <div class="step-bar"></div>
+        <div class="step-t">Choose Your Commodity</div>
+        <p class="step-b">Pick from Maize, Rice, Millet, Sorghum, or Soybeans. Each priced at farm-gate value — the lowest point in the annual price cycle.</p>
+      </div>
+      <div class="step">
+        <div class="step-ghost">2</div>
+        <div class="step-seq">Step 02</div>
+        <div class="step-bar"></div>
+        <div class="step-t">Buy Your Units</div>
+        <p class="step-b">One unit is a measured portion of your chosen crop. Start with a single unit (from ₦30,000) or diversify across multiple commodities.</p>
+      </div>
+      <div class="step">
+        <div class="step-ghost">3</div>
+        <div class="step-seq">Step 03</div>
+        <div class="step-bar"></div>
+        <div class="step-t">Set Your Duration</div>
+        <p class="step-b">Choose 3, 6, 9, or 12 months. Shorter cycles offer quicker liquidity. Longer cycles ride deeper seasonal appreciation for higher returns.</p>
+      </div>
+      <div class="step">
+        <div class="step-ghost">4</div>
+        <div class="step-seq">Step 04</div>
+        <div class="step-bar"></div>
+        <div class="step-t">Collect Your Payout</div>
+        <p class="step-b">At maturity, your capital plus full profit arrives in a single transfer. Reinvest to compound, or withdraw. Your timeline, your call.</p>
+      </div>
+    </div>
+
+    <!-- Commodity cards -->
+    <p class="row-lbl fu">Available Commodities</p>
+    <div class="comms fu">
+      <div class="comm">
+        <div class="comm-nm">Maize</div>
+        <div class="avail ah">High Availability</div>
+        <div class="comm-px">₦30,000 <sub>/unit</sub></div>
+        <div class="comm-roi">
+          <div class="comm-roi-l">Best return (12 months)</div>
+          <div class="comm-roi-v">₦41,100</div>
+        </div>
+        <button class="comm-btn" onclick="payNow('Agricultural Investment — Maize',30000)">Invest in Maize</button>
+      </div>
+      <div class="comm">
+        <div class="comm-nm">Rice</div>
+        <div class="avail ah">High Availability</div>
+        <div class="comm-px">₦45,000 <sub>/unit</sub></div>
+        <div class="comm-roi">
+          <div class="comm-roi-l">Best return (12 months)</div>
+          <div class="comm-roi-v">₦61,650</div>
+        </div>
+        <button class="comm-btn" onclick="payNow('Agricultural Investment — Rice',45000)">Invest in Rice</button>
+      </div>
+      <div class="comm">
+        <div class="comm-nm">Millet</div>
+        <div class="avail am">Medium Availability</div>
+        <div class="comm-px">₦32,000 <sub>/unit</sub></div>
+        <div class="comm-roi">
+          <div class="comm-roi-l">Best return (12 months)</div>
+          <div class="comm-roi-v">₦43,840</div>
+        </div>
+        <button class="comm-btn" onclick="payNow('Agricultural Investment — Millet',32000)">Invest in Millet</button>
+      </div>
+      <div class="comm">
+        <div class="comm-nm">Sorghum</div>
+        <div class="avail am">Medium Availability</div>
+        <div class="comm-px">₦35,000 <sub>/unit</sub></div>
+        <div class="comm-roi">
+          <div class="comm-roi-l">Best return (12 months)</div>
+          <div class="comm-roi-v">₦47,950</div>
+        </div>
+        <button class="comm-btn" onclick="payNow('Agricultural Investment — Sorghum',35000)">Invest in Sorghum</button>
+      </div>
+      <div class="comm">
+        <div class="comm-nm">Soybeans</div>
+        <div class="avail am">Medium Availability</div>
+        <div class="comm-px">₦50,000 <sub>/unit</sub></div>
+        <div class="comm-roi">
+          <div class="comm-roi-l">Best return (12 months)</div>
+          <div class="comm-roi-v">₦68,500</div>
+        </div>
+        <button class="comm-btn" onclick="payNow('Agricultural Investment — Soybeans',50000)">Invest in Soybeans</button>
+      </div>
+    </div>
+  </div><!-- end how-inner -->
+
+  <!-- ROI Calculator -->
+  <div class="calc-band fu">
+    <div class="calc-inner">
+      <div>
+        <p class="eyebrow" style="margin-bottom:14px;">ROI Calculator</p>
+        <h3 class="calc-h">See Your <em>Returns.</em></h3>
+        <p class="calc-sub">Adjust the fields and watch your payout update live. No sign-up required.</p>
+        <div class="calc-fields">
+          <div class="cf-row">
+            <label class="cf-lbl" for="c-crop">Commodity</label>
+            <select class="cf-sel" id="c-crop" onchange="calcROI()">
+              <option value="30000">Maize — ₦30,000 / unit</option>
+              <option value="45000">Rice — ₦45,000 / unit</option>
+              <option value="32000">Millet — ₦32,000 / unit</option>
+              <option value="35000">Sorghum — ₦35,000 / unit</option>
+              <option value="50000">Soybeans — ₦50,000 / unit</option>
+            </select>
+          </div>
+          <div class="cf-row">
+            <label class="cf-lbl" for="c-units">Number of Units</label>
+            <input class="cf-inp" type="number" id="c-units" value="1" min="1" max="9999" oninput="calcROI()" />
+          </div>
+          <div class="cf-row">
+            <label class="cf-lbl" for="c-dur">Duration</label>
+            <select class="cf-sel" id="c-dur" onchange="calcROI()">
+              <option value="12">3 Months — 12% ROI</option>
+              <option value="20">6 Months — 20% ROI</option>
+              <option value="25">9 Months — 25% ROI</option>
+              <option value="30" selected>12 Months — 30% ROI (Best)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="calc-card">
+        <div class="cc-lbl">Your Total Payout at Maturity</div>
+        <div class="cc-total" id="cc-total">₦39,000</div>
+        <div class="cc-rows">
+          <div class="cc-row"><span class="k">Capital invested</span> <span class="v" id="cc-capital">₦30,000</span></div>
+          <div class="cc-row"><span class="k">Profit earned</span>    <span class="v pos" id="cc-profit">₦9,000</span></div>
+          <div class="cc-row"><span class="k">ROI rate</span>         <span class="v pos" id="cc-rate">30%</span></div>
+          <div class="cc-row"><span class="k">Duration</span>         <span class="v" id="cc-dur">12 months</span></div>
+        </div>
+        <button class="calc-cta-btn" onclick="calcPay()">Invest This Amount →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Duration timeline cards -->
+  <div class="dur-inner">
+    <div class="dur-intro fu">
+      <div>
+        <p class="eyebrow" style="margin-bottom:16px;">Investment Timelines</p>
+        <h3 class="dur-h">Choose Your <em>Duration.</em></h3>
+      </div>
+      <p style="font-size:15px;color:var(--gl);line-height:1.8;align-self:end;">Returns scale with time. Four cycles mapped to real market rhythms — pick the one that suits your liquidity and return expectations.</p>
+    </div>
+    <div class="durs fu">
+      <div class="dur">
+        <div class="dur-seq">Option 01</div>
+        <div class="dur-num">3</div>
+        <div class="dur-unit">months</div>
+        <div class="dur-roi">12% ROI</div>
+        <div class="dur-ex">₦100,000 → <strong>₦112,000</strong></div>
+        <p class="dur-note">Fastest cycle. Best for first-timers testing the system.</p>
+        <a href="javascript:void(0)" onclick="payNow('Agricultural Investment — 3 Months',30000)" class="dur-btn">Invest for 3 Months</a>
+      </div>
+      <div class="dur">
+        <div class="dur-seq">Option 02</div>
+        <div class="dur-num">6</div>
+        <div class="dur-unit">months</div>
+        <div class="dur-roi">20% ROI</div>
+        <div class="dur-ex">₦100,000 → <strong>₦120,000</strong></div>
+        <p class="dur-note">Mid-term. Captures seasonal demand and festive market peaks.</p>
+        <a href="javascript:void(0)" onclick="payNow('Agricultural Investment — 6 Months',30000)" class="dur-btn">Invest for 6 Months</a>
+      </div>
+      <div class="dur">
+        <div class="dur-seq">Option 03</div>
+        <div class="dur-num">9</div>
+        <div class="dur-unit">months</div>
+        <div class="dur-roi">25% ROI</div>
+        <div class="dur-ex">₦100,000 → <strong>₦125,000</strong></div>
+        <p class="dur-note">Rides post-harvest scarcity through to high-demand months.</p>
+        <a href="javascript:void(0)" onclick="payNow('Agricultural Investment — 9 Months',30000)" class="dur-btn">Invest for 9 Months</a>
+      </div>
+      <div class="dur best">
+        <div class="dur-best-tag">Best Value</div>
+        <div class="dur-seq">Option 04</div>
+        <div class="dur-num">12</div>
+        <div class="dur-unit">months</div>
+        <div class="dur-roi">30% ROI</div>
+        <div class="dur-ex">₦100,000 → <strong>₦130,000</strong></div>
+        <p class="dur-note">Maximum appreciation. Compound at payout to accelerate growth.</p>
+        <a href="javascript:void(0)" onclick="payNow('Agricultural Investment — 12 Months',30000)" class="dur-btn">Invest for 12 Months</a>
+      </div>
+    </div>
+
+    <!-- Full returns matrix -->
+    <p class="row-lbl fu">Full Returns Matrix — Per Unit Payout at Maturity</p>
+    <div class="tbl-wrap fu">
+      <table class="rtbl">
+        <thead>
+          <tr>
+            <th>Commodity</th>
+            <th>Unit Price</th>
+            <th>3 Months (12%)</th>
+            <th>6 Months (20%)</th>
+            <th>9 Months (25%)</th>
+            <th class="best-th">12 Months (30%) ★</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Maize</strong></td>    <td class="td-dim">₦30,000</td><td>₦33,600</td><td>₦36,000</td><td>₦37,500</td><td class="td-or">₦39,000</td></tr>
+          <tr><td><strong>Rice</strong></td>     <td class="td-dim">₦45,000</td><td>₦50,400</td><td>₦54,000</td><td>₦56,250</td><td class="td-or">₦58,500</td></tr>
+          <tr><td><strong>Millet</strong></td>   <td class="td-dim">₦32,000</td><td>₦35,840</td><td>₦38,400</td><td>₦40,000</td><td class="td-or">₦41,600</td></tr>
+          <tr><td><strong>Sorghum</strong></td>  <td class="td-dim">₦35,000</td><td>₦39,200</td><td>₦42,000</td><td>₦43,750</td><td class="td-or">₦45,500</td></tr>
+          <tr><td><strong>Soybeans</strong></td> <td class="td-dim">₦50,000</td><td>₦56,000</td><td>₦60,000</td><td>₦62,500</td><td class="td-or">₦65,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div><!-- end dur-inner -->
+
+  <!-- Why prices rise -->
+  <div class="flow-band fu">
+    <h3 class="flow-h">Why Commodity Prices <em>Rise After Harvest.</em></h3>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-ico">🌾</div>
+        <div class="flow-t">Harvest</div>
+        <p class="flow-b">Crops are bought at farm-gate — lowest price of the year. Grey sources directly from cooperative farms.</p>
+      </div>
+      <div class="flow-arr">→</div>
+      <div class="flow-step">
+        <div class="flow-ico">🏭</div>
+        <div class="flow-t">Storage</div>
+        <p class="flow-b">Secured in managed facilities. Your investment is protected throughout the entire cycle.</p>
+      </div>
+      <div class="flow-arr">→</div>
+      <div class="flow-step">
+        <div class="flow-ico">📈</div>
+        <div class="flow-t">Price Rise</div>
+        <p class="flow-b">Supply tightens. Demand grows through lean months and festive seasons. Prices climb steadily.</p>
+      </div>
+      <div class="flow-arr">→</div>
+      <div class="flow-step">
+        <div class="flow-ico">💰</div>
+        <div class="flow-t">Your Payout</div>
+        <p class="flow-b">Grey sells at peak market price. Capital plus full profit transferred to you in a single payment.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-inner">
+    <div class="faq-hrow fu">
+      <h3 class="faq-h">Agriculture <em>FAQs.</em></h3>
+      <a href="contact.html" class="faq-more">More questions → contact us</a>
+    </div>
+    <div class="faq-grid fu">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-qt">What is the minimum investment?</span><span class="faq-ico">+</span></button>
+        <div class="faq-ans"><div class="faq-ans-in">One unit of any commodity. Maize starts at ₦30,000 — the lowest entry point. You can diversify across multiple crops with no upper limit on total units.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-qt">When do I get paid?</span><span class="faq-ico">+</span></button>
+        <div class="faq-ans"><div class="faq-ans-in">At the end of your chosen cycle — 3, 6, 9, or 12 months from your investment date. Capital and profit are paid together in one transfer.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-qt">Do I need farming knowledge?</span><span class="faq-ico">+</span></button>
+        <div class="faq-ans"><div class="faq-ans-in">None at all. You choose your commodity, units, and duration — Grey handles everything else. You are purely a financial investor.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-qt">What if crop prices fall?</span><span class="faq-ico">+</span></button>
+        <div class="faq-ans"><div class="faq-ans-in">Returns are secured through diversified sourcing and pre-agreed resale contracts. Grey absorbs price risk so your payout is never tied to a single market event.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-qt">Can I reinvest at maturity?</span><span class="faq-ico">+</span></button>
+        <div class="faq-ans"><div class="faq-ans-in">Absolutely. Many investors roll over both capital and profit into a new cycle at payout. Compounding across 12-month cycles significantly accelerates wealth growth.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)"><span class="faq-qt">How do I track my investment?</span><span class="faq-ico">+</span></button>
+        <div class="faq-ans"><div class="faq-ans-in">After payment, your investment confirmation and portfolio details are sent via WhatsApp within 24 hours. Our team provides regular status updates throughout your cycle.</div></div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ══════════════════════════════
+     SECTION 02 · CONSULTATION
+══════════════════════════════ -->
+<section id="consult">
+
+  <!-- Top banner (dark) -->
+  <div class="consult-top fu">
+    <div>
+      <p class="eyebrow" style="color:var(--gl);margin-bottom:20px;">02 · Business Consultation</p>
+      <h2 class="consult-h">Invest in Your<br/><em>Business.</em></h2>
+    </div>
+    <div class="cstats">
+      <div class="cstat">
+        <div class="cstat-n">3</div>
+        <div class="cstat-info">
+          <h4>Engagement Tiers</h4>
+          <p>Custom, Standard (3 months), and Premium — each designed for a different business stage.</p>
+        </div>
+      </div>
+      <div class="cstat">
+        <div class="cstat-n">6+</div>
+        <div class="cstat-info">
+          <h4>Specialisation Areas</h4>
+          <p>Strategy, operations, brand, growth, digital, and financial clarity.</p>
+        </div>
+      </div>
+      <div class="cstat">
+        <div class="cstat-n">₦30K</div>
+        <div class="cstat-info">
+          <h4>Starting Investment</h4>
+          <p>One focused session with a tailored strategy memo and 48-hour follow-up.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- What we work on -->
+  <div class="areas-wrap">
+    <div class="areas-head fu">
+      <div>
+        <p class="eyebrow" style="margin-bottom:16px;">What We Work On</p>
+        <h3 class="areas-h">Strategy.<br/>Systems. <em>Growth.</em></h3>
+      </div>
+      <p class="areas-sub">Grey consultants bring structured thinking and real-world execution to every engagement. We don't hand you a report and leave — we work alongside you until results show.</p>
+    </div>
+    <div class="areas fu">
+      <div class="area"><div class="area-ico">🎯</div><div class="area-t">Business Strategy</div><p class="area-b">Market positioning, competitive differentiation, and a direction that ties every decision back to a defined goal.</p></div>
+      <div class="area"><div class="area-ico">⚙️</div><div class="area-t">Operations</div><p class="area-b">Audit your workflows, identify friction, and implement improvements that reduce inefficiency without growing your headcount.</p></div>
+      <div class="area"><div class="area-ico">📈</div><div class="area-t">Growth Planning</div><p class="area-b">Scaling a product, entering a new market, or restructuring for the next phase — plans grounded in data, timing, and execution.</p></div>
+      <div class="area"><div class="area-ico">🎨</div><div class="area-t">Brand & Positioning</div><p class="area-b">Clarify your identity, sharpen your messaging, and help your business own its narrative with purpose rather than noise.</p></div>
+      <div class="area"><div class="area-ico">💻</div><div class="area-t">Digital Strategy</div><p class="area-b">Online presence, digital revenue streams, and the tools your business needs — mapped out and properly implemented.</p></div>
+      <div class="area"><div class="area-ico">💰</div><div class="area-t">Financial Clarity</div><p class="area-b">Pricing models, revenue structure, cost analysis, and cash flow visibility for businesses that have the product but not the numbers.</p></div>
+    </div>
+  </div>
+
+  <!-- Plans -->
+  <div class="plans-wrap">
+    <p class="plans-lbl">Consultation Plans</p>
+    <div class="plans fu">
+      <div class="plan">
+        <div class="plan-ghost">A</div>
+        <span class="plan-badge bo">Starter</span>
+        <div class="plan-tier">Custom Plan</div>
+        <div class="plan-price">₦30,000</div>
+        <div class="plan-note">+ ₦5,000 consultation fee</div>
+        <p class="plan-desc">For individuals and early-stage founders with a specific, focused need that requires one tailored session.</p>
+        <div class="plan-div"></div>
+        <ul class="plan-feats">
+          <li>Single focused consultation session</li>
+          <li>Tailored strategy memo delivered</li>
+          <li>48-hour follow-up Q&amp;A window</li>
+          <li>Scope-based deliverables</li>
+        </ul>
+        <a href="javascript:void(0)" onclick="payNow('Consultation — Custom Plan',30000)" class="plan-cta pc-blk">Get Started →</a>
+      </div>
+      <div class="plan dark">
+        <div class="plan-ghost">B</div>
+        <span class="plan-badge bs">Most Popular</span>
+        <div class="plan-tier">Standard Plan</div>
+        <div class="plan-price">₦100,000</div>
+        <div class="plan-note">Valid for 3 months</div>
+        <p class="plan-desc">For growing businesses that need comprehensive support, structured sessions, and a full growth roadmap over 3 months.</p>
+        <div class="plan-div"></div>
+        <ul class="plan-feats">
+          <li>3 consultation sessions</li>
+          <li>Full operations audit</li>
+          <li>Growth roadmap document</li>
+          <li>Priority scheduling</li>
+          <li>WhatsApp &amp; email support</li>
+        </ul>
+        <a href="javascript:void(0)" onclick="payNow('Consultation — Standard Plan',100000)" class="plan-cta pc-or">Get Started →</a>
+      </div>
+      <div class="plan">
+        <div class="plan-ghost">C</div>
+        <span class="plan-badge bo">Enterprise</span>
+        <div class="plan-tier">Premium Plan</div>
+        <div class="plan-price">₦200,000</div>
+        <div class="plan-note">Ongoing support included</div>
+        <p class="plan-desc">For established businesses needing in-depth, sustained strategic support across multiple functions over a full engagement period.</p>
+        <div class="plan-div"></div>
+        <ul class="plan-feats">
+          <li>Unlimited sessions (3 months)</li>
+          <li>Dedicated consultant assigned</li>
+          <li>Brand &amp; positioning overhaul</li>
+          <li>Monthly strategy reviews</li>
+          <li>Full implementation support</li>
+        </ul>
+        <a href="javascript:void(0)" onclick="payNow('Consultation — Premium Plan',200000)" class="plan-cta pc-blk">Get Started →</a>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ══════════════════════════════
+     SECTION 03 · REAL ESTATE (PARTNER)
+══════════════════════════════ -->
+<section id="realestate">
+  <div class="re-inner fu">
+    <div>
+      <p class="eyebrow" style="margin-bottom:16px;">03 · Real Estate</p>
+      <h2 class="re-h">Property via<br/><em>Fealthy Hallmark.</em></h2>
+      <div class="re-badge">🤝 <div><strong>Fealthy Hallmark Consults</strong> — Official Real Estate Partner of Grey</div></div>
+      <p class="re-body">Grey's real estate investment arm is handled entirely by Fealthy Hallmark Consults — a trusted property specialist with deep expertise across Nigerian and international markets. We keep this separate because they do it better than we would.</p>
+      <p class="re-body">As a Grey client you receive a direct, warm introduction to their full portfolio and team. All deals are transparent, legally vetted, and structured for investors at every wealth level — from first-time buyers to multi-property portfolio builders.</p>
+      <div class="re-btns">
+        <a href="contact.html" class="btn-or">Enquire via Grey →</a>
+        <a href="https://wa.me/message/ID5IMVTNGKCJC1" target="_blank" class="btn-ghost">Chat on WhatsApp</a>
+      </div>
+    </div>
+    <div>
+      <div class="re-feats">
+        <div class="re-feat">
+          <div class="re-feat-t">Residential Listings</div>
+          <p class="re-feat-b">Curated residential property deals across Nigeria — from starter homes to luxury builds — via Fealthy Hallmark's verified listing network.</p>
+        </div>
+        <div class="re-feat">
+          <div class="re-feat-t">Investment Opportunities</div>
+          <p class="re-feat-b">Off-plan developments, land acquisition, and income-generating properties selected for strong capital appreciation and yield potential.</p>
+        </div>
+        <div class="re-feat">
+          <div class="re-feat-t">Transparent Transactions</div>
+          <p class="re-feat-b">Every deal is fully documented, legally vetted, and structured with clear terms. No hidden fees. No pressure. Trustworthy property work.</p>
+        </div>
+        <div class="re-feat">
+          <div class="re-feat-t">All Wealth Classes Welcome</div>
+          <p class="re-feat-b">Whether you're buying your first property or building a portfolio, Fealthy Hallmark has options sized for your budget and goals.</p>
+        </div>
+      </div>
+      <div class="re-note">
+        <p class="re-note-hed">How the introduction works</p>
+        <p>Reach out to Grey via the button or WhatsApp above. We'll introduce you directly to the Fealthy Hallmark team and remain available to support you throughout the process.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- CTA band -->
+<div class="cta-band fu">
+  <div>
+    <h2 class="cta-h">Ready to Start<br/>Building Wealth?</h2>
+    <p class="cta-sub">Begin with ₦30,000. Pick your commodity, set your timeline, and let Grey do the rest.</p>
+  </div>
+  <div class="cta-btns">
+    <a href="javascript:void(0)" onclick="payNow('Agricultural Investment',30000)" class="btn-wh">Invest Now →</a>
+    <a href="https://wa.me/message/ID5IMVTNGKCJC1" target="_blank" class="btn-ghost-w">Ask on WhatsApp</a>
+  </div>
+</div>
+
+
+<!-- Footer -->
+<footer>
+  <div class="ft-top">
+    <div>
+      <div class="ft-name">Grey</div>
+      <p class="ft-tag">Redefining how people work, live, and grow — one service at a time.</p>
+      <div class="ft-socs">
+        <a href="https://www.instagram.com/greys.llc?igsh=MjdpemdjMjdmc2Qx" target="_blank" class="ft-soc" title="Instagram">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61563298919257" target="_blank" class="ft-soc" title="Facebook">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/company/greys-llc/" target="_blank" class="ft-soc" title="LinkedIn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4V9h4v2a4 4 0 014-3zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="https://wa.me/message/ID5IMVTNGKCJC1" target="_blank" class="ft-soc" title="WhatsApp">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.135.561 4.133 1.532 5.86L.057 23.428a.75.75 0 00.921.921l5.568-1.475A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.75 9.75 0 01-4.937-1.341l-.354-.21-3.658.968.985-3.572-.229-.368A9.75 9.75 0 0112 2.25c5.385 0 9.75 4.365 9.75 9.75S17.385 21.75 12 21.75z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div>
+      <div class="ft-col-t">Investments</div>
+      <ul class="ft-links">
+        <li><a href="#agri">Agriculture</a></li>
+        <li><a href="#consult">Consultation</a></li>
+        <li><a href="#realestate">Real Estate</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="ft-col-t">Company</div>
+      <ul class="ft-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="testimonials.html">Testimonials</a></li>
+        <li><a href="legal.html">Legal</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="ft-col-t">Get Started</div>
+      <ul class="ft-links">
+        <li><a href="https://paystack.shop/pay/inkroom" target="_blank">Invest Now</a></li>
+        <li><a href="https://wa.me/message/ID5IMVTNGKCJC1" target="_blank">WhatsApp Us</a></li>
+        <li><a href="contact.html">Contact Page</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-bot">
+    <span class="ft-copy">© 2025 Grey LLC · The House of Asher Int. Holdings™. All rights reserved.</span>
+    <div class="ft-bl">
+      <a href="legal.html">Privacy Policy</a>
+      <a href="legal.html">Terms</a>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+/* ── cursor ── */
+const cx=document.getElementById('cx'),cr=document.getElementById('cr');
+let rx=0,ry=0,mx=0,my=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cx.style.left=mx+'px';cx.style.top=my+'px'});
+(function loop(){rx+=(mx-rx)*.15;ry+=(my-ry)*.15;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(loop)})();
+document.querySelectorAll('a,button,.comm,.dur,.step,.area,.plan,.hstat,.cstat,.re-feat,.faq-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cx.classList.add('b');cr.classList.add('b')});
+  el.addEventListener('mouseleave',()=>{cx.classList.remove('b');cr.classList.remove('b')});
+});
+
+/* ── nav ── */
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('slim',scrollY>60));
+
+/* ── scroll reveal ── */
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}}),{threshold:.07});
+document.querySelectorAll('.fu').forEach(el=>obs.observe(el));
+
+/* ── calculator ── */
+const durLabels={'12':'3 months','20':'6 months','25':'9 months','30':'12 months'};
+const cropNames={'30000':'Maize','45000':'Rice','32000':'Millet','35000':'Sorghum','50000':'Soybeans'};
+function fmt(n){return '₦'+n.toLocaleString('en-NG')}
+function calcROI(){
+  const unit=parseInt(document.getElementById('c-crop').value);
+  const units=Math.max(1,parseInt(document.getElementById('c-units').value)||1);
+  const roi=parseInt(document.getElementById('c-dur').value);
+  const capital=unit*units;
+  const profit=Math.round(capital*roi/100);
+  document.getElementById('cc-total').textContent=fmt(capital+profit);
+  document.getElementById('cc-capital').textContent=fmt(capital);
+  document.getElementById('cc-profit').textContent=fmt(profit);
+  document.getElementById('cc-rate').textContent=roi+'%';
+  document.getElementById('cc-dur').textContent=durLabels[roi];
+}
+calcROI();
+
+function calcPay(){
+  const unit=parseInt(document.getElementById('c-crop').value);
+  const units=Math.max(1,parseInt(document.getElementById('c-units').value)||1);
+  const roi=parseInt(document.getElementById('c-dur').value);
+  const label=`Agricultural Investment — ${cropNames[unit]} ${units}u ${durLabels[roi]}`;
+  payNow(label,unit*units);
+}
+
+/* ── paystack ── */
+function payNow(label,amount){
+  const ref=label.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-]/g,'')+'-'+Date.now();
+  const url=`https://paystack.shop/pay/inkroom?reference=${ref}${amount?'&amount='+amount*100:''}`;
+  window.open(url,'_blank');
+}
+
+/* ── faq ── */
+function toggleFaq(btn){
+  const item=btn.parentElement;
+  const was=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+  if(!was)item.classList.add('open');
+}
+</script>
+</body>
+</html>

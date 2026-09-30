@@ -6,7 +6,7 @@
   <title>Investments | Grey</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono@0;1&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet" />
 
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -666,6 +666,8 @@
     [style*="color:var(--grey-mid)"],
     [style*="color: var(--grey-mid)"] { color: var(--text-s) !important; }
 
+    /* Nav spacing: keep links clear of the logo */
+    .nav-ul { gap: 24px; margin-left: 40px; }
   </style>
 </head>
 <body>
@@ -685,19 +687,44 @@
     <span class="logo-nm">Grey</span>
   </a>
   <ul class="nav-ul">
+    <li><a href="index.html">Home</a></li>
     <li><a href="about.html">About</a></li>
     <li><a href="services.html">Services</a></li>
-    <li><a href="investments.html" class="active" class="on">Investments</a></li>
-    <li><a href="pricing.html">Pricing</a></li>
-    <li><a href="testimonials.html">Testimonials</a></li>
+    <li><a href="company.html">Company</a></li>
+    <li><a href="products.html">Products</a></li>
+    <li><a href="pricing.html">Service Rates</a></li>
     <li><a href="contact.html">Contact</a></li>
-    <li><a href="https://paystack.shop/pay/inkroom" target="_blank" class="nav-cta">Invest Now</a></li>
+    <li><a href="https://paystack.shop/pay/inkroom" target="_blank" rel="noopener noreferrer" class="nav-cta">Invest Now</a></li>
   </ul>
+  <div class="nav-controls">
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle day/night mode">
       <svg class="icon-moon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
       <svg class="icon-sun"  viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
     </button>
-  </nav>
+    <div class="nav-dots-wrap">
+      <button class="nav-dots" id="navDots" aria-label="Open menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+          <circle cx="12" cy="5"  r="1.5"/>
+          <circle cx="12" cy="12" r="1.5"/>
+          <circle cx="12" cy="19" r="1.5"/>
+        </svg>
+      </button>
+      <div class="nav-dropdown" id="navDropdown" role="menu">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="company.html">Company</a>
+        <a href="products.html">Products</a>
+        <a href="investments.html" class="active">Investments</a>
+        <a href="pricing.html">Service Rates</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="contact.html">Contact</a>
+        <a href="https://paystack.shop/pay/inkroom" target="_blank" rel="noopener" class="drop-cta">Invest Now →</a>
+      </div>
+    </div>
+  </div>
+  <div class="nav-backdrop" id="navBackdrop"></div>
+</nav>
 
 
 <!-- ══════════════════════════════
@@ -1299,6 +1326,7 @@
           <li><a href="products.html">Products</a></li>
           <li><a href="pricing.html">Service Rates</a></li>
           <li><a href="investments.html">Investments</a></li>
+          <li><a href="testimonials.html">Testimonials</a></li>
         </ul>
       </div>
             <div>
@@ -1391,6 +1419,18 @@ function payNow(label,amount){
   const url=`https://paystack.shop/pay/inkroom?reference=${ref}${amount?'&amount='+amount*100:''}`;
   window.open(url,'_blank');
 }
+
+/* ── dots menu ── */
+(function(){
+  const dotsBtn=document.getElementById('navDots');
+  const dropdown=document.getElementById('navDropdown');
+  const backdrop=document.getElementById('navBackdrop');
+  function openMenu(){dropdown.classList.add('open');backdrop.classList.add('open');dotsBtn.setAttribute('aria-expanded','true')}
+  function closeMenu(){dropdown.classList.remove('open');backdrop.classList.remove('open');dotsBtn.setAttribute('aria-expanded','false')}
+  dotsBtn.addEventListener('click',e=>{e.stopPropagation();dropdown.classList.contains('open')?closeMenu():openMenu()});
+  backdrop.addEventListener('click',closeMenu);
+  dropdown.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
+})();
 
 /* ── faq ── */
 function toggleFaq(btn){

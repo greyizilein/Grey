@@ -911,6 +911,8 @@
     [style*="color:var(--grey-mid)"],
     [style*="color: var(--grey-mid)"] { color: var(--text-s) !important; }
 
+    /* Nav spacing: keep links clear of the logo */
+    .nav-links { gap: 28px; margin-left: 40px; }
   </style>
 </head>
 <body>
@@ -931,8 +933,9 @@
       <span class="nav-wordmark">Grey</span>
     </a>
         <ul class="nav-links" id="navLinks">
-      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html" class="active">Home</a></li>
       <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
       <li><a href="company.html">Company</a></li>
       <li><a href="products.html">Products</a></li>
       <li><a href="pricing.html">Service Rates</a></li>
@@ -956,11 +959,14 @@
           </svg>
         </button>
         <div class="nav-dropdown" id="navDropdown" role="menu">
-          <a href="index.html">Home</a>
+          <a href="index.html" class="active">Home</a>
           <a href="about.html">About</a>
+          <a href="services.html">Services</a>
           <a href="company.html">Company</a>
           <a href="products.html">Products</a>
+          <a href="investments.html">Investments</a>
           <a href="pricing.html">Service Rates</a>
+          <a href="testimonials.html">Testimonials</a>
           <a href="contact.html">Contact</a>
           <a href="https://wa.me/2347072181160?text=Hi%20Grey%2C%20I%27d%20like%20to%20book%20a%20service." target="_blank" rel="noopener" class="drop-cta">WhatsApp Us →</a>
         </div>
@@ -1290,6 +1296,7 @@
           <li><a href="products.html">Products</a></li>
           <li><a href="pricing.html">Service Rates</a></li>
           <li><a href="investments.html">Investments</a></li>
+          <li><a href="testimonials.html">Testimonials</a></li>
         </ul>
       </div>
             <div>

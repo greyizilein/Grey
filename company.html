@@ -1210,7 +1210,7 @@
 
     /* Ghost / watermark text (large decorative letters) */
     .hero-big-text, .team-bg-letter, .ghost-text,
-    [class*="ghost"], [class*="watermark"] { color: var(--text-ghost) !important; }
+    [class*="ghost"]:not([class*="btn"]), [class*="watermark"] { color: var(--text-ghost) !important; }
 
     /* Comparison table */
     .compare-table tbody td        { border-bottom-color: var(--border) !important; color: var(--text-s) !important; }
@@ -1256,6 +1256,35 @@
 
     /* Nav spacing: keep links clear of the logo */
     .nav-links { gap: 28px; margin-left: 40px; }
+
+    /* ── Day/night fixes ── */
+    /* The footer rules use these names; give them values */
+    :root { --text-main: var(--text-p); --text-mid: var(--text-s); --fg-rgb: 255,255,255; }
+    html[data-theme="light"] { --fg-rgb: 0,0,0; }
+
+    /* Photo headers and dark panels stay dark in day mode, so they keep night-mode text colours */
+    html[data-theme="light"] :is(header.hero, .hero-right, .modal-bg, .s-banner, .crop-strip, .plan.dark) {
+      --bg: #000000; --bg-section: #0D0D0D; --bg-card: #141414;
+      --text-p: #FFFFFF; --text-s: #AAAAAA; --text-m: #666666; --text-ghost: rgba(255,255,255,.04);
+      --border: rgba(255,255,255,.08); --border-s: rgba(255,255,255,.15);
+      --near-black: #FFFFFF; --off-white: #FFFFFF; --grey-mid: #888888; --grey-light: #AAAAAA;
+      --fg-rgb: 255,255,255;
+      color: var(--text-p);
+    }
+    /* Plain (non-photo) header text follows the theme */
+    html[data-theme="light"] section.hero:not(#s-hero) .hero-sub { color: var(--text-s) !important; }
+    html[data-theme="light"] .page-hero h1 { color: var(--text-p) !important; }
+
+    /* White text on orange, in both modes */
+    .nav-links a.nav-cta, .nav-ul a.nav-cta { color: #FFFFFF !important; }
+    .cta-right-body, .bottom-cta-body, .pullquote-source { color: rgba(255,255,255,.85) !important; }
+
+    /* Solid buttons contrast with the page instead of matching it */
+    .method-cta, .form-submit, .cta-dark-default, .price-cta-default { background: var(--text-p) !important; color: var(--bg) !important; }
+    .method-cta:hover, .form-submit:hover, .cta-dark-default:hover, .price-cta-default:hover { background: var(--orange) !important; color: #FFFFFF !important; }
+
+    /* Faint step numbers on light cards */
+    html[data-theme="light"] :is(.step-num, .how-num, .fl-proc-num, .pay-step-num) { color: rgba(0,0,0,.06) !important; }
   </style>
 </head>
 <body>
@@ -1685,6 +1714,8 @@
           <li><a href="pricing.html">Service Rates</a></li>
           <li><a href="investments.html">Investments</a></li>
           <li><a href="testimonials.html">Testimonials</a></li>
+          <li><a href="https://www.paperstudio.dev/" target="_blank" rel="noopener noreferrer">Paperstudio ↗</a></li>
+          <li><a href="https://kore-eu.grey-izilein.workers.dev/" target="_blank" rel="noopener noreferrer">KORE ↗</a></li>
         </ul>
       </div>
             <div>

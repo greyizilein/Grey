@@ -867,7 +867,7 @@
 
     /* Ghost / watermark text (large decorative letters) */
     .hero-big-text, .team-bg-letter, .ghost-text,
-    [class*="ghost"], [class*="watermark"] { color: var(--text-ghost) !important; }
+    [class*="ghost"]:not([class*="btn"]), [class*="watermark"] { color: var(--text-ghost) !important; }
 
     /* Comparison table */
     .compare-table tbody td        { border-bottom-color: var(--border) !important; color: var(--text-s) !important; }
@@ -911,6 +911,80 @@
     [style*="color:var(--grey-mid)"],
     [style*="color: var(--grey-mid)"] { color: var(--text-s) !important; }
 
+
+    /* ── Day/night fixes ── */
+    /* The footer rules use these names; give them values */
+    :root { --text-main: var(--text-p); --text-mid: var(--text-s); --fg-rgb: 255,255,255; }
+    html[data-theme="light"] { --fg-rgb: 0,0,0; }
+
+    /* Photo headers and dark panels stay dark in day mode, so they keep night-mode text colours */
+    html[data-theme="light"] :is(header.hero, .hero-right, .modal-bg, .s-banner, .crop-strip, .plan.dark) {
+      --bg: #000000; --bg-section: #0D0D0D; --bg-card: #141414;
+      --text-p: #FFFFFF; --text-s: #AAAAAA; --text-m: #666666; --text-ghost: rgba(255,255,255,.04);
+      --border: rgba(255,255,255,.08); --border-s: rgba(255,255,255,.15);
+      --near-black: #FFFFFF; --off-white: #FFFFFF; --grey-mid: #888888; --grey-light: #AAAAAA;
+      --fg-rgb: 255,255,255;
+      color: var(--text-p);
+    }
+    /* Plain (non-photo) header text follows the theme */
+    html[data-theme="light"] section.hero:not(#s-hero) .hero-sub { color: var(--text-s) !important; }
+    html[data-theme="light"] .page-hero h1 { color: var(--text-p) !important; }
+
+    /* White text on orange, in both modes */
+    .cta-right-body, .bottom-cta-body, .pullquote-source { color: rgba(255,255,255,.85) !important; }
+
+    /* Solid buttons contrast with the page instead of matching it */
+    .method-cta, .form-submit, .cta-dark-default, .price-cta-default { background: var(--text-p) !important; color: var(--bg) !important; }
+    .method-cta:hover, .form-submit:hover, .cta-dark-default:hover, .price-cta-default:hover { background: var(--orange) !important; color: #FFFFFF !important; }
+
+    /* Faint step numbers on light cards */
+    html[data-theme="light"] :is(.step-num, .how-num, .fl-proc-num, .pay-step-num) { color: rgba(0,0,0,.06) !important; }
+
+    /* ── Header ── */
+    nav.gh { display: flex; align-items: center; justify-content: flex-start; gap: 28px; padding: 16px 48px; }
+    nav.gh.scrolled, nav.gh.slim { padding-top: 12px; padding-bottom: 12px; }
+    .gh-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+    .gh-logo-icon { width: 34px; height: 34px; border-radius: 50%; background: var(--orange); display: flex; align-items: center; justify-content: center; }
+    .gh-logo-icon svg { width: 19px; height: 19px; }
+    .gh-wordmark { font-family: var(--font-display); font-size: 21px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--text-p); }
+    .gh-links { display: flex; align-items: center; gap: 2px; list-style: none; margin: 0 auto 0 0; padding: 0; }
+    .gh-item { position: relative; }
+    .gh-link { display: inline-flex; align-items: center; gap: 6px; padding: 9px 12px; border: 0; border-radius: 999px; background: none;
+      font-family: var(--font-body); font-size: 15px; font-weight: 500; line-height: 1; color: var(--text-p); text-decoration: none; white-space: nowrap; cursor: pointer; }
+    .gh-link:hover, .gh-item.open > .gh-link { background: rgba(var(--fg-rgb), .07); }
+    .gh-link.active { color: var(--orange); }
+    .gh-ico { width: 15px; height: 15px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: transform .2s; }
+    .gh-item:hover .gh-chev, .gh-item.open .gh-chev { transform: rotate(180deg); }
+    .gh-menu { display: none; position: absolute; top: calc(100% + 10px); left: 0; z-index: 210; min-width: 240px; padding: 8px;
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 14px 40px rgba(0,0,0,.28); }
+    .gh-menu::before { content: ''; position: absolute; left: 0; right: 0; top: -12px; height: 12px; }
+    .gh-item:hover .gh-menu, .gh-item.open .gh-menu { display: block; }
+    .gh-menu a { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 12px; border-radius: 10px;
+      font-family: var(--font-body); font-size: 14px; color: var(--text-p); text-decoration: none; white-space: nowrap; }
+    .gh-menu a:hover { background: rgba(var(--fg-rgb), .07); color: var(--orange); }
+    .gh-menu a.active { color: var(--orange); }
+    .gh-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px 10px 22px; border-radius: 999px; border: 1.5px solid transparent;
+      font-family: var(--font-body); font-size: 15px; font-weight: 500; line-height: 1; text-decoration: none; white-space: nowrap; cursor: pointer; transition: background .2s, color .2s, border-color .2s; }
+    .gh-btn:hover .gh-go { transform: translateX(3px); }
+    .gh-btn:hover .gh-go-down { transform: translateY(2px); }
+    .gh-btn-outline { border-color: var(--text-p); color: var(--text-p); }
+    .gh-btn-outline:hover { background: var(--text-p); color: var(--bg); }
+    .gh-btn-solid { background: var(--orange); border-color: var(--orange); color: #FFFFFF; }
+    .gh-btn-solid:hover { background: var(--orange-light); border-color: var(--orange-light); }
+    nav.gh .nav-controls { gap: 10px; margin-left: 0; }
+    nav.gh .nav-dropdown { max-height: calc(100vh - 90px); overflow-y: auto; }
+    @media (max-width: 1240px) {
+      nav.gh { padding: 16px 32px; }
+      nav.gh .gh-links, nav.gh .gh-btn { display: none; }
+      nav.gh .nav-controls { margin-left: auto; }
+      nav.gh .nav-dots-wrap { display: block; }
+      nav.gh .nav-dots { display: flex; }
+    }
+
+    /* ── Footer: Paperstudio app ── */
+    .gh-app { margin-top: 28px; max-width: 300px; }
+    .gh-app-title { font-family: var(--font-display); font-size: 14px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--text-p); margin-bottom: 6px; }
+    .gh-app-sub { font-size: 13px; line-height: 1.6; color: var(--text-s); margin-bottom: 14px; }
   </style>
 </head>
 <body>
@@ -920,33 +994,56 @@
   <div class="cursor-ring" id="cursorRing"></div>
 
   <!-- ── Nav ── -->
-  <nav id="nav">
-    <a href="index.html" class="nav-logo">
-      <div class="nav-logo-icon">
+  <nav id="nav" class="gh">
+    <a href="index.html" class="gh-logo" aria-label="Grey home">
+      <span class="gh-logo-icon">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.5"/>
           <path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20" stroke="white" stroke-width="1.5"/>
         </svg>
-      </div>
-      <span class="nav-wordmark">Grey</span>
+      </span>
+      <span class="gh-wordmark">Grey</span>
     </a>
-        <ul class="nav-links" id="navLinks">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="company.html">Company</a></li>
-      <li><a href="products.html">Products</a></li>
-      <li><a href="pricing.html">Service Rates</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="https://wa.me/2347072181160?text=Hi%20Grey%2C%20I%27d%20like%20to%20book%20a%20service." target="_blank" rel="noopener noreferrer" class="btn nav-cta">WhatsApp Us</a></li>
+    <ul class="gh-links">
+      <li class="gh-item gh-has-menu">
+        <button type="button" class="gh-link" aria-haspopup="true" aria-expanded="false">Services<svg class="gh-ico gh-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="gh-menu">
+          <a href="services.html#s-everyday">Everyday services</a>
+          <a href="services.html#s-agri">Agricultural investment</a>
+          <a href="services.html#s-consultation">Business consultation</a>
+          <a href="services.html#s-freelance">Freelance creatives</a>
+          <a href="services.html">All services</a>
+        </div>
+      </li>
+      <li class="gh-item gh-has-menu">
+        <button type="button" class="gh-link" aria-haspopup="true" aria-expanded="false">Company<svg class="gh-ico gh-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="gh-menu">
+          <a href="about.html">About us</a>
+          <a href="company.html">Company</a>
+          <a href="investments.html">Investments</a>
+          <a href="testimonials.html">Testimonials</a>
+        </div>
+      </li>
+      <li class="gh-item"><a href="products.html" class="gh-link">Products</a></li>
+      <li class="gh-item"><a href="pricing.html" class="gh-link">Service rates</a></li>
+      <li class="gh-item gh-has-menu">
+        <button type="button" class="gh-link" aria-haspopup="true" aria-expanded="false">Contact<svg class="gh-ico gh-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="gh-menu">
+          <a href="contact.html">Contact page</a>
+          <a href="https://wa.me/2347072181160?text=Hi%20Grey%2C%20I%27d%20like%20to%20book%20a%20service." target="_blank" rel="noopener noreferrer">WhatsApp us<svg class="gh-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
+          <a href="tel:+2347072181160">Call 0707 218 1160</a>
+        </div>
+      </li>
+      <li class="gh-item"><a href="https://www.paperstudio.dev/" class="gh-link" target="_blank" rel="noopener noreferrer">Paperstudio<svg class="gh-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></a></li>
+      <li class="gh-item"><a href="https://kore-eu.grey-izilein.workers.dev/" class="gh-link" target="_blank" rel="noopener noreferrer">KORE<svg class="gh-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></a></li>
     </ul>
-        <div class="nav-controls">
-      <!-- Theme toggle (always visible, left of dots) -->
+    <div class="nav-controls">
+      <a href="https://www.paperstudio.dev/auth" class="gh-btn gh-btn-outline" target="_blank" rel="noopener noreferrer" title="Log in to Paperstudio">Log in<svg class="gh-ico gh-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>
+      <a href="https://www.paperstudio.dev/auth" class="gh-btn gh-btn-solid" target="_blank" rel="noopener noreferrer" title="Create a Paperstudio account">Sign up<svg class="gh-ico gh-go" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></a>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle day/night mode">
         <svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
         <svg class="icon-sun"  viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
       </button>
-
-      <!-- Three-dot button + compact dropdown -->
       <div class="nav-dots-wrap">
         <button class="nav-dots" id="navDots" aria-label="Open menu" aria-expanded="false">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
@@ -956,13 +1053,20 @@
           </svg>
         </button>
         <div class="nav-dropdown" id="navDropdown" role="menu">
-          <a href="index.html">Home</a>
+          <a href="index.html" class="active">Home</a>
           <a href="about.html">About</a>
+          <a href="services.html">Services</a>
           <a href="company.html">Company</a>
           <a href="products.html">Products</a>
+          <a href="investments.html">Investments</a>
           <a href="pricing.html">Service Rates</a>
+          <a href="testimonials.html">Testimonials</a>
           <a href="contact.html">Contact</a>
-          <a href="https://wa.me/2347072181160?text=Hi%20Grey%2C%20I%27d%20like%20to%20book%20a%20service." target="_blank" rel="noopener" class="drop-cta">WhatsApp Us →</a>
+          <a href="https://www.paperstudio.dev/" target="_blank" rel="noopener noreferrer">Paperstudio ↗</a>
+          <a href="https://kore-eu.grey-izilein.workers.dev/" target="_blank" rel="noopener noreferrer">KORE ↗</a>
+          <a href="https://www.paperstudio.dev/auth" target="_blank" rel="noopener noreferrer">Log in to Paperstudio ›</a>
+          <a href="https://www.paperstudio.dev/auth" target="_blank" rel="noopener noreferrer">Sign up ›</a>
+          <a href="https://wa.me/2347072181160?text=Hi%20Grey%2C%20I%27d%20like%20to%20book%20a%20service." target="_blank" rel="noopener noreferrer" class="drop-cta">WhatsApp Us →</a>
         </div>
       </div>
     </div>
@@ -1271,6 +1375,11 @@
             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M5.042 15.165a2.528 2.528 0 01-2.52 2.523A2.528 2.528 0 010 15.165a2.527 2.527 0 012.522-2.52h2.52v2.52zM6.313 15.165a2.527 2.527 0 012.521-2.52 2.527 2.527 0 012.521 2.52v6.313A2.528 2.528 0 018.834 24a2.528 2.528 0 01-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 01-2.521-2.52A2.528 2.528 0 018.834 0a2.528 2.528 0 012.521 2.522v2.52H8.834zM8.834 6.313a2.528 2.528 0 012.521 2.521 2.528 2.528 0 01-2.521 2.521H2.522A2.528 2.528 0 010 8.834a2.528 2.528 0 012.522-2.521h6.312zM18.956 8.834a2.528 2.528 0 012.522-2.521A2.528 2.528 0 0124 8.834a2.528 2.528 0 01-2.522 2.521h-2.522V8.834zM17.688 8.834a2.528 2.528 0 01-2.523 2.521 2.527 2.527 0 01-2.52-2.521V2.522A2.527 2.527 0 0115.165 0a2.528 2.528 0 012.523 2.522v6.312zM15.165 18.956a2.528 2.528 0 012.523 2.522A2.528 2.528 0 0115.165 24a2.527 2.527 0 01-2.52-2.522v-2.522h2.52zM15.165 17.688a2.527 2.527 0 01-2.52-2.523 2.526 2.526 0 012.52-2.52h6.313A2.527 2.527 0 0124 15.165a2.528 2.528 0 01-2.522 2.523h-6.313z"/></svg>
           </a>
         </div>
+        <div class="gh-app">
+          <p class="gh-app-title">Get the Paperstudio app</p>
+          <p class="gh-app-sub">Install it on your phone or computer, straight from paperstudio.dev.</p>
+          <a href="https://www.paperstudio.dev/" class="gh-btn gh-btn-solid" target="_blank" rel="noopener noreferrer">Download<svg class="gh-ico gh-go-down" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg></a>
+        </div>
       </div>
       <div>
         <div class="footer-col-title">Services</div>
@@ -1290,6 +1399,9 @@
           <li><a href="products.html">Products</a></li>
           <li><a href="pricing.html">Service Rates</a></li>
           <li><a href="investments.html">Investments</a></li>
+          <li><a href="testimonials.html">Testimonials</a></li>
+          <li><a href="https://www.paperstudio.dev/" target="_blank" rel="noopener noreferrer">Paperstudio ↗</a></li>
+          <li><a href="https://kore-eu.grey-izilein.workers.dev/" target="_blank" rel="noopener noreferrer">KORE ↗</a></li>
         </ul>
       </div>
             <div>
@@ -1412,6 +1524,32 @@
           localStorage.setItem('grey-theme', next);
         });
       }
+    })();
+  </script>
+  <script>
+    /* Header dropdowns: open on hover, or on tap/click for touch screens; Esc or a click elsewhere closes them */
+    (function () {
+      var items = document.querySelectorAll('.gh-has-menu');
+      function closeAll(except) {
+        items.forEach(function (it) {
+          if (it === except) return;
+          it.classList.remove('open');
+          it.querySelector('.gh-link').setAttribute('aria-expanded', 'false');
+        });
+      }
+      items.forEach(function (it) {
+        var btn = it.querySelector('.gh-link');
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          var open = !it.classList.contains('open');
+          closeAll(it);
+          it.classList.toggle('open', open);
+          btn.setAttribute('aria-expanded', String(open));
+        });
+        it.addEventListener('mouseenter', function () { closeAll(it); });
+      });
+      document.addEventListener('click', function (e) { if (!e.target.closest('.gh-has-menu')) closeAll(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAll(); });
     })();
   </script>
 </body>

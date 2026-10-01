@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Products &amp; Books | Grey</title>
+  <title>Get a Quote | Grey</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet" />
@@ -517,12 +517,12 @@
           <a href="testimonials.html">Testimonials</a>
         </div>
       </li>
-      <li class="gh-item"><a href="products.html" class="gh-link active" aria-current="page">Products</a></li>
+      <li class="gh-item"><a href="products.html" class="gh-link">Products</a></li>
       <li class="gh-item gh-has-menu">
-        <button type="button" class="gh-link" aria-haspopup="true" aria-expanded="false">Service rates<svg class="gh-ico gh-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <button type="button" class="gh-link active" aria-haspopup="true" aria-expanded="false">Service rates<svg class="gh-ico gh-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="gh-menu">
           <a href="pricing.html">Service rates</a>
-          <a href="quote.html">Get a quote</a>
+          <a href="quote.html" class="active" aria-current="page">Get a quote</a>
         </div>
       </li>
       <li class="gh-item gh-has-menu">
@@ -555,10 +555,10 @@
           <a href="about.html">About</a>
           <a href="services.html">Services</a>
           <a href="company.html">Company</a>
-          <a href="products.html" class="active">Products</a>
+          <a href="products.html">Products</a>
           <a href="investments.html">Investments</a>
           <a href="pricing.html">Service Rates</a>
-          <a href="quote.html">Get a Quote</a>
+          <a href="quote.html" class="active">Get a Quote</a>
           <a href="testimonials.html">Testimonials</a>
           <a href="contact.html">Contact</a>
         </div>
@@ -570,107 +570,89 @@
   <!-- Hero -->
   <section class="page-hero">
     <div class="page-hero-grid"></div>
-    <p class="hero-eyebrow fade-up">Grey Products</p>
-    <h1 class="fade-up">Books &amp;<br/><em>Digital</em><br/>Products.</h1>
-    <p class="page-hero-sub fade-up d2">Ideas worth owning. Browse books, guides, and digital tools created by the Grey founder — built to help you think, build, and grow.</p>
-    <a href="https://paystack.shop/greysllc" target="_blank" rel="noopener noreferrer" class="btn btn-primary fade-up d3">Shop All Products →</a>
+    <p class="hero-eyebrow">Quotes &amp; invoices</p>
+    <h1>Your <em>service</em><br/>ticket.</h1>
+    <p class="page-hero-sub">Put together investments, consultation, everyday services and books on one ticket. Grey issues it instantly, with everything you need to pay.</p>
   </section>
 
-  <!-- Marquee -->
-  <div class="marquee-strip">
-    <div class="marquee-track">
-      <span class="marquee-item">Books</span>
-      <span class="marquee-item">Digital Guides</span>
-      <span class="marquee-item">Ideas Worth Owning</span>
-      <span class="marquee-item">Build Better</span>
-      <span class="marquee-item">Think Deeper</span>
-      <span class="marquee-item">Grey Storefront</span>
-      <span class="marquee-item">Books</span>
-      <span class="marquee-item">Digital Guides</span>
-      <span class="marquee-item">Ideas Worth Owning</span>
-      <span class="marquee-item">Build Better</span>
-      <span class="marquee-item">Think Deeper</span>
-      <span class="marquee-item">Grey Storefront</span>
-    </div>
-  </div>
-
-  <!-- Bookshop -->
-  <section class="gb" id="books">
-    <div class="gb-head">
-      <h2>The Grey<br/><em>bookshop.</em></h2>
-      <p>Books by the Grey founder. Pay securely with Paystack and your download arrives straight away.</p>
-    </div>
-    <div class="gb-shelf" id="gb-shelf"></div>
-  </section>
-
-  <!-- Store Section -->
-  <section class="store-section">
-    <div class="fade-up store-intro">
-      <p class="section-label">The Storefront</p>
-      <h2 class="store-title">Everything<br/>We've Built<br/>For You.</h2>
-      <p class="store-body">From practical guides to in-depth reads on strategy, creativity, and building things that last — all available on our Paystack storefront. Secure checkout. Instant delivery.</p>
-      <a href="https://paystack.shop/greysllc" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="margin-bottom:12px;">Open Full Storefront →</a>
-      <a href="https://www.paperstudio.dev/" target="_blank" rel="noopener noreferrer" class="product-cta" style="margin-top:12px;">Check out Paperstudio ↗</a>
-    </div>
-
-    <!-- Paystack storefront embed -->
-    <div class="fade-up d2" style="background:var(--bg-card);border:1px solid var(--border);padding:40px 32px;max-width:900px;margin-bottom:48px;">
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;margin-bottom:32px;">
-        <div style="min-width:0;max-width:100%;">
-          <p style="font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--orange);margin-bottom:8px;">Grey Storefront</p>
-          <h3 style="font-family:var(--font-display);font-size:28px;font-weight:500;text-transform:uppercase;color:var(--near-black);overflow-wrap:anywhere;">paystack.shop/greysllc</h3>
+  <section class="gq">
+    <div class="gq-grid">
+      <div>
+        <div class="gq-tabs" role="tablist" aria-label="What would you like a quote for?">
+          <button type="button" class="gq-tab" role="tab" data-desk="invest">Investments</button>
+          <button type="button" class="gq-tab" role="tab" data-desk="consult">Consultation</button>
+          <button type="button" class="gq-tab" role="tab" data-desk="services">Everyday services</button>
+          <button type="button" class="gq-tab" role="tab" data-desk="books">Books</button>
         </div>
-        <a href="https://paystack.shop/greysllc" target="_blank" rel="noopener noreferrer"
-           style="display:inline-flex;align-items:center;gap:8px;background:var(--text-p);color:var(--bg);font-family:var(--font-display);font-size:13px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:14px 24px;text-decoration:none;transition:background .2s;"
-           onmouseover="this.style.background='#CE4703';this.style.color='#FFFFFF';" onmouseout="this.style.background='var(--text-p)';this.style.color='var(--bg)';">
-          Visit Store
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        </a>
-      </div>
-      <div style="background:var(--cream);padding:32px;text-align:center;border:1px dashed rgba(206,71,3,.2);">
-        <p style="font-family:var(--font-mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--grey-mid);margin-bottom:16px;">All products available at</p>
-        <a href="https://paystack.shop/greysllc" target="_blank" rel="noopener noreferrer"
-           style="font-family:var(--font-display);font-size:20px;font-weight:500;color:var(--orange);text-decoration:none;text-transform:uppercase;letter-spacing:.04em;overflow-wrap:anywhere;">
-          paystack.shop/greysllc →
-        </a>
-        <p style="font-size:13px;color:var(--grey-mid);margin-top:16px;line-height:1.6;">Secure payments · Instant digital delivery · Verified checkout</p>
-      </div>
-    </div>
 
-    <!-- Static product preview cards -->
-    <div class="products-grid fade-up d3">
-      <div class="product-card">
-        <div class="product-type">Book</div>
-        <div class="product-name">Coming<br/>Soon</div>
-        <p class="product-desc">New titles and digital products added regularly. Visit the storefront to see everything currently available.</p>
-        <a href="https://paystack.shop/greysllc" target="_blank" rel="noopener noreferrer" class="product-cta">Browse Storefront →</a>
+        <div class="gq-desk" id="desk-invest">
+          <h2>Agricultural investment</h2>
+          <p>Buy units of staple crops at harvest prices. Grey handles sourcing, storage and resale, and pays your capital and profit together at maturity.</p>
+          <div class="gq-field"><span class="gq-label">Commodity</span><div class="gq-pills" id="inv-crops"></div></div>
+          <div class="gq-field"><span class="gq-label">Duration</span><div class="gq-pills" id="inv-months"></div></div>
+          <div class="gq-field"><span class="gq-label">Units</span>
+            <span class="gq-stepper" id="inv-units"><button type="button" class="gq-minus" aria-label="One fewer unit">−</button><output>1</output><button type="button" class="gq-plus" aria-label="One more unit">+</button></span>
+          </div>
+          <div class="gq-readout">
+            <div><span>You invest</span><strong id="inv-capital"></strong></div>
+            <div><span>Profit</span><strong id="inv-profit"></strong></div>
+            <div><span>Payout</span><strong class="gq-hot" id="inv-payout"></strong></div>
+            <div><span>Matures around</span><strong id="inv-maturity"></strong></div>
+          </div>
+          <button type="button" class="gh-btn gh-btn-solid gq-add" id="inv-add">Add to my ticket →</button>
+          <p class="gq-note">Returns are the rates shown on the <a href="investments.html">Investments page</a>. Maturity counts from the day your payment is received.</p>
+        </div>
+
+        <div class="gq-desk" id="desk-consult" hidden>
+          <h2>Business consultation</h2>
+          <p>Strategy, operations, growth and financial clarity, with Grey working alongside you.</p>
+          <div class="gq-plans" id="con-plans"></div>
+          <button type="button" class="gh-btn gh-btn-solid gq-add" id="con-add">Add to my ticket →</button>
+        </div>
+
+        <div class="gq-desk" id="desk-services" hidden>
+          <h2>Everyday services</h2>
+          <p>Meals, cleaning, home care, errands and delivery. Book once, or monthly to save.</p>
+          <div class="gq-field"><span class="gq-label">Service</span><div class="gq-pills" id="svc-list"></div></div>
+          <div class="gq-field"><span class="gq-label">How often</span><div class="gq-pills" id="svc-plan"></div></div>
+          <div class="gq-field"><span class="gq-label">How many</span>
+            <span class="gq-stepper" id="svc-qty"><button type="button" class="gq-minus" aria-label="One fewer">−</button><output>1</output><button type="button" class="gq-plus" aria-label="One more">+</button></span>
+          </div>
+          <div class="gq-svc-sum"><strong id="svc-total"></strong><span id="svc-unit"></span><em id="svc-disc" hidden></em></div>
+          <button type="button" class="gh-btn gh-btn-solid gq-add" id="svc-add">Add to my ticket →</button>
+          <p class="gq-note">These are estimates. Grey confirms the scope and final price with you before any work begins.</p>
+        </div>
+
+        <div class="gq-desk" id="desk-books" hidden>
+          <h2>Books</h2>
+          <p>For one copy, the quickest way is <a href="products.html">Buy &amp; download in the bookshop</a>. Use a ticket for several copies, gifts or paying by transfer.</p>
+          <div id="book-list"></div>
+          <p class="gq-note" id="book-add-note">Download links are sent to the email on your ticket once payment is confirmed.</p>
+        </div>
       </div>
-      <div class="product-card">
-        <div class="product-type">Digital Guide</div>
-        <div class="product-name">Build &amp;<br/>Grow</div>
-        <p class="product-desc">Practical resources for builders, founders, and curious minds. Tools that help you move from idea to execution.</p>
-        <a href="https://paystack.shop/greysllc" target="_blank" rel="noopener noreferrer" class="product-cta">See All Products →</a>
-      </div>
-      <div class="product-card">
-        <div class="product-type">Author</div>
-        <div class="product-name">Asher<br/>Izilein</div>
-        <p class="product-desc">All products are created by the Grey founder. Follow on Medium for free reads and long-form thinking.</p>
-        <a href="https://medium.com/@grey.izilein" target="_blank" rel="noopener noreferrer" class="product-cta">Read on Medium →</a>
-      </div>
+
+      <aside>
+        <div class="gq-ticket">
+          <div class="gq-ticket-head"><span>Your ticket</span><b id="gq-count">0</b></div>
+          <ul class="gq-lines" id="gq-lines"></ul>
+          <div class="gq-sum"><span>Total</span><strong id="gq-total">₦0</strong></div>
+          <form class="gq-form" id="gq-form">
+            <input name="name" required autocomplete="name" placeholder="Your full name" aria-label="Your full name">
+            <input name="phone" type="tel" required autocomplete="tel" placeholder="Phone or WhatsApp number" aria-label="Phone or WhatsApp number">
+            <input name="email" type="email" id="gq-email" autocomplete="email" placeholder="Email" aria-label="Email">
+            <p class="gq-hint" id="gq-email-hint" hidden>Needed for books: your downloads are sent here.</p>
+            <textarea name="note" placeholder="Anything Grey should know (optional)" aria-label="Note for Grey"></textarea>
+            <label class="gq-check" id="gq-est-row" hidden><input type="checkbox" id="gq-est"> I understand everyday-service prices are estimates until Grey confirms them.</label>
+            <button type="submit" class="gh-btn gh-btn-solid" id="gq-issue" data-bell disabled>Issue my ticket →</button>
+          </form>
+        </div>
+        <div class="gq-recent" id="gq-recent" hidden>
+          <span class="gq-label">Your recent tickets</span>
+          <ul></ul>
+        </div>
+      </aside>
     </div>
   </section>
-
-  <!-- CTA Band -->
-  <div class="cta-band fade-up">
-    <div>
-      <h2 class="cta-band-title">Have a Question<br/>About a <em>Product?</em></h2>
-      <p class="cta-band-sub">Reach out directly and we'll point you in the right direction.</p>
-    </div>
-    <div style="display:flex;gap:16px;flex-wrap:wrap;">
-      <a href="https://wa.me/2347072181160?text=Hi%20Grey%2C%20I%27d%20like%20to%20book%20a%20service." target="_blank" rel="noopener noreferrer" class="btn btn-primary">WhatsApp Us →</a>
-      <a href="contact.html" class="btn btn-outline">Contact Page</a>
-    </div>
-  </div>
 
   <footer>
     <div class="footer-top">
@@ -860,6 +842,7 @@
   </script>
   <script src="assets/grey/config.js?v=af21199d" defer></script>
   <script src="assets/grey/grey.js?v=b74e5f1d" defer></script>
-  <script src="assets/grey/books.js?v=d4ccf8c1" defer></script>
+  <script src="assets/grey/ticket.js?v=d9d31a42" defer></script>
+  <script src="assets/grey/quote.js?v=191ae237" defer></script>
 </body>
 </html>

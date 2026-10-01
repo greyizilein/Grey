@@ -32,6 +32,7 @@ G.author = {
 G.books = [
   {
     id: "neither-1",
+    sample: true,
     series: "Neither",
     number: 1,
     title: "Neither",
@@ -46,6 +47,7 @@ G.books = [
   },
   {
     id: "neither-2",
+    sample: true,
     series: "Neither",
     number: 2,
     title: "Neither II",
@@ -60,6 +62,7 @@ G.books = [
   },
   {
     id: "neither-3",
+    sample: true,
     series: "Neither",
     number: 3,
     title: "The Hanging Commercials",
@@ -74,6 +77,7 @@ G.books = [
   },
   {
     id: "aog-1",
+    sample: true,
     series: "An Autobiography of God",
     number: 1,
     title: "God So Loved the World",

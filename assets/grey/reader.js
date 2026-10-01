@@ -5,7 +5,8 @@
                        "paras": [ "text", { "b": 1 }, { "d": "Israel, 1028 BC" } ],
                        "front": 1 } ] }
    ({ "b": 1 } is a scene break, { "d": … } a dateline, "front"
-   marks a note before the story, which gets no drop cap.)
+   marks a note before the story, which gets no drop cap, and "part"
+   with "epi": [quote, source] is a part title on a page of its own.)
    The whole sample flows through CSS columns; a "page" is one
    column on phones and two side by side on wide screens. Turning
    a page slides the columns along. Where you are is kept per book,
@@ -92,6 +93,16 @@
       "</section>");
     var n = 0;
     chapters.forEach(function (c, ci) {
+      if (c.part) {
+        // A part title on a page of its own, with its epigraph
+        var epi = c.epi || [];
+        h.push('<section class="gr-chapter gr-part" data-ch="' + ci + '">' +
+          '<h2 class="gr-part-title" data-i="' + (n++) + '">' + esc(c.title) + "</h2>" +
+          (epi.length ? '<blockquote class="gr-epi"><p>' + esc(epi[0]) + "</p>" +
+            (epi[1] ? "<footer>" + esc(epi[1]) + "</footer>" : "") + "</blockquote>" : "") +
+          "</section>");
+        return;
+      }
       h.push('<section class="gr-chapter' + (c.front ? " gr-front" : "") + '" data-ch="' + ci + '">' +
         '<header class="gr-ch-open" data-i="' + (n++) + '">' +
           '<span class="gr-ch-label">' + esc(c.label || "") + "</span>" +

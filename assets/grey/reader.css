@@ -179,6 +179,14 @@ body.gr.gr-narrow { background: var(--r-page); }
 .gr-front .gr-ch-title { font-size: 1.35em; margin-top: 14px; }
 .gr-front p { font-size: .92em; color: var(--r-soft); }
 
+/* A part title: a page of its own, with an epigraph */
+.gr-part { height: 100%; break-after: column; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 8%; }
+.gr-part-title { font: 600 1.9em/1 var(--font-display); text-transform: uppercase; letter-spacing: .14em; }
+.gr-part-title::after { content: ""; display: block; width: 44px; height: 3px; background: var(--orange); margin: 26px auto 0; }
+.gr-epi { margin-top: 40px; max-width: 24em; }
+.gr-flow .gr-epi p { text-indent: 0; text-align: center; font-style: italic; font-weight: 300; font-size: 1.08em; line-height: 1.6; color: var(--r-text); }
+.gr-epi footer { margin-top: 16px; font: 400 10px/1.4 var(--font-mono); letter-spacing: .22em; text-transform: uppercase; color: var(--r-accent); }
+
 /* The first letter of each chapter */
 .gr-first { text-indent: 0 !important; }
 .gr-first::first-letter {

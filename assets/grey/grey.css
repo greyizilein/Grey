@@ -339,6 +339,11 @@ html[data-theme="light"] .gbk-hero {
 .gbk-buy { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 34px; }
 .gbk-price { font-family: var(--font-display); font-size: 34px; font-weight: 600; color: #fff; }
 .gbk-price.gbk-soon { font-family: var(--font-mono); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; padding: 10px 16px; border: 1px solid rgba(255,255,255,.3); border-radius: 999px; color: rgba(255,255,255,.85); }
+.gbk-sample { display: inline-flex; align-items: center; gap: 9px; padding: 10px 18px; border-radius: 999px; border: 1.5px solid rgba(255,255,255,.4); background: transparent; color: #fff; font-family: var(--font-body); font-size: 15px; font-weight: 500; line-height: 1; text-decoration: none; transition: border-color .2s, color .2s; }
+.gbk-sample:hover { border-color: var(--orange); color: var(--orange-light); }
+.gbk-sample svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; }
+.gb-sample { display: inline-block; margin-top: 12px; font-family: var(--font-mono); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--orange); text-decoration: none; }
+.gb-sample:hover { color: var(--orange-light); }
 .gbk-ticket { display: block; margin-top: 14px; font-size: 13px; color: rgba(255,255,255,.65); text-decoration: none; }
 .gbk-ticket:hover { color: var(--orange); }
 .gbk-note { margin-top: 22px; max-width: 520px; padding: 12px 14px; border-left: 3px solid var(--orange); background: rgba(255,255,255,.06); font-size: 13px; line-height: 1.6; color: rgba(255,255,255,.8); }
@@ -382,3 +387,70 @@ html[data-theme="light"] .gbk-hero {
   .gbk-blurb p { font-size: 17px; }
 }
 @media (max-width: 1024px) { .gb-row { grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); } }
+
+/* ==========================================================
+   Book showcase on the home page
+   ========================================================== */
+.gsc { padding: 96px 0 80px; background: var(--bg); }
+.gsc-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; padding: 0 80px; max-width: 1340px; margin: 0 auto 36px; }
+.gsc-kicker { font-family: var(--font-mono); font-size: 10px; letter-spacing: .24em; text-transform: uppercase; color: var(--orange); margin-bottom: 12px; }
+.gsc-head h2 { font-family: var(--font-display); font-size: clamp(34px, 4.6vw, 60px); font-weight: 600; line-height: .95; text-transform: uppercase; color: var(--text-p); }
+.gsc-head h2 em { font-style: normal; color: var(--orange); }
+.gsc-all { font-size: 14px; font-weight: 500; color: var(--orange); text-decoration: none; }
+.gsc-stage { position: relative; }
+.gsc-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
+.gsc-track::-webkit-scrollbar { display: none; }
+.gsc-slide {
+  flex: 0 0 100%; scroll-snap-align: start; position: relative; overflow: hidden; isolation: isolate;
+  display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 620px); justify-content: center; gap: 72px; align-items: center;
+  padding: 72px 80px; min-height: 540px; background: #070707; color: #fff; text-decoration: none;
+}
+.gsc-slide::before { content: ""; position: absolute; inset: -10%; z-index: -2; background: var(--gsc-cover, none) center / cover no-repeat; filter: blur(60px) saturate(1.25) brightness(.42); transform: scale(1.15); }
+.gsc-slide::after { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse at 30% 50%, transparent, rgba(0,0,0,.55) 75%); }
+/* The slides sit on each cover's own colours in both themes, so they keep light text */
+html[data-theme="light"] .gsc-slide { --bg: #000000; --bg-card: #141414; --text-p: #FFFFFF; --text-s: #BBBBBB; --border: rgba(255,255,255,.12); --border-s: rgba(255,255,255,.25); --fg-rgb: 255,255,255; }
+.gsc-cover .gb-book-lg .gb-book-inner { width: 100%; transform: rotateY(-16deg); box-shadow: 30px 30px 60px rgba(0,0,0,.6); }
+.gsc-slide:hover .gb-book-lg .gb-book-inner { transform: rotateY(-4deg) translateY(-6px); }
+.gsc-cover, .gsc-meta { transition: transform .9s cubic-bezier(.2,.8,.2,1), opacity .9s; }
+.gsc-slide:not(.gsc-on) .gsc-cover { transform: translateX(-30px); opacity: .3; }
+.gsc-slide:not(.gsc-on) .gsc-meta { transform: translateX(30px); opacity: 0; }
+.gsc-meta { display: flex; flex-direction: column; align-items: flex-start; }
+.gsc-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; }
+.gsc-title { font-family: var(--font-display); font-size: clamp(40px, 5.4vw, 80px); font-weight: 700; line-height: .95; text-transform: uppercase; letter-spacing: -.01em; }
+.gsc-sub { font-size: clamp(15px, 1.5vw, 19px); color: rgba(255,255,255,.82); margin-top: 12px; }
+.gsc-text { font-size: 15px; line-height: 1.75; color: rgba(255,255,255,.72); margin-top: 20px; max-width: 540px; }
+.gsc-foot { display: flex; align-items: center; gap: 22px; margin-top: 28px; flex-wrap: wrap; }
+.gsc-price { font-family: var(--font-display); font-size: 30px; font-weight: 600; }
+.gsc-price.gsc-soon { font-family: var(--font-mono); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; padding: 9px 14px; border: 1px solid rgba(255,255,255,.3); border-radius: 999px; color: rgba(255,255,255,.85); }
+.gsc-cta { font-size: 15px; font-weight: 500; color: var(--orange); }
+.gsc-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.25); background: rgba(0,0,0,.35); color: #fff; font-size: 26px; line-height: 1; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); transition: background .2s, border-color .2s;
+}
+.gsc-arrow:hover { background: var(--orange); border-color: var(--orange); }
+.gsc-prev { left: 24px; }
+.gsc-next { right: 24px; }
+.gsc-dots { display: flex; justify-content: center; gap: 8px; margin-top: 24px; padding: 0 24px; }
+.gsc-dot { position: relative; width: 26px; height: 22px; padding: 0; border: 0; background: none; cursor: pointer; }
+.gsc-dot::before, .gsc-dot i { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 3px; margin-top: -1.5px; border-radius: 3px; }
+.gsc-dot::before { background: var(--border-s); }
+.gsc-dot-on { width: 56px; }
+.gsc-dot i { background: var(--orange); transform-origin: 0 50%; transform: scaleX(0); }
+.gsc-dot-on i { transform: scaleX(1); }
+.gsc-running .gsc-dot-on i { animation: gsc-fill linear forwards; transform: scaleX(0); }
+@keyframes gsc-fill { to { transform: scaleX(1); } }
+@media (max-width: 860px) {
+  .gsc { padding: 72px 0 64px; }
+  .gsc-head { padding: 0 24px; }
+  .gsc-slide { grid-template-columns: 1fr; gap: 32px; padding: 48px 24px 56px; min-height: 0; justify-items: center; }
+  .gsc-cover { width: min(210px, 56vw); }
+  .gsc-meta { align-items: center; text-align: center; }
+  .gsc-text { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .gsc-foot { justify-content: center; }
+  .gsc-arrow { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .gsc-cover, .gsc-meta { transition: none; }
+  .gsc-slide:not(.gsc-on) .gsc-cover, .gsc-slide:not(.gsc-on) .gsc-meta { transform: none; opacity: 1; }
+}

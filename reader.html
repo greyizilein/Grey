@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-gx-quiet>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Read a sample | Grey</title>
+  <meta name="description" content="Read a free sample of a Grey Izilein book, right here on Grey." />
+  <meta name="theme-color" content="#000000" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet" />
+  <script>
+    /* Pick the reading light before anything paints: the reader's own choice, else the site's day/night setting. */
+    (function () {
+      var t = null, site = null;
+      try { t = localStorage.getItem('grey-reader-theme'); site = localStorage.getItem('grey-theme'); } catch (e) {}
+      if (['night', 'paper', 'day'].indexOf(t) < 0) t = site === 'light' ? 'day' : 'night';
+      document.documentElement.setAttribute('data-gr', t);
+    })();
+  </script>
+  <link rel="stylesheet" href="assets/grey/grey.css?v=6e3aac4f" />
+  <link rel="stylesheet" href="assets/grey/reader.css?v=a9a833b5" />
+</head>
+<body class="gr">
+
+  <!-- The book opening, played once as the reader starts -->
+  <div class="gr-intro" id="gr-intro" aria-hidden="true">
+    <div class="gr-intro-book" id="gr-intro-book">
+      <div class="gr-intro-leaf">
+        <span class="gr-intro-kicker">A free sample</span>
+        <span class="gr-intro-title" id="gr-intro-title"></span>
+        <span class="gr-intro-author">Grey Izilein</span>
+      </div>
+      <div class="gr-intro-cover" id="gr-intro-cover"></div>
+    </div>
+  </div>
+
+  <header class="gr-top">
+    <a class="gr-home" href="index.html" aria-label="Grey home">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20" stroke="currentColor" stroke-width="1.5"/></svg>
+    </a>
+    <div class="gr-id">
+      <span class="gr-kicker">Free sample</span>
+      <span class="gr-booktitle" id="gr-booktitle"></span>
+    </div>
+    <div class="gr-tools">
+      <button type="button" class="gr-tool" id="gr-toc-btn" aria-expanded="false" aria-controls="gr-toc" title="Contents">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h10M4 18h13"/></svg><span>Contents</span>
+      </button>
+      <button type="button" class="gr-tool" id="gr-set-btn" aria-expanded="false" aria-controls="gr-set" title="Reading settings">
+        <span class="gr-aa" aria-hidden="true">Aa</span><span class="gr-sr">Reading settings</span>
+      </button>
+      <button class="gx-sound gr-tool" type="button" aria-pressed="false" aria-label="Turn sound on" title="Page-turn sound">
+        <svg class="gx-sound-off-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M23 9l-6 6M17 9l6 6"/></svg>
+        <svg class="gx-sound-on-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 010 7M19 5a10 10 0 010 14"/></svg>
+      </button>
+      <a class="gr-tool gr-close" id="gr-close" href="products.html#books" aria-label="Close the reader" title="Close">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <main class="gr-stage" id="gr-stage">
+    <div class="gr-book" id="gr-book">
+      <div class="gr-heads" aria-hidden="true"><span id="gr-head-l"></span><span id="gr-head-r"></span></div>
+      <div class="gr-view" id="gr-view">
+        <article class="gr-flow" id="gr-flow" lang="en"></article>
+      </div>
+      <div class="gr-folios" aria-hidden="true"><span id="gr-folio-l"></span><span id="gr-folio-r"></span></div>
+      <span class="gr-sheen" id="gr-sheen" aria-hidden="true"></span>
+    </div>
+    <button type="button" class="gr-arrow gr-arrow-prev" id="gr-prev" aria-label="Previous page">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <button type="button" class="gr-arrow gr-arrow-next" id="gr-next" aria-label="Next page">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+    <div class="gr-loading" id="gr-loading" aria-live="polite"><span class="gr-loading-dial"></span>Opening the book…</div>
+    <div class="gr-missing" id="gr-missing" hidden>
+      <p class="gr-kicker">Nothing to read here yet</p>
+      <h1>This sample isn't on the shelf.</h1>
+      <p>Some books don't have a free sample yet. Have a look around the bookshop instead.</p>
+      <a class="gr-btn gr-btn-solid" href="products.html#books">Go to the bookshop →</a>
+    </div>
+  </main>
+
+  <footer class="gr-bottom">
+    <div class="gr-where">
+      <span class="gr-chap" id="gr-chap"></span>
+      <span class="gr-left" id="gr-left"></span>
+    </div>
+    <div class="gr-scrub-wrap">
+      <span class="gr-scrub-tip" id="gr-scrub-tip" aria-hidden="true"></span>
+      <input type="range" class="gr-scrub" id="gr-scrub" min="0" max="0" value="0" step="1" aria-label="Page" />
+    </div>
+  </footer>
+  <span class="gr-bar" aria-hidden="true"><i id="gr-bar"></i></span>
+
+  <aside class="gr-toc" id="gr-toc" aria-label="Contents" hidden>
+    <div class="gr-panel-head">
+      <span class="gr-kicker">Contents</span>
+      <button type="button" class="gr-tool" data-close aria-label="Close contents"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <ol class="gr-toc-list" id="gr-toc-list"></ol>
+    <p class="gr-toc-note">This is a free sample. The full book continues past the last page.</p>
+  </aside>
+
+  <div class="gr-set" id="gr-set" role="dialog" aria-label="Reading settings" hidden>
+    <p class="gr-set-lbl">Light</p>
+    <div class="gr-themes" role="radiogroup" aria-label="Reading light">
+      <button type="button" class="gr-theme" data-t="night" role="radio" aria-checked="false"><span class="gr-swatch">Aa</span>Night</button>
+      <button type="button" class="gr-theme" data-t="paper" role="radio" aria-checked="false"><span class="gr-swatch">Aa</span>Paper</button>
+      <button type="button" class="gr-theme" data-t="day" role="radio" aria-checked="false"><span class="gr-swatch">Aa</span>Day</button>
+    </div>
+    <p class="gr-set-lbl">Text size</p>
+    <div class="gr-size">
+      <button type="button" id="gr-smaller" aria-label="Smaller text">A−</button>
+      <span class="gr-size-dots" id="gr-size-dots" aria-hidden="true"></span>
+      <button type="button" id="gr-bigger" aria-label="Bigger text">A+</button>
+    </div>
+    <p class="gr-set-hint">Turn pages with the arrow keys, a swipe, or a tap on either side of the page.</p>
+  </div>
+
+  <div class="gr-toast" id="gr-toast" role="status" hidden>
+    <span id="gr-toast-text"></span>
+    <button type="button" id="gr-toast-act"></button>
+  </div>
+
+  <div class="gr-scrim" id="gr-scrim" hidden></div>
+
+  <script src="assets/grey/config.js?v=28c726d1" defer></script>
+  <script src="assets/grey/grey.js?v=c60c03bf" defer></script>
+  <script src="assets/grey/catalogue.js?v=3a51ad6e" defer></script>
+  <script src="assets/grey/books.js?v=6c7c2ab5" defer></script>
+  <script src="assets/grey/reader.js?v=377508ee" defer></script>
+</body>
+</html>

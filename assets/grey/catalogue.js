@@ -7,6 +7,9 @@
      buyLink  the book's page on the Paystack storefront (Paystack takes the
               payment and delivers the download)
      format   optional, e.g. "PDF · 320 pages"
+     sample   true when assets/grey/samples/<id>.json holds a free sample;
+              the book then gets a "Read a sample" button and opens in
+              the reader at reader.html?b=<id>
    A book without a price or buy link shows "Coming soon".
    ========================================================== */
 (function () {
@@ -85,6 +88,7 @@ G.books = [
   },
   {
     id: "aog-2",
+    sample: true,
     series: "An Autobiography of God",
     number: 2,
     title: "The Nature of Our Flaws",
@@ -100,6 +104,7 @@ G.books = [
   },
   {
     id: "aog-3",
+    sample: true,
     series: "An Autobiography of God",
     number: 3,
     title: "The Unnamed Judge",

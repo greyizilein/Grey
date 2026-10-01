@@ -42,6 +42,7 @@
     $("#gbk-price").textContent = "Coming soon";
     $("#gbk-price").classList.add("gbk-soon");
   }
+  if (b.sample) { $("#gbk-sample").href = "reader.html?b=" + encodeURIComponent(b.id); $("#gbk-sample").hidden = false; }
   if (b.note) { $("#gbk-note").hidden = false; $("#gbk-note").textContent = b.note; }
 
   // Blurb and synopsis

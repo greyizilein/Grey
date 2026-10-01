@@ -82,6 +82,17 @@
       // Menus opening and closing.
       open:  function (c, t) { partial(c, 880, t, 0.12, 0.05, "triangle"); partial(c, 1320, t + 0.04, 0.14, 0.04, "triangle"); },
       close: function (c, t) { partial(c, 1320, t, 0.1, 0.04, "triangle"); partial(c, 880, t + 0.04, 0.12, 0.04, "triangle"); },
+      // A page turning: a soft breath of paper, brightening as the leaf lifts and falls.
+      page: function (c, t) {
+        var dur = 0.32, len = Math.floor(c.sampleRate * dur);
+        var buf = c.createBuffer(1, len, c.sampleRate), d = buf.getChannelData(0);
+        for (var i = 0; i < len; i++) { var x = i / len; d[i] = (Math.random() * 2 - 1) * Math.sin(Math.PI * Math.pow(x, 0.6)) * (1 - x); }
+        var s = c.createBufferSource(), f = c.createBiquadFilter(), g = c.createGain();
+        f.type = "bandpass"; f.Q.value = 0.9;
+        f.frequency.setValueAtTime(900, t); f.frequency.exponentialRampToValueAtTime(3800, t + dur * 0.45); f.frequency.exponentialRampToValueAtTime(1400, t + dur);
+        g.gain.value = 0.22;
+        s.buffer = buf; s.connect(f).connect(g).connect(c.destination); s.start(t);
+      },
     };
     function play(name) {
       if (!on || !voices[name]) return;
@@ -210,6 +221,7 @@
 
   /* ── "Right on time": a clock-hand sweep the first time Grey opens in a visit ── */
   function opening() {
+    if (document.documentElement.hasAttribute("data-gx-quiet")) return;
     var seen = false;
     try { seen = sessionStorage.getItem("grey-opened") === "1"; sessionStorage.setItem("grey-opened", "1"); } catch (e) { seen = true; }
     if (seen || reduceMotion) return;

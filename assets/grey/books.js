@@ -44,6 +44,7 @@
         (b.subtitle ? '<p class="gb-sub">' + esc(b.subtitle) + "</p>" : "") +
         '<p class="gb-blurb">' + esc(b.blurb[0] || "") + "</p>" +
         '<div class="gb-buy">' + price + '<a class="gb-more" href="' + href + '">Read more →</a></div>' +
+        (b.sample ? '<a class="gb-sample" href="reader.html?b=' + encodeURIComponent(b.id) + '">Read a free sample</a>' : "") +
       "</div></article>";
   }
 

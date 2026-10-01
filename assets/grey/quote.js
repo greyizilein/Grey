@@ -155,10 +155,11 @@
 
   // Books
   (function () {
-    var B = G.books || [];
+    // Only books that are on sale (have a price) can go on a ticket.
+    var B = (G.books || []).filter(function (b) { return b.price; });
     var box = $("#book-list");
     if (!B.length) {
-      box.innerHTML = '<p class="gq-empty">New titles are on their way. In the meantime, browse the <a href="products.html">bookshop</a>.</p>';
+      box.innerHTML = '<p class="gq-empty">Books aren\'t on sale yet. Browse the titles in the <a href="products.html#books">bookshop</a>.</p>';
       $("#book-add-note").hidden = true;
       return;
     }

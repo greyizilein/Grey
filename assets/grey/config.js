@@ -54,20 +54,5 @@ window.GREY = {
   ],
   subscriptionDiscount: 10,  // CONFIRM: % off everyday services booked as a monthly subscription
 
-  /* ── Books ──
-     One entry per book. "buyLink" is the book's page on the Paystack storefront: Paystack takes the
-     payment and delivers the download. "cover" is an image path such as "assets/grey/books/my-book.jpg";
-     without one, the shop draws a Grey-style cover from the title.
-     {
-       id: "my-book",                    // short name, letters and dashes
-       title: "Book title",
-       subtitle: "Optional subtitle",
-       author: "Asher Izilein",
-       price: 5000,
-       format: "PDF · 120 pages",
-       blurb: "Two or three sentences about the book.",
-       cover: "assets/grey/books/my-book.jpg",
-       buyLink: "https://paystack.shop/greysllc/my-book",
-     }, */
-  books: [],
+  // Books, covers, blurbs and synopses: see catalogue.js.
 };

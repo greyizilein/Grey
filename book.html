@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Get a Quote | Grey</title>
+  <title>Books | Grey</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet" />
@@ -517,12 +517,12 @@
           <a href="testimonials.html">Testimonials</a>
         </div>
       </li>
-      <li class="gh-item"><a href="products.html" class="gh-link">Products</a></li>
+      <li class="gh-item"><a href="products.html" class="gh-link active" aria-current="page">Products</a></li>
       <li class="gh-item gh-has-menu">
-        <button type="button" class="gh-link active" aria-haspopup="true" aria-expanded="false">Service rates<svg class="gh-ico gh-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+        <button type="button" class="gh-link" aria-haspopup="true" aria-expanded="false">Service rates<svg class="gh-ico gh-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="gh-menu">
           <a href="pricing.html">Service rates</a>
-          <a href="quote.html" class="active" aria-current="page">Get a quote</a>
+          <a href="quote.html">Get a quote</a>
         </div>
       </li>
       <li class="gh-item gh-has-menu">
@@ -555,10 +555,10 @@
           <a href="about.html">About</a>
           <a href="services.html">Services</a>
           <a href="company.html">Company</a>
-          <a href="products.html">Products</a>
+          <a href="products.html" class="active">Products</a>
           <a href="investments.html">Investments</a>
           <a href="pricing.html">Service Rates</a>
-          <a href="quote.html" class="active">Get a Quote</a>
+          <a href="quote.html">Get a Quote</a>
           <a href="testimonials.html">Testimonials</a>
           <a href="contact.html">Contact</a>
         </div>
@@ -567,92 +567,65 @@
     <div class="nav-backdrop" id="navBackdrop"></div>
   </nav>
 
-  <!-- Hero -->
-  <section class="page-hero">
-    <div class="page-hero-grid"></div>
-    <p class="hero-eyebrow">Quotes &amp; invoices</p>
-    <h1>Your <em>service</em><br/>ticket.</h1>
-    <p class="page-hero-sub">Put together investments, consultation, everyday services and books on one ticket. Grey issues it instantly, with everything you need to pay.</p>
-  </section>
+  <div class="gbk-missing gt" id="gbk-missing" hidden>
+    <div class="gt-missing">
+      <h1>Book not found</h1>
+      <p>That book isn't on the shelf. It may have moved.</p>
+      <a href="products.html#books" class="gh-btn gh-btn-solid">Browse the bookshop →</a>
+    </div>
+  </div>
 
-  <section class="gq">
-    <div class="gq-grid">
-      <div>
-        <div class="gq-tabs" role="tablist" aria-label="What would you like a quote for?">
-          <button type="button" class="gq-tab" role="tab" data-desk="invest">Investments</button>
-          <button type="button" class="gq-tab" role="tab" data-desk="consult">Consultation</button>
-          <button type="button" class="gq-tab" role="tab" data-desk="services">Everyday services</button>
-          <button type="button" class="gq-tab" role="tab" data-desk="books">Books</button>
-        </div>
-
-        <div class="gq-desk" id="desk-invest">
-          <h2>Agricultural investment</h2>
-          <p>Buy units of staple crops at harvest prices. Grey handles sourcing, storage and resale, and pays your capital and profit together at maturity.</p>
-          <div class="gq-field"><span class="gq-label">Commodity</span><div class="gq-pills" id="inv-crops"></div></div>
-          <div class="gq-field"><span class="gq-label">Duration</span><div class="gq-pills" id="inv-months"></div></div>
-          <div class="gq-field"><span class="gq-label">Units</span>
-            <span class="gq-stepper" id="inv-units"><button type="button" class="gq-minus" aria-label="One fewer unit">−</button><output>1</output><button type="button" class="gq-plus" aria-label="One more unit">+</button></span>
+  <article id="gbk" hidden>
+    <section class="gbk-hero">
+      <div class="gbk-hero-in">
+        <div class="gbk-cover" id="gbk-cover"></div>
+        <div class="gbk-meta">
+          <a class="gbk-back" href="products.html#books">← The bookshop</a>
+          <p class="gbk-series gx-flap" id="gbk-series"></p>
+          <h1 id="gbk-title"></h1>
+          <p class="gbk-subtitle" id="gbk-subtitle"></p>
+          <p class="gbk-author" id="gbk-author"></p>
+          <div class="gbk-buy">
+            <span class="gbk-price" id="gbk-price"></span>
+            <a class="gh-btn gh-btn-solid" id="gbk-buy" href="#" target="_blank" rel="noopener noreferrer" data-bell hidden>Buy &amp; download ↗</a>
           </div>
-          <div class="gq-readout">
-            <div><span>You invest</span><strong id="inv-capital"></strong></div>
-            <div><span>Profit</span><strong id="inv-profit"></strong></div>
-            <div><span>Payout</span><strong class="gq-hot" id="inv-payout"></strong></div>
-            <div><span>Matures around</span><strong id="inv-maturity"></strong></div>
-          </div>
-          <button type="button" class="gh-btn gh-btn-solid gq-add" id="inv-add">Add to my ticket →</button>
-          <p class="gq-note">Returns are the rates shown on the <a href="investments.html">Investments page</a>. Maturity counts from the day your payment is received.</p>
-        </div>
-
-        <div class="gq-desk" id="desk-consult" hidden>
-          <h2>Business consultation</h2>
-          <p>Strategy, operations, growth and financial clarity, with Grey working alongside you.</p>
-          <div class="gq-plans" id="con-plans"></div>
-          <button type="button" class="gh-btn gh-btn-solid gq-add" id="con-add">Add to my ticket →</button>
-        </div>
-
-        <div class="gq-desk" id="desk-services" hidden>
-          <h2>Everyday services</h2>
-          <p>Meals, cleaning, home care, errands and delivery. Book once, or monthly to save.</p>
-          <div class="gq-field"><span class="gq-label">Service</span><div class="gq-pills" id="svc-list"></div></div>
-          <div class="gq-field"><span class="gq-label">How often</span><div class="gq-pills" id="svc-plan"></div></div>
-          <div class="gq-field"><span class="gq-label">How many</span>
-            <span class="gq-stepper" id="svc-qty"><button type="button" class="gq-minus" aria-label="One fewer">−</button><output>1</output><button type="button" class="gq-plus" aria-label="One more">+</button></span>
-          </div>
-          <div class="gq-svc-sum"><strong id="svc-total"></strong><span id="svc-unit"></span><em id="svc-disc" hidden></em></div>
-          <button type="button" class="gh-btn gh-btn-solid gq-add" id="svc-add">Add to my ticket →</button>
-          <p class="gq-note">These are estimates. Grey confirms the scope and final price with you before any work begins.</p>
-        </div>
-
-        <div class="gq-desk" id="desk-books" hidden>
-          <h2>Books</h2>
-          <p>For one copy, the quickest way is <a href="products.html">Buy &amp; download in the bookshop</a>. Use a ticket for several copies, gifts or paying by transfer.</p>
-          <div id="book-list"></div>
-          <p class="gq-note" id="book-add-note">Download links are sent to the email on your ticket once payment is confirmed.</p>
+          <a class="gbk-ticket" id="gbk-ticket" href="#" hidden>Buying several copies or paying by transfer? Add it to a ticket →</a>
+          <p class="gbk-note" id="gbk-note" hidden></p>
+          <a class="gbk-read" href="#gbk-about">Read the blurb ↓</a>
         </div>
       </div>
+    </section>
 
-      <aside>
-        <div class="gq-ticket">
-          <div class="gq-ticket-head"><span>Your ticket</span><b id="gq-count">0</b></div>
-          <ul class="gq-lines" id="gq-lines"></ul>
-          <div class="gq-sum"><span>Total</span><strong id="gq-total">₦0</strong></div>
-          <form class="gq-form" id="gq-form">
-            <input name="name" required autocomplete="name" placeholder="Your full name" aria-label="Your full name">
-            <input name="phone" type="tel" required autocomplete="tel" placeholder="Phone or WhatsApp number" aria-label="Phone or WhatsApp number">
-            <input name="email" type="email" id="gq-email" autocomplete="email" placeholder="Email" aria-label="Email">
-            <p class="gq-hint" id="gq-email-hint" hidden>Needed for books: your downloads are sent here.</p>
-            <textarea name="note" placeholder="Anything Grey should know (optional)" aria-label="Note for Grey"></textarea>
-            <label class="gq-check" id="gq-est-row" hidden><input type="checkbox" id="gq-est"> I understand everyday-service prices are estimates until Grey confirms them.</label>
-            <button type="submit" class="gh-btn gh-btn-solid" id="gq-issue" data-bell disabled>Issue my ticket →</button>
-          </form>
+    <section class="gbk-body" id="gbk-about">
+      <div class="gbk-col">
+        <p class="gbk-label">About the book</p>
+        <div class="gbk-blurb" id="gbk-blurb"></div>
+
+        <details class="gbk-synopsis" id="gbk-synopsis" hidden>
+          <summary><span>Read the full synopsis</span><em>Contains spoilers</em></summary>
+          <div id="gbk-synopsis-body"></div>
+        </details>
+      </div>
+    </section>
+
+    <section class="gbk-series-wrap" id="gbk-series-wrap" hidden>
+      <div class="gbk-col gbk-col-wide">
+        <p class="gbk-label" id="gbk-series-name"></p>
+        <div class="gbk-series-row" id="gbk-series-row"></div>
+        <div class="gbk-pn" role="navigation" aria-label="Previous and next book">
+          <a class="gbk-prev" id="gbk-prev" href="#" hidden><small>← Previous</small><span id="gbk-prev-t"></span></a>
+          <a class="gbk-next" id="gbk-next" href="#" hidden><small>Next →</small><span id="gbk-next-t"></span></a>
         </div>
-        <div class="gq-recent" id="gq-recent" hidden>
-          <span class="gq-label">Your recent tickets</span>
-          <ul></ul>
-        </div>
-      </aside>
-    </div>
-  </section>
+      </div>
+    </section>
+
+    <section class="gbk-author-wrap">
+      <div class="gbk-col">
+        <p class="gbk-label">About the author</p>
+        <div class="gbk-bio" id="gbk-bio"></div>
+      </div>
+    </section>
+  </article>
 
   <footer>
     <div class="footer-top">
@@ -843,7 +816,7 @@
   <script src="assets/grey/config.js?v=28c726d1" defer></script>
   <script src="assets/grey/grey.js?v=b74e5f1d" defer></script>
   <script src="assets/grey/catalogue.js?v=10d6b0d3" defer></script>
-  <script src="assets/grey/ticket.js?v=d9d31a42" defer></script>
-  <script src="assets/grey/quote.js?v=0b722fca" defer></script>
+  <script src="assets/grey/books.js?v=7f99dbbc" defer></script>
+  <script src="assets/grey/book-page.js?v=311c7cf3" defer></script>
 </body>
 </html>

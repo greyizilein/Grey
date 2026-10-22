@@ -5,12 +5,15 @@
    To start selling a book, fill in:
      price    the price in Naira, e.g. 5000
      buyLink  the book's page on the Paystack storefront (Paystack takes the
-              payment and delivers the download)
+              payment and delivers the download). A book with a price but no
+              buyLink yet is bought through a ticket on the quote page.
      format   optional, e.g. "PDF · 320 pages"
+     kind     optional, for a standalone book that isn't a novel,
+              e.g. "Short stories" (shown instead of "A novel")
      sample   true when assets/grey/samples/<id>.json holds a free sample;
               the book then gets a "Read a sample" button and opens in
               the reader at reader.html?b=<id>
-   A book without a price or buy link shows "Coming soon".
+   A book without a price shows "Coming soon".
    ========================================================== */
 (function () {
 var G = (window.GREY = window.GREY || {});
@@ -65,8 +68,8 @@ G.books = [
     sample: true,
     series: "Neither",
     number: 3,
-    title: "The Hanging Commercials",
-    subtitle: "Neither, Book III",
+    title: "Neither III",
+    subtitle: "The Hanging Commercials",
     author: "Grey Izilein",
     price: 8500,
     format: "",   // CONFIRM
@@ -134,6 +137,26 @@ G.books = [
     buyLink: "",   // CONFIRM
     cover: "assets/grey/books/venn-and-the-priori.webp",
     blurb: ["In a community where faith and crime are neighbours, a child grows up without parents, raised instead by nuns who preach salvation with cigarettes in their mouths and guns at their hips. Poverty is constant, dignity fragile, and the only lesson that endures is simple: no one is coming to save you.", "At fifteen, the question becomes urgent—do you need a noble reason to not want to be poor, or is wanting more enough? A chance encounter with the execution of a local crime lord forces a choice: walk away and stay powerless, or step forward into a world of diamonds, blood, and promises whispered by dangerous strangers. Choosing survival means crossing a line that cannot be uncrossed.", "School by day and apprentice to shadows by night, the unnamed narrator learns that wealth is leverage, loyalty is currency, and love is both weakness and weapon. A fleeting romance offers escape, while a mentor’s ruthless philosophy sharpens ambition into something more dangerous: strategy. But as each circle of life begins to overlap—the street, the parish, the classroom, the underworld—the danger grows.", "Venn & The Priori is not just a story of crime and survival; it is a meditation on desire, power, and the price of wanting more. It asks: when poverty demands your obedience and power offers you freedom, how much of yourself are you willing to trade to possess everything you desire?"],
+    synopsis: [],
+  },
+  {
+    id: "everydaynesses",
+    sample: true,
+    series: "",
+    number: 0,
+    title: "Everydaynesses",
+    subtitle: "Boring Stories of Other People’s Lives",
+    author: "Grey Izilein",
+    price: 10000,
+    format: "",   // CONFIRM
+    kind: "Short stories",
+    buyLink: "",   // CONFIRM
+    cover: "assets/grey/books/everydaynesses.webp",
+    blurb: [
+      "Nothing extraordinary ever happens. People wake up, go to work, cook dinner, argue, make up and go to bed. Or do they? Every quiet street has a house where something has just gone terribly wrong, and every ordinary day is one knock, one phone call or one confession away from becoming a great story.",
+      "Everydaynesses shows you what’s behind those doors, from stories of unrequited love, crimes and kindnesses exchanged, shared confessions and terribly bad jokes… Everydaynesses reveals how the people you would pass by on the street without a second look are keeping the most remarkable secrets: some have done things you could never forgive, for reasons you would totally understand completely, while others… well…",
+      "It’s ten stories, told in different narrative voices about all the boring things that make us human: romance, greed, guilt, murder… grace. Boring stories, of course, of other people’s lives. But if the read is anything, it’s definitely not boring.",
+    ],
     synopsis: [],
   }
 ];

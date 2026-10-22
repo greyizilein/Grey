@@ -41,7 +41,7 @@
   if (!book || !book.sample) { missing(); return; }
 
   var bookHref = "book.html?b=" + encodeURIComponent(book.id);
-  var seriesLabel = book.series ? book.series + " · Book " + ROMAN[book.number] : "A novel";
+  var seriesLabel = G.bookLabel(book);
   document.title = "Reading " + book.title + " | Grey";
   $("gr-booktitle").textContent = book.title;
   $("gr-close").href = bookHref;
@@ -136,7 +136,7 @@
   }
 
   function endCard() {
-    var sale = G.bookOnSale && G.bookOnSale(book);
+    var sale = G.bookOnSale && G.bookOnSale(book), buy = sale && G.bookBuy(book);
     return '<section class="gr-end" data-kind="end">' +
       '<span class="gr-kicker">End of the sample</span>' +
       '<div class="gr-end-cover">' + (G.bookCover ? G.bookCover(book) : "") + "</div>" +
@@ -146,7 +146,7 @@
         : esc(book.title) + " isn't on sale just yet. It will be in the bookshop soon.") + "</p>" +
       (sale ? '<span class="gr-end-price">' + G.money(book.price) + "</span>" : '<span class="gr-end-soon">Coming soon</span>') +
       '<div class="gr-end-actions">' +
-        (sale ? '<a class="gr-btn gr-btn-solid" href="' + esc(book.buyLink) + '" target="_blank" rel="noopener noreferrer" data-bell>Buy &amp; download ↗</a>' : "") +
+        (sale ? '<a class="gr-btn gr-btn-solid" href="' + esc(buy.href) + '"' + (buy.external ? ' target="_blank" rel="noopener noreferrer"' : "") + " data-bell>" + esc(buy.label) + "</a>" : "") +
         '<a class="gr-btn" href="' + bookHref + '">About the book</a>' +
         '<a class="gr-btn" href="products.html#books">The bookshop</a>' +
       "</div>" +

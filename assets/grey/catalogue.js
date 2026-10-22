@@ -150,7 +150,7 @@ G.books = [
     price: 10000,
     format: "",   // CONFIRM
     kind: "Short stories",
-    buyLink: "",   // CONFIRM
+    buyLink: "https://paystack.com/buy/everydaynesses-boring-stories-of-other-peoples-lives-rxgpll",
     cover: "assets/grey/books/everydaynesses.webp",
     blurb: [
       "Nothing extraordinary ever happens. People wake up, go to work, cook dinner, argue, make up and go to bed. Or do they? Every quiet street has a house where something has just gone terribly wrong, and every ordinary day is one knock, one phone call or one confession away from becoming a great story.",

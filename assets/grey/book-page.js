@@ -34,10 +34,16 @@
   $("#gbk-author").textContent = "by " + (b.author || "Grey Izilein") + (b.format ? " · " + b.format : "");
   if (G.bookOnSale(b)) {
     $("#gbk-price").textContent = money(b.price);
-    $("#gbk-buy").href = b.buyLink;
+    var buy = G.bookBuy(b);
+    $("#gbk-buy").href = buy.href;
+    $("#gbk-buy").textContent = buy.label;
+    if (!buy.external) { $("#gbk-buy").removeAttribute("target"); $("#gbk-buy").removeAttribute("rel"); }
     $("#gbk-buy").hidden = false;
-    $("#gbk-ticket").href = "quote.html?desk=books&book=" + encodeURIComponent(b.id);
-    $("#gbk-ticket").hidden = false;
+    // Without a Paystack link the Buy button already goes to a ticket
+    if (buy.external) {
+      $("#gbk-ticket").href = "quote.html?desk=books&book=" + encodeURIComponent(b.id);
+      $("#gbk-ticket").hidden = false;
+    }
   } else {
     $("#gbk-price").textContent = "Coming soon";
     $("#gbk-price").classList.add("gbk-soon");

@@ -5,14 +5,15 @@
    To start selling a book, fill in:
      price    the price in Naira, e.g. 5000
      buyLink  the book's page on the Paystack storefront (Paystack takes the
-              payment and delivers the download)
+              payment and delivers the download). A book with a price but no
+              buyLink yet is bought through a ticket on the quote page.
      format   optional, e.g. "PDF · 320 pages"
      kind     optional, for a standalone book that isn't a novel,
               e.g. "Short stories" (shown instead of "A novel")
      sample   true when assets/grey/samples/<id>.json holds a free sample;
               the book then gets a "Read a sample" button and opens in
               the reader at reader.html?b=<id>
-   A book without a price or buy link shows "Coming soon".
+   A book without a price shows "Coming soon".
    ========================================================== */
 (function () {
 var G = (window.GREY = window.GREY || {});
@@ -140,12 +141,13 @@ G.books = [
   },
   {
     id: "everydaynesses",
+    sample: true,
     series: "",
     number: 0,
     title: "Everydaynesses",
     subtitle: "Boring Stories of Other People’s Lives",
     author: "Grey Izilein",
-    price: null,   // CONFIRM
+    price: 10000,
     format: "",   // CONFIRM
     kind: "Short stories",
     buyLink: "",   // CONFIRM

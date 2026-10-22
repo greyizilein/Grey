@@ -21,7 +21,14 @@
         '<span class="gb-drawn-author">' + esc(b.author || "Grey Izilein") + "</span></span>";
     return '<div class="gb-book ' + (cls || "") + '"><div class="gb-book-inner">' + inner + '<span class="gb-spine" aria-hidden="true"></span></div></div>';
   };
-  G.bookOnSale = function (b) { return !!(b.buyLink && b.price); };
+  // A book with a price is on sale. With a Paystack link it's bought there (which delivers the
+  // download); without one yet, it's bought through a ticket on the quote page.
+  G.bookOnSale = function (b) { return !!b.price; };
+  G.bookBuy = function (b) {
+    return b.buyLink
+      ? { href: b.buyLink, external: true, label: "Buy & download ↗" }
+      : { href: "quote.html?desk=books&book=" + encodeURIComponent(b.id), external: false, label: "Buy now →" };
+  };
   // "Neither · Book II", or for a standalone book "A novel" (or its kind, e.g. "Short stories")
   G.bookLabel = function (b) { return b.series ? b.series + " · Book " + ROMAN[b.number] : b.kind || "A novel"; };
   G.bookTag = function (b) { return b.series ? "Book " + ROMAN[b.number] : b.kind || "Novel"; };

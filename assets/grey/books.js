@@ -22,6 +22,9 @@
     return '<div class="gb-book ' + (cls || "") + '"><div class="gb-book-inner">' + inner + '<span class="gb-spine" aria-hidden="true"></span></div></div>';
   };
   G.bookOnSale = function (b) { return !!(b.buyLink && b.price); };
+  // "Neither · Book II", or for a standalone book "A novel" (or its kind, e.g. "Short stories")
+  G.bookLabel = function (b) { return b.series ? b.series + " · Book " + ROMAN[b.number] : b.kind || "A novel"; };
+  G.bookTag = function (b) { return b.series ? "Book " + ROMAN[b.number] : b.kind || "Novel"; };
 
   var shelf = document.getElementById("gb-shelf");
   if (!shelf) return;
@@ -34,7 +37,7 @@
 
   function card(b) {
     var href = "book.html?b=" + encodeURIComponent(b.id);
-    var tag = b.series ? "Book " + ROMAN[b.number] : "Novel";
+    var tag = G.bookTag(b);
     var price = G.bookOnSale(b) ? '<span class="gb-price">' + money(b.price) + "</span>" : '<span class="gb-soon">Coming soon</span>';
     return '<article class="bk-card gx-card">' +
       '<a class="gb-cover-link" href="' + href + '" aria-label="' + esc(b.title) + '">' + G.bookCover(b) + "</a>" +

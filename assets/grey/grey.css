@@ -333,7 +333,7 @@ html[data-theme="light"] .gbk-hero {
 .gbk-back { display: inline-block; margin-bottom: 26px; font-size: 13px; color: rgba(255,255,255,.7); text-decoration: none; }
 .gbk-back:hover { color: var(--orange); }
 .gbk-series { font-family: var(--font-mono); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; }
-.gbk-meta h1 { font-family: var(--font-display); font-size: clamp(42px, 6vw, 88px); font-weight: 700; line-height: .95; text-transform: uppercase; letter-spacing: -.01em; color: #fff; }
+.gbk-meta h1 { font-family: var(--font-display); font-size: clamp(42px, 6vw, 88px); font-weight: 700; line-height: .95; text-transform: uppercase; letter-spacing: -.01em; color: #fff; overflow-wrap: break-word; hyphens: manual; }
 .gbk-subtitle { font-size: clamp(16px, 1.6vw, 21px); color: rgba(255,255,255,.82); margin-top: 14px; }
 .gbk-author { font-family: var(--font-mono); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.6); margin-top: 16px; }
 .gbk-buy { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 34px; }
@@ -416,7 +416,7 @@ html[data-theme="light"] .gsc-slide { --bg: #000000; --bg-card: #141414; --text-
 .gsc-slide:not(.gsc-on) .gsc-meta { transform: translateX(30px); opacity: 0; }
 .gsc-meta { display: flex; flex-direction: column; align-items: flex-start; }
 .gsc-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; }
-.gsc-title { font-family: var(--font-display); font-size: clamp(40px, 5.4vw, 80px); font-weight: 700; line-height: .95; text-transform: uppercase; letter-spacing: -.01em; }
+.gsc-title { font-family: var(--font-display); font-size: clamp(40px, 5.4vw, 80px); font-weight: 700; line-height: .95; text-transform: uppercase; letter-spacing: -.01em; overflow-wrap: break-word; }
 .gsc-sub { font-size: clamp(15px, 1.5vw, 19px); color: rgba(255,255,255,.82); margin-top: 12px; }
 .gsc-text { font-size: 15px; line-height: 1.75; color: rgba(255,255,255,.72); margin-top: 20px; max-width: 540px; }
 .gsc-foot { display: flex; align-items: center; gap: 22px; margin-top: 28px; flex-wrap: wrap; }

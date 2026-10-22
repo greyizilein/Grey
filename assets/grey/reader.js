@@ -41,7 +41,7 @@
   if (!book || !book.sample) { missing(); return; }
 
   var bookHref = "book.html?b=" + encodeURIComponent(book.id);
-  var seriesLabel = book.series ? book.series + " · Book " + ROMAN[book.number] : "A novel";
+  var seriesLabel = G.bookLabel(book);
   document.title = "Reading " + book.title + " | Grey";
   $("gr-booktitle").textContent = book.title;
   $("gr-close").href = bookHref;

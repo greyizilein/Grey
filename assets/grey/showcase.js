@@ -23,7 +23,7 @@
 
   var track = root.querySelector(".gsc-track");
   track.innerHTML = books.map(function (b, i) {
-    var label = b.series ? b.series + " · Book " + ROMAN[b.number] : "A novel";
+    var label = G.bookLabel(b);
     var price = G.bookOnSale(b) ? money(b.price) : "Coming soon";
     var cover = b.cover ? ' style="--gsc-cover:url(&quot;' + esc(new URL(b.cover, location.href).href) + '&quot;)"' : "";
     return '<a class="gsc-slide" href="book.html?b=' + encodeURIComponent(b.id) + '" role="group" aria-roledescription="slide" aria-label="' + (i + 1) + " of " + books.length + ": " + esc(b.title) + '"' + cover + ">" +
